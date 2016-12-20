@@ -21,6 +21,7 @@ import org.symphonyoss.integration.exception.EntityXMLGeneratorException;
 import org.symphonyoss.integration.parser.SafeString;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -34,6 +35,7 @@ import java.util.Map;
  *
  * Created by ecarrenho on 23/09/16.
  */
+ @Component
 public class ReleaseGithubParser extends BaseGithubParser implements GithubParser{
 
   /**

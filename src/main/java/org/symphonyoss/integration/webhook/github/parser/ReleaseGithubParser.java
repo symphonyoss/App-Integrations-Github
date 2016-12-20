@@ -35,7 +35,7 @@ import java.util.Map;
  *
  * Created by ecarrenho on 23/09/16.
  */
- @Component
+@Component
 public class ReleaseGithubParser extends BaseGithubParser implements GithubParser{
 
   /**

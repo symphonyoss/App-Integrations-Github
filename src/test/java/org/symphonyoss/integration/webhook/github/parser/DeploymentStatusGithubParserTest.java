@@ -16,7 +16,6 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
@@ -31,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Unit tests for {@link DeploymentStatusGithubParser}
@@ -58,7 +58,7 @@ public class DeploymentStatusGithubParserTest extends CommonGithubTest {
         classLoader.getResourceAsStream("payload_xgithubevent_deployment_status.json"));
 
     String expected = readFile("payload_xgithubevent_deployment_status_expected_message.xml");
-    String result = "<messageML>" + parser.parse(EMPTY_MAP, node) + "</messageML>";
+    String result = "<messageML>" + parser.parse(Collections.<String, String>emptyMap(), node) + "</messageML>";
 
     assertEquals(expected, result);
   }
@@ -73,7 +73,7 @@ public class DeploymentStatusGithubParserTest extends CommonGithubTest {
 
     String expected =
         readFile("payload_xgithubevent_deployment_status_without_userinfo_expected_message.xml");
-    String result = "<messageML>" + parser.parse(EMPTY_MAP, node) + "</messageML>";
+    String result = "<messageML>" + parser.parse(Collections.<String, String>emptyMap(), node) + "</messageML>";
 
     assertEquals(expected, result);
   }

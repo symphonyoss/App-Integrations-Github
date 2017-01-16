@@ -16,7 +16,6 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -31,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Unit tests for {@link CommitCommentGithubParser}
@@ -56,7 +56,7 @@ public class CommitCommentGithubParserTest extends CommonGithubTest {
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call
-    String result = commitCommentGithubParser.parse(EMPTY_MAP, commitCommentNode);
+    String result = commitCommentGithubParser.parse(Collections.<String, String>emptyMap(), commitCommentNode);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }

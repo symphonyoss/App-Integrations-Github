@@ -16,7 +16,6 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
@@ -31,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Unit tests for {@link PushGithubParser}
@@ -58,7 +58,7 @@ public class PushGithubParserTest extends CommonGithubTest {
     JsonNode node = getJsonFile("payload_xgithubevent_push.json");
     String expectedMessage = getExpectedMessageML("payload_xgithubevent_push_expected_message.xml");
 
-    String result = pushGithubParser.parse(EMPTY_MAP, node);
+    String result = pushGithubParser.parse(Collections.<String, String>emptyMap(), node);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }
@@ -68,7 +68,7 @@ public class PushGithubParserTest extends CommonGithubTest {
     JsonNode node = getJsonFile("payload_xgithubevent_push_tag.json");
     String expectedMessage = getExpectedMessageML("payload_xgithubevent_push_tag_expected_message.xml");
 
-    String result = pushGithubParser.parse(EMPTY_MAP, node);
+    String result = pushGithubParser.parse(Collections.<String, String>emptyMap(), node);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }

@@ -19,17 +19,13 @@ package org.symphonyoss.integration.webhook.github;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.CREATE;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants
-    .GITHUB_EVENT_DEPLOYMENT;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants
-    .GITHUB_EVENT_DEPLOYMENT_STATUS;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_DEPLOYMENT;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_DEPLOYMENT_STATUS;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUBLIC;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants
-    .GITHUB_EVENT_PULL_REQUEST_REVIEW_COMMENT;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PULL_REQUEST_REVIEW_COMMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_STATUS;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants
-    .GITHUB_HEADER_EVENT_NAME;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_HEADER_EVENT_NAME;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -16,7 +16,6 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -31,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Unit tests for {@link PullRequestGithubParser}
@@ -57,7 +57,7 @@ public class PullRequestGithubParserTest extends CommonGithubTest {
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call
-    String result = pullReqGithubParser.parse(EMPTY_MAP, pullRequestNode);
+    String result = pullReqGithubParser.parse(Collections.<String, String>emptyMap(), pullRequestNode);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }
@@ -78,7 +78,7 @@ public class PullRequestGithubParserTest extends CommonGithubTest {
     doReturn(publicUserInfoOctocat).when(utils).doGetJsonApi(octocatUrl);
 
     // call
-    String result = pullReqGithubParser.parse(EMPTY_MAP, pullRequestNode);
+    String result = pullReqGithubParser.parse(Collections.<String, String>emptyMap(), pullRequestNode);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }
@@ -99,7 +99,7 @@ public class PullRequestGithubParserTest extends CommonGithubTest {
     doReturn(publicUserInfoOctocat).when(utils).doGetJsonApi(octocatUrl);
 
     // call
-    String result = pullReqGithubParser.parse(EMPTY_MAP, pullRequestNode);
+    String result = pullReqGithubParser.parse(Collections.<String, String>emptyMap(), pullRequestNode);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }
@@ -120,7 +120,7 @@ public class PullRequestGithubParserTest extends CommonGithubTest {
     doReturn(publicUserInfoOctocat).when(utils).doGetJsonApi(octocatUrl);
 
     // call
-    String result = pullReqGithubParser.parse(EMPTY_MAP, pullRequestNode);
+    String result = pullReqGithubParser.parse(Collections.<String, String>emptyMap(), pullRequestNode);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }

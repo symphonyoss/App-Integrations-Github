@@ -16,7 +16,6 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
@@ -40,6 +39,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Unit tests for {@link PullRequestReviewCommentGithubParser}
@@ -66,7 +66,7 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
   public void testPRReviewCommentParse() throws IOException, GithubParserException {
     JsonNode node = JsonUtils.readTree(
         classLoader.getResourceAsStream("payload_xgithubevent_pullRequestReviewComment.json"));
-    String result = prReviewCommentParser.parse(EMPTY_MAP, node);
+    String result = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
 
     result = "<messageML>" + result + "</messageML>";
     String expected =
@@ -79,7 +79,7 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
         "payload_xgithubevent_pullRequestReviewComment.json"));
     ((ObjectNode) node).put(GithubEventTags.ACTION_TAG, GithubEventConstants.DELETED);
-    String result = prReviewCommentParser.parse(EMPTY_MAP, node);
+    String result = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
 
     result = "<messageML>" + result + "</messageML>";
     String expected =
@@ -92,7 +92,7 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
         "payload_xgithubevent_pullRequestReviewCommentUpdated.json"));
 
-    String result = prReviewCommentParser.parse(EMPTY_MAP, node);
+    String result = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
 
     result = "<messageML>" + result + "</messageML>";
     String expected =
@@ -109,7 +109,7 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
     JsonNode commentNode = node.path(GithubEventTags.COMMENT_TAG);
     ((ObjectNode) commentNode).put(GithubEventTags.HTML_URL_TAG, "te<s>t");
     try {
-      prReviewCommentParser.parse(EMPTY_MAP, node);
+      prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
       fail();
     } catch (URISyntaxRuntimeException e) {
       assertEquals("Failed to parse the URI te<s>t", e.getMessage());
@@ -124,7 +124,7 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
 
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
         "payload_xgithubevent_pullRequestReviewComment.json"));
-    String result = prReviewCommentParser.parse(EMPTY_MAP, node);
+    String result = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
 
     String expected = readFile(
         "payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message.xml");
@@ -140,7 +140,7 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
 
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
         "payload_xgithubevent_pullRequestReviewComment.json"));
-    String result = prReviewCommentParser.parse(EMPTY_MAP, node);
+    String result = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
 
     String expected = readFile(
         "payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message.xml");

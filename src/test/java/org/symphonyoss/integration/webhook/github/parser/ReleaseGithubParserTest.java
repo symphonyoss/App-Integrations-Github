@@ -16,7 +16,6 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -32,6 +31,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Unit tests for {@link ReleaseGithubParser}
@@ -63,7 +63,7 @@ public class ReleaseGithubParserTest extends CommonGithubTest {
         "payload_xgithubevent_release_expected_message.xml");
 
     // call
-    String result = releaseGithubParser.parse(EMPTY_MAP, releaseNode);
+    String result = releaseGithubParser.parse(Collections.<String, String>emptyMap(), releaseNode);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }
@@ -77,7 +77,7 @@ public class ReleaseGithubParserTest extends CommonGithubTest {
         "payload_xgithubevent_release_expected_message_with_release_name.xml");
 
     // call
-    String result = releaseGithubParser.parse(EMPTY_MAP, releaseNode);
+    String result = releaseGithubParser.parse(Collections.<String, String>emptyMap(), releaseNode);
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }

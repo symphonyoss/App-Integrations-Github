@@ -4,7 +4,7 @@ _Note that this project depends on internal Symphony infrastructure (repository.
 The GitHub Webhook Integration will allow you to receive notifications in Symphony whenever you make a code-push, pull request, comments on pull requests, issues, comments on issues, merges, and the latest deployment status.
 
 ## How it works
-As a GitHub admin of a repository you can configure a WebHook to post messages in a URL you generate in the GitHub WebHook Integration configuration pane and then you'll start receiving notifications for the supported events.
+As a GitHub admin of a repository you can configure a WebHook to post messages in a URL you generate in the GitHub WebHook Application available on Symphony Market and then you'll start receiving notifications for the supported events.
 As of the current version, one must configure the WebHook **Content Type** as *application/json*.
 
 ## What formats and events it supports and what it produces

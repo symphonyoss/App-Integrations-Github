@@ -16,17 +16,15 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
-import org.symphonyoss.integration.json.JsonUtils;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import org.glassfish.jersey.client.ClientProperties;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.json.JsonUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -64,7 +62,7 @@ public class GithubParserUtils {
     Response response = null;
     try {
       response = githubWebTarget.request().accept(MediaType.APPLICATION_JSON_TYPE).get();
-      if (response.getStatus() == HttpServletResponse.SC_OK) {
+      if (response.getStatus() == Response.Status.OK.getStatusCode()) {
         return JsonUtils.readTree((InputStream) response.getEntity());
       } else {
         return null;

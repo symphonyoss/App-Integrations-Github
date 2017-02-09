@@ -10,11 +10,15 @@ As of the current version, one must configure the WebHook **Content Type** as *a
 ![Selecting content type](src/docs/sample/sample_webhook_content_type.png)
 
 ## What formats and events it supports and what it produces
-Every integration will get a message sent in a specific format (depending on what system it is dealing with) and it will usually convert it into an "entity" before it reaches the Symphony platform.
-It will also, usually, identify the kind of message it will deal with based on an "event" identifier, that varies based on which system it is integrating with.
+Every integration will receive a message sent in a specific format (depending on the system it ingests) and will usually convert it into an "entity" before it reaches the Symphony platform. It will also, usually, identify the kind of message based on an "event" identifier, which varies based on the third-party system.
 
-Currently we are supporting the following ten events from GitHub: *Push, 
-Pull Request, Pull Request Review Comment, Deployment, Deployment Status, Commit Comment, Issue Comment, Public, Release, Status*. Those can be found while configuring a WebHook on GitHub by the names mentioned here.
+This "entity" we generate will have information necessary to be rendered on Symphony Platform, distributed by tags.
+Although these tags may vary greatly among every integration event, they must all have at least the tag ``<presentationML>``, which follows the rules presented [here](https://rest-api.symphony.com/docs/message-format/).
+This is a special tag that must hold all content that would be otherwise drawn on Symphony by the other tags, in a single string on its content.
+It is important that it contains matching information as it is used for visualising a message when a specific renderer is not present, on Symphony mobile apps or content export.
+
+Currently we support the following ten events from GitHub: *Push, Pull Request, Pull Request Review Comment, Deployment, Deployment Status, Commit Comment, Issue Comment, Public, Release, Status*.
+Those can be found while configuring a WebHook on GitHub by the names mentioned here.
 
 We identify those events by looking at a header parameter that GitHub sends along with the requests, by the key *X-GitHub-Event*
 

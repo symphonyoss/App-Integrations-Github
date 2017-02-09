@@ -32,8 +32,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.ProcessingException;
@@ -55,7 +55,7 @@ public class GithubParserUtils {
   private static final ISymphonyLogger LOG =
       IntegrationBridgeCloudLoggerFactory.getLogger(GithubParserUtils.class);
 
-  private List<String> unknownHosts = new ArrayList<>();
+  private List<String> unknownHosts = Collections.synchronizedList(new ArrayList<String>());
 
   private Client baseClientTargetBuilder;
 

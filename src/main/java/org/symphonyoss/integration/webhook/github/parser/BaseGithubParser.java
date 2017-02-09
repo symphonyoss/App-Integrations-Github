@@ -42,6 +42,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import javax.ws.rs.ProcessingException;
+
 /**
  * Holds shared methods among GitHub parsers.
  *
@@ -80,6 +82,9 @@ public abstract class BaseGithubParser {
       }
     } catch (IOException e) {
       LOG.warn("Couldn't reach GitHub API due to " + e.getMessage(), e);
+    } catch (ProcessingException e) {
+      Throwable cause = e.getCause();
+      LOG.warn("Couldn't reach GitHub API due to " + cause.getMessage(), e);
     }
 
     return login;
@@ -140,6 +145,9 @@ public abstract class BaseGithubParser {
       }
     } catch (IOException e) {
       LOG.warn("Couldn't reach GitHub API due to " + e.getMessage(), e);
+    } catch (ProcessingException e) {
+      Throwable cause = e.getCause();
+      LOG.warn("Couldn't reach GitHub API due to " + cause.getMessage(), e);
     }
 
     String userLogin = userNode.path(LOGIN_TAG).asText();

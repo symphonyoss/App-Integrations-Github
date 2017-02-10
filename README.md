@@ -20,16 +20,26 @@ It is important that it contains matching information as it is used for visualis
 
 Currently we support the following ten events from GitHub: 
 
-[Push Changes](#push)
-[Open, Assign, Close or Label a Pull Request](#pull-request)
-[Review Comment on Pull Request](#pull-request-review-comment)
-[Makes a Deployment](#deployment)
-[Deployment Status Changes](#deployment-status)
-[Comment on Commits](#commit-comment)
-[Comment on Issues](#issue-comment)
-[Makes a Repository Public](#public)
-[Create a Release Tag](#release)
-[Status](#status)
+> [Push Changes](#push)
+>
+> [Open, Assign, Close or Label a Pull Request](#pull-request)
+>
+> [Review Comment on Pull Request](#pull-request-review-comment)
+>
+> [Makes a Deployment](#deployment)
+>
+> [Deployment Status Changes](#deployment-status)
+>
+> [Comment on Commits](#commit-comment)
+>
+> [Comment on Issues](#issue-comment)
+>
+> [Makes a Repository Public](#public)
+>
+> [Create a Release Tag](#release)
+>
+> [Status](#status)
+
 
 These can be found while configuring a WebHook on GitHub by the names mentioned here.
 

@@ -16,17 +16,27 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
+import com.symphony.logging.ISymphonyLogger;
+
 import org.symphonyoss.integration.json.JsonUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.glassfish.jersey.client.ClientProperties;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.logging.IntegrationBridgeCloudLoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -41,6 +51,11 @@ import javax.ws.rs.core.Response;
 @Lazy
 @Component
 public class GithubParserUtils {
+
+  private static final ISymphonyLogger LOG =
+      IntegrationBridgeCloudLoggerFactory.getLogger(GithubParserUtils.class);
+
+  private List<String> unknownHosts = Collections.synchronizedList(new ArrayList<String>());
 
   private Client baseClientTargetBuilder;
 
@@ -69,10 +84,36 @@ public class GithubParserUtils {
       } else {
         return null;
       }
+    } catch (ProcessingException e){
+      logUnknownHostException(e, url);
+      return null;
     } finally {
       if (response != null) {
         response.close();
       }
     }
   }
+
+  /**
+   * Log {@link UnknownHostException} just one time.
+   * @param exception {@link ProcessingException} that wraps the root cause
+   * @param url URL to hit.
+   */
+  private void logUnknownHostException(ProcessingException exception, String url) {
+    if (!UnknownHostException.class.isInstance(exception.getCause())) {
+      throw exception;
+    }
+
+    try {
+      String host = new URI(url).getHost();
+
+      if (!unknownHosts.contains(host)) {
+        unknownHosts.add(host);
+        LOG.error("Couldn't reach GitHub API due to: Host {} unreachable", host);
+      }
+    } catch (URISyntaxException e) {
+      LOG.error("Invalid GitHub URL: {}", url);
+    }
+  }
+
 }

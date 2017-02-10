@@ -1,13 +1,12 @@
 _Note that this project depends on internal Symphony infrastructure (repository.symphony.com), and therefore it can only be built by Symphony LLC employees/partners._
 
 # GitHub WebHook Integration
-The GitHub Webhook Integration will allow you to receive notifications in Symphony whenever you make a code-push, pull request, comments on pull requests, issues, comments on issues, merges, and the latest deployment status.
+The GitHub Webhook Integration will allow you to receive notifications in Symphony for many of the important actions taken by you and others in your repositories, such as a push of new commits, the opening of a pull request, or the creation of a release.
 
 ## [Build Instructions](#build-instructions-for-the-java-developer)
 
 ## How it works
-As a GitHub admin of a repository you can configure a WebHook to post messages in a URL you generate in the GitHub WebHook Application available on Symphony Market and then you'll start receiving notifications for the supported events.
-As of the current version, one must configure the WebHook **Content Type** as *application/json* as shown below:
+As the GitHub admin of a repository, you can configure a WebHook to post messages to a URL you generate in the GitHub WebHook Application to start receiving notifications for the supported events. As of the current version, one must set the WebHook Content type to application/json, as shown below:
 
 ![Selecting content type](src/docs/sample/sample_webhook_content_type.png)
 
@@ -19,10 +18,22 @@ Although these tags may vary greatly among every integration event, they must al
 This is a special tag that must hold all content that would be otherwise drawn on Symphony by the other tags, in a single string on its content.
 It is important that it contains matching information as it is used for visualising a message when a specific renderer is not present, on Symphony mobile apps or content export.
 
-Currently we support the following ten events from GitHub: *Push, Pull Request, Pull Request Review Comment, Deployment, Deployment Status, Commit Comment, Issue Comment, Public, Release, Status*.
-Those can be found while configuring a WebHook on GitHub by the names mentioned here.
+Currently we support the following ten events from GitHub: 
 
-We identify those events by looking at a header parameter that GitHub sends along with the requests, by the key *X-GitHub-Event*
+[Push Changes](#push)
+[Open, Assign, Close or Label a Pull Request](#pull-request)
+[Review Comment on Pull Request](#pull-request-review-comment)
+[Makes a Deployment](#deployment)
+[Deployment Status Changes](#deployment-status)
+[Comment on Commits](#commit-comment)
+[Comment on Issues](#issue-comment)
+[Makes a Repository Public](#public)
+[Create a Release Tag](#release)
+[Status](#status)
+
+These can be found while configuring a WebHook on GitHub by the names mentioned here.
+
+We identify these events by looking at a header parameter that GitHub sends with each request, denoted by the key *X-GitHub-Event*
 
 Below we'll detail each one of those events
 
@@ -525,8 +536,8 @@ GitHub WebHook Integration is compatible with Apache Maven 3.0.5 or above. If yo
 
 To start from scratch, do the following:
 
-1. Clone the source repository using Git: `git clone git@github.com:symphonyoss/App-Integrations-Github.git`
-2. cd into _App-Integrations-Github_
-3. Build using maven: `mvn clean install`
-
-Notes: If you don't have access to Symphony Artifactory you should build the Commons module first to have it in your local maven repository. You can find the App-Integrations-Commons project [here](https://github.com/symphonyoss/App-Integrations-Commons)
+1. Build the _App-Integrations-Github_ dependencies (so you have them in your Maven local repository):
+> [_App-Integrations-Commons_](https://github.com/symphonyoss/App-Integrations-Commons)
+2. Clone the source repository using Git: `git clone git@github.com:symphonyoss/App-Integrations-Github.git`
+3. cd into _App-Integrations-Github_
+4. Build using maven: `mvn clean install`

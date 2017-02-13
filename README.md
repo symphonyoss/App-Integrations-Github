@@ -13,7 +13,7 @@ As the GitHub admin of a repository, you can configure a WebHook to post message
 ## What formats and events it supports and what it produces
 Every integration will receive a message sent in a specific format (depending on the system it ingests) and will usually convert it into an "entity" before it reaches the Symphony platform. It will also, usually, identify the kind of message based on an "event" identifier, which varies based on the third-party system.
 
-You can find more details about entities and the Symphony Message ML format [here](https://github.com/rsanchez-daitan/App-Integrations-Core/tree/APP-666#the-message-ml-format).
+You can find more details about entities and the Symphony Message ML format [here](https://github.com/symphonyoss/App-Integrations-Core#the-message-ml-format).
 
 Currently we support the following ten events from GitHub: 
 

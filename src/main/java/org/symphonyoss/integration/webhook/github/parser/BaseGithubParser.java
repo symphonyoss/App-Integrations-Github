@@ -30,14 +30,13 @@ import static org.symphonyoss.integration.webhook.github.GithubEventTags.URL_TAG
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.USER_TAG;
 import static org.symphonyoss.integration.webhook.github.parser.GithubParser.INTEGRATION_TAG;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.symphonyoss.integration.entity.Entity;
 import org.symphonyoss.integration.entity.EntityBuilder;
-import org.symphonyoss.integration.logging.IntegrationBridgeCloudLoggerFactory;
 import org.symphonyoss.integration.parser.SafeString;
-import com.symphony.logging.ISymphonyLogger;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -51,8 +50,7 @@ import javax.ws.rs.ProcessingException;
  */
 public abstract class BaseGithubParser {
 
-  private static final ISymphonyLogger LOG =
-      IntegrationBridgeCloudLoggerFactory.getLogger(BaseGithubParser.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BaseGithubParser.class);
 
   @Autowired
   protected GithubParserUtils utils;

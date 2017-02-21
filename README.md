@@ -11,7 +11,7 @@ As the GitHub admin of a repository, you can configure a WebHook to post message
 ## Using a custom trust store
 GitHub integration connects to the GitHub service to retrieve information about users (user name) and display it on webhook events. 
 
-When using a custom truststore for the Integration Bridge, make sure it also includes the proper certificate to connect to the GitHub service. If GitHub is used as a cloud service, download the certificate from GitHub domain and add it to the custom trustore. In case GitHub is deployed on premises, make sure the truststore contains the certificate to connect to the on-prem server and the Integration Bridge can also access that server through the network.
+When using a custom trust store for the Integration Bridge, make sure it also includes the proper certificate to connect to the GitHub service. If GitHub is used as a cloud service, download the certificate from GitHub domain and add it to the custom trust store. In case GitHub is deployed on premises, make sure the trust store contains the certificate to connect to the on-prem server and the Integration Bridge can also access that server through the network.
   
 In case the Integration Bridge can not access GitHub, webhooks will still work, but only usernames will be displayed on the events.
 

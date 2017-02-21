@@ -9,7 +9,11 @@ The GitHub Webhook Integration will allow you to receive notifications in Sympho
 As the GitHub admin of a repository, you can configure a WebHook to post messages to a URL you generate in the GitHub WebHook Application to start receiving notifications for the supported events. As of the current version, one must set the WebHook Content type to application/json, as shown below:
 
 ## Using a custom trust store
-GitHub integration connects to the GitHub service to retrieve information about GitHub users.
+GitHub integration connects to the GitHub service to retrieve information about users (user name) and display it on webhook events. 
+
+When using a custom truststore for the Integration Bridge, make sure it also includes the proper certificate to connect to the GitHub service. If GitHub is used as a cloud service, download the certificate from GitHub domain and add it to the custom trustore. In case GitHub is deployed on premises, make sure the truststore contains the certificate to connect to the on-prem server and the Integration Bridge can also access that server through the network.
+  
+In case the Integration Bridge can not access GitHub, webhooks will still work, but only usernames will be displayed on the events.
 
 ![Selecting content type](src/docs/sample/sample_webhook_content_type.png)
 

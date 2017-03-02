@@ -1,0 +1,14 @@
+{
+  "applications": [
+    {
+      "type": "sandbox",
+      "id": "devGithubWebhookIntegration",
+      "name": "Github",
+      "blurb": "Github Webhook Integration in Development Mode",
+      "publisher": "Symphony",
+      "url": "https://localhost.symphony.com/apps/github/controller.html?configurationId=57d6f328e4b0396198ce723d&botUserId=7627861922678&id=devGithubWebhookIntegration&context=apps/github",
+      "icon": "https://localhost.symphony.com/apps/github/img/appstore-logo.png",
+      "domain": ".symphony.com"
+    }
+  ]
+}

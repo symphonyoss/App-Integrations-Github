@@ -1,5 +1,3 @@
-_Note that this project depends on internal Symphony infrastructure (repository.symphony.com), and therefore it can only be built by Symphony LLC employees/partners._
-
 # GitHub WebHook Integration
 The GitHub Webhook Integration will allow you to receive notifications in Symphony for many of the important actions taken by you and others in your repositories, such as a push of new commits, the opening of a pull request, or the creation of a release.
 

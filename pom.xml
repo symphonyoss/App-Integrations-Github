@@ -11,6 +11,11 @@
 
     <artifactId>integration-github</artifactId>
 
+    <properties>
+        <webapp.directory>github</webapp.directory>
+        <rpm.name>github-symphony-integration</rpm.name>
+    </properties>
+
     <description>GitHub WebHook Integration</description>
     <url>https://github.com/symphonyoss/App-Integrations-Github</url>
 

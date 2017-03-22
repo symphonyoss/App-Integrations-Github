@@ -17,7 +17,7 @@ SHA: 9049f1265b7d61be4a8904a9a27120d2064dab3b
 <attribute name="ref" type="org.symphonyoss.string" value="master"/>
 <attribute name="task" type="org.symphonyoss.string" value="deploy"/>
 <attribute name="environment" type="org.symphonyoss.string" value="production"/>
-<attribute name="description" type="org.symphonyoss.string" value="Test description"/>
+<attribute name="description" type="org.symphonyoss.string" value="Test description&lt;br/&gt;with line break"/>
 <attribute name="created_at" type="org.symphonyoss.time.rfc3339" value="2015-05-05T23:40:38Z"/>
 <attribute name="updated_at" type="org.symphonyoss.time.rfc3339" value="2015-05-05T23:40:38Z"/>
 </entity>

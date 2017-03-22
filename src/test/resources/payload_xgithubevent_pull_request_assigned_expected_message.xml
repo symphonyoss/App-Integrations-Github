@@ -6,7 +6,7 @@
             Merging 1 commits into "baxterthehacker/public-repo:master" from "baxterthehacker/public-repo:changes"<br/>
             You can check this pull request online at: <a href="https://github.com/baxterthehacker/public-repo/pull/1"/><br/>
             Commit Summary:<br/>
-            This is a pretty simple change that we need to pull into master.
+            This is a pretty simple change<br/>that we need to pull into master.
         </presentationML>
         <attribute name="action" type="org.symphonyoss.string" value="assigned"/>
         <attribute name="merged" type="org.symphonyoss.string" value="false"/>
@@ -17,7 +17,7 @@
         <attribute name="id" type="org.symphony.oss.number.long" value="34778301"/>
         <attribute name="state" type="org.symphonyoss.string" value="open"/>
         <attribute name="title" type="org.symphonyoss.string" value="Update the README with new information"/>
-        <attribute name="body" type="org.symphonyoss.string" value="This is a pretty simple change that we need to pull into master."/>
+        <attribute name="body" type="org.symphonyoss.string" value="This is a pretty simple change&lt;br/&gt;that we need to pull into master."/>
         <attribute name="html_url" type="com.symphony.uri" value="https://github.com/baxterthehacker/public-repo/pull/1"/>
         <attribute name="created_at" type="org.symphonyoss.time.rfc3339" value="2015-05-05T23:40:27Z"/>
         <attribute name="updated_at" type="org.symphonyoss.time.rfc3339" value="2015-05-05T23:40:27Z"/>

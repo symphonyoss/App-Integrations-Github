@@ -2,11 +2,11 @@
     <entity type="com.symphony.integration.github.event.issue_comment" version="1.0">
         <presentationML>
             Baxter The Hacker just commented on the issue "Test Issue with Special chars: ´ ` &apos; &quot; ^ ~ ç Ç á Á é É ü ê Ê ã Ã":<br/>
-            Testing special chars: ´ ` &apos; &quot; ^ ~ ç Ç á Á é É ü ê Ê ã Ã<br/>
+            Testing special chars: ´ ` &apos; &quot; ^ ~ ç Ç á Á é É ü ê Ê ã Ã<br/>and line break<br/>
             You can check this on GitHub at <a href="https://github.com/baxterthehacker/public-repo/issues/2#issuecomment-99262140"/>
         </presentationML>
         <attribute name="action" type="org.symphonyoss.string" value="created"/>
-        <attribute name="body" type="org.symphonyoss.string" value="Testing special chars: ´ ` &amp;apos; &amp;quot; ^ ~ ç Ç á Á é É ü ê Ê ã Ã"/>
+        <attribute name="body" type="org.symphonyoss.string" value="Testing special chars: ´ ` &amp;apos; &amp;quot; ^ ~ ç Ç á Á é É ü ê Ê ã Ã&lt;br/&gt;and line break"/>
         <attribute name="html_url" type="com.symphony.uri" value="https://github.com/baxterthehacker/public-repo/issues/2#issuecomment-99262140"/>
         <attribute name="created_at" type="org.symphonyoss.time.rfc3339" value="2015-05-05T23:40:28Z"/>
         <attribute name="updated_at" type="org.symphonyoss.time.rfc3339" value="2015-05-05T23:40:28Z"/>

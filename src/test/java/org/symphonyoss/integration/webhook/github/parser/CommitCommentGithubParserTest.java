@@ -60,4 +60,20 @@ public class CommitCommentGithubParserTest extends CommonGithubTest {
     result = "<messageML>" + result + "</messageML>";
     assertEquals(expectedMessage, result);
   }
+
+  @Test
+  public void testCommitCommentWithLinebreakParse() throws IOException, GithubParserException {
+    // files
+    JsonNode commitCommentNode = getJsonFile("payload_xgithubevent_commit_comment_created_with_linebreak.json");
+    String expectedMessage = getExpectedMessageML(
+        "payload_xgithubevent_commit_comment_created_with_linebreak_expected_message.xml");
+    // mocks
+    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
+
+    // call
+    String result = commitCommentGithubParser.parse(Collections.<String, String>emptyMap(), commitCommentNode);
+    result = "<messageML>" + result + "</messageML>";
+    assertEquals(expectedMessage, result);
+  }
 }

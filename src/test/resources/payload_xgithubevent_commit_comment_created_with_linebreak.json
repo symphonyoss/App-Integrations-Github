@@ -1,9 +1,10 @@
 {
-  "deployment_status": {
-    "url": "https://api.github.com/repos/baxterthehacker/public-repo/deployments/710692/statuses/1115122",
-    "id": 1115122,
-    "state": "success",
-    "creator": {
+  "action": "created",
+  "comment": {
+    "url": "https://api.github.com/repos/baxterthehacker/public-repo/comments/11056394",
+    "html_url": "https://github.com/baxterthehacker/public-repo/commit/9049f1265b7d61be4a8904a9a27120d2064dab3b#commitcomment-11056394",
+    "id": 11056394,
+    "user": {
       "login": "baxterthehacker",
       "id": 6752317,
       "avatar_url": "https://avatars.githubusercontent.com/u/6752317?v=3",
@@ -22,46 +23,13 @@
       "type": "User",
       "site_admin": false
     },
-    "description": null,
-    "target_url": null,
-    "created_at": "2015-05-05T23:40:39Z",
-    "updated_at": "2015-05-05T23:40:39Z",
-    "deployment_url": "https://api.github.com/repos/baxterthehacker/public-repo/deployments/710692",
-    "repository_url": "https://api.github.com/repos/baxterthehacker/public-repo"
-  },
-  "deployment": {
-    "url": "https://api.github.com/repos/baxterthehacker/public-repo/deployments/710692",
-    "id": 710692,
-    "sha": "9049f1265b7d61be4a8904a9a27120d2064dab3b",
-    "ref": "master",
-    "task": "deploy",
-    "payload": {
-    },
-    "environment": "production",
-    "description": "Test description\nwith line break",
-    "creator": {
-      "login": "baxterthehacker",
-      "id": 6752317,
-      "avatar_url": "https://avatars.githubusercontent.com/u/6752317?v=3",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/baxterthehacker",
-      "html_url": "https://github.com/baxterthehacker",
-      "followers_url": "https://api.github.com/users/baxterthehacker/followers",
-      "following_url": "https://api.github.com/users/baxterthehacker/following{/other_user}",
-      "gists_url": "https://api.github.com/users/baxterthehacker/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/baxterthehacker/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/baxterthehacker/subscriptions",
-      "organizations_url": "https://api.github.com/users/baxterthehacker/orgs",
-      "repos_url": "https://api.github.com/users/baxterthehacker/repos",
-      "events_url": "https://api.github.com/users/baxterthehacker/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/baxterthehacker/received_events",
-      "type": "User",
-      "site_admin": false
-    },
-    "created_at": "2015-05-05T23:40:38Z",
-    "updated_at": "2015-05-05T23:40:38Z",
-    "statuses_url": "https://api.github.com/repos/baxterthehacker/public-repo/deployments/710692/statuses",
-    "repository_url": "https://api.github.com/repos/baxterthehacker/public-repo"
+    "position": null,
+    "line": null,
+    "path": null,
+    "commit_id": "9049f1265b7d61be4a8904a9a27120d2064dab3b",
+    "created_at": "2015-05-05T23:40:29Z",
+    "updated_at": "2015-05-05T23:40:29Z",
+    "body": "This is a comment\nwith linebreaks!"
   },
   "repository": {
     "id": 35129377,
@@ -127,8 +95,8 @@
     "labels_url": "https://api.github.com/repos/baxterthehacker/public-repo/labels{/name}",
     "releases_url": "https://api.github.com/repos/baxterthehacker/public-repo/releases{/id}",
     "created_at": "2015-05-05T23:40:12Z",
-    "updated_at": "2015-05-05T23:40:30Z",
-    "pushed_at": "2015-05-05T23:40:38Z",
+    "updated_at": "2015-05-05T23:40:12Z",
+    "pushed_at": "2015-05-05T23:40:27Z",
     "git_url": "git://github.com/baxterthehacker/public-repo.git",
     "ssh_url": "git@github.com:baxterthehacker/public-repo.git",
     "clone_url": "https://github.com/baxterthehacker/public-repo.git",

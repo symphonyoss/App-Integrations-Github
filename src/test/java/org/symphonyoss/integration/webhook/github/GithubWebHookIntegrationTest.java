@@ -34,6 +34,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
 import org.symphonyoss.integration.webhook.github.parser.CreateGithubParser;
@@ -133,10 +134,10 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
 
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = githubWHI.parse(payload);
+    Message result = githubWHI.parse(payload);
 
     String expected = getExpectedMessageML("payload_xgithubevent_push_expected_message_without_user_info.xml");
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -147,11 +148,11 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     String body = readFile("payload_xgithubevent_pullRequestReviewComment.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = githubWHI.parse(payload);
+    Message result = githubWHI.parse(payload);
 
     String expected = readFile(
         "payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message.xml");
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -162,11 +163,11 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     String body = readFile("payload_xgithubevent_deployment_without_description.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = githubWHI.parse(payload);
+    Message result = githubWHI.parse(payload);
 
     String expected =
         readFile("payload_xgithubevent_deployment_without_userinfo_expected_message.xml");
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -177,11 +178,11 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     String body = readFile("payload_xgithubevent_deployment_status_without_description.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = githubWHI.parse(payload);
+    Message result = githubWHI.parse(payload);
 
     String expected =
         readFile("payload_xgithubevent_deployment_status_without_userinfo_expected_message.xml");
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -192,10 +193,10 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     String body = readFile("payload_xgithubevent_public.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = githubWHI.parse(payload);
+    Message result = githubWHI.parse(payload);
 
     String expected = readFile("payload_xgithubevent_public_without_userinfo_expected_message.xml");
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -206,10 +207,10 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     String body = readFile("payload_xgithubevent_tag_created.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = githubWHI.parse(payload);
+    Message result = githubWHI.parse(payload);
 
     String expected = readFile("payload_xgithubevent_tag_created_without_fullname_expected_message.xml");
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -220,9 +221,9 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     String body = readFile("payload_xgithubevent_status_without_description.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = githubWHI.parse(payload);
+    Message result = githubWHI.parse(payload);
 
     String expected = readFile("payload_xgithubevent_status_without_userinfo_expected_message.xml");
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 }

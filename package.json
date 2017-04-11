@@ -1,7 +1,7 @@
 {
-  "name": "symphony-integration-jira",
+  "name": "symphony-integration-github",
   "version": "0.11.0-SNAPSHOT",
-  "description": "Symphony App Integrations - Universal Webhook",
+  "description": "Symphony App Integrations - Github",
   "main": "index.js",
   "scripts": {
     "test": "jest",

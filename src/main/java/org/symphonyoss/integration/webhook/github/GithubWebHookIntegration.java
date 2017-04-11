@@ -19,6 +19,7 @@ package org.symphonyoss.integration.webhook.github;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_HEADER_EVENT_NAME;
 
 import org.symphonyoss.integration.json.JsonUtils;
+import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.WebHookIntegration;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
@@ -65,7 +66,7 @@ public class GithubWebHookIntegration extends WebHookIntegration {
   }
 
   @Override
-  public String parse(WebHookPayload input) throws WebHookParseException {
+  public Message parse(WebHookPayload input) throws WebHookParseException {
     try {
       JsonNode rootNode = JsonUtils.readTree(input.getBody());
       Map<String, String> parameters = input.getParameters();

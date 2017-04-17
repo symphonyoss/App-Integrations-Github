@@ -1,4 +1,4 @@
-[![Symphony Software Foundation - Incubating](https://cdn.rawgit.com/symphonyoss/contrib-toolbox/master/images/ssf-badge-incubating.svg)](https://symphonyoss.atlassian.net/wiki/display/FM/Incubating) [![Build Status](https://travis-ci.org/symphonyoss/App-Integrations-Github.svg?branch=dev)](https://travis-ci.org/symphonyoss/App-Integrations-Github)
+[![Symphony Software Foundation - Incubating](https://cdn.rawgit.com/symphonyoss/contrib-toolbox/master/images/ssf-badge-incubating.svg)](https://symphonyoss.atlassian.net/wiki/display/FM/Incubating) [![Build Status](https://travis-ci.org/symphonyoss/App-Integrations-Github.svg?branch=dev)](https://travis-ci.org/symphonyoss/App-Integrations-Github) [![Dependencies](https://www.versioneye.com/user/projects/58d0495fcef50000242b6ebf/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58d0495fcef50000242b6ebf)
 
 # GitHub WebHook Integration
 The GitHub Webhook Integration will allow you to receive notifications in Symphony for many of the important actions taken by you and others in your repositories, such as a push of new commits, the opening of a pull request, or the creation of a release.

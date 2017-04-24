@@ -20,14 +20,13 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 
-import org.symphonyoss.integration.webhook.github.CommonGithubTest;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.symphonyoss.integration.webhook.github.CommonGithubTest;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -110,6 +109,66 @@ public class PullRequestGithubParserTest extends CommonGithubTest {
     JsonNode pullRequestNode = getJsonFile("payload_xgithubevent_pull_request_closed.json");
     String expectedMessage = getExpectedMessageML(
         "payload_xgithubevent_pull_request_closed_expected_message.xml");
+    // mocks
+    String octocatUrl = "https://api.github.com/users/octocat";
+    String baxterUrl = "https://api.github.com/users/baxterthehacker";
+
+    JsonNode publicUserInfoBaxter = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(baxterUrl);
+    JsonNode publicUserInfoOctocat = getJsonFile("payload_github_public_info_octocat.json");
+    doReturn(publicUserInfoOctocat).when(utils).doGetJsonApi(octocatUrl);
+
+    // call
+    String result = pullReqGithubParser.parse(Collections.<String, String>emptyMap(), pullRequestNode);
+    result = "<messageML>" + result + "</messageML>";
+    assertEquals(expectedMessage, result);
+  }
+
+  @Test
+  public void testPullRequestSynchronizedParse() throws IOException, GithubParserException {
+    // files
+    JsonNode pullRequestNode = getJsonFile("payload_xgithubevent_pull_request_synchronize.json");
+    String expectedMessage = getExpectedMessageML(
+        "payload_xgithubevent_pull_request_synchronize_expected_message.xml");
+    // mocks
+    String baxterUrl = "https://api.github.com/users/baxterthehacker";
+
+    JsonNode publicUserInfoBaxter = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(baxterUrl);
+
+    // call
+    String result = pullReqGithubParser.parse(Collections.<String, String>emptyMap(), pullRequestNode);
+    result = "<messageML>" + result + "</messageML>";
+    assertEquals(expectedMessage, result);
+  }
+
+  @Test
+  public void testPullRequestReviewRequestParse() throws IOException, GithubParserException {
+    // files
+    JsonNode pullRequestNode = getJsonFile("payload_xgithubevent_pull_request_review_request.json");
+    String expectedMessage = getExpectedMessageML(
+        "payload_xgithubevent_pull_request_review_request_expected_message.xml");
+    // mocks
+    String octocatUrl = "https://api.github.com/users/octocat";
+    String baxterUrl = "https://api.github.com/users/baxterthehacker";
+
+    JsonNode publicUserInfoBaxter = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(baxterUrl);
+    JsonNode publicUserInfoOctocat = getJsonFile("payload_github_public_info_octocat.json");
+    doReturn(publicUserInfoOctocat).when(utils).doGetJsonApi(octocatUrl);
+
+    // call
+    String result = pullReqGithubParser.parse(Collections.<String, String>emptyMap(), pullRequestNode);
+    result = "<messageML>" + result + "</messageML>";
+    assertEquals(expectedMessage, result);
+  }
+
+  @Test
+  public void testPullRequestReviewRequestRemovedParse() throws IOException, GithubParserException {
+    // files
+    JsonNode pullRequestNode = getJsonFile("payload_xgithubevent_pull_request_review_request_removed.json");
+    String expectedMessage = getExpectedMessageML(
+        "payload_xgithubevent_pull_request_review_request_removed_expected_message.xml");
     // mocks
     String octocatUrl = "https://api.github.com/users/octocat";
     String baxterUrl = "https://api.github.com/users/baxterthehacker";

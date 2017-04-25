@@ -61,6 +61,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,14 +76,18 @@ public class PullRequestGithubParser extends BaseGithubParser implements GithubP
 
   /* GitHub's specific Pull Request actions. */
   public static final String PR_ACTION_ASSIGNED = "assigned";
-  public static final String PR_ACTION_UNASSIGNED = "unassigned";
   public static final String PR_ACTION_LABELED = "labeled";
   public static final String PR_ACTION_UNLABELED = "unlabeled";
-  public static final String PR_ACTION_OPENED = "opened";
-  public static final String PR_ACTION_EDITED = "edited";
-  public static final String PR_ACTION_CLOSED = "closed";
-  public static final String PR_ACTION_REOPENED = "reopened";
   public static final String PR_ACTION_SYNCHRONIZE = "synchronize";
+  public static final String PR_ACTION_REVIEW_REQUESTED = "review_requested";
+  public static final String PR_ACTION_REVIEW_REQUEST_REMOVED = "review_request_removed";
+
+  /* GitHub's specific Pull Request action labels. */
+  public static final String PR_UPDATED = "updated";
+  public static final String PR_REVIEW_REQUESTED = "review requested";
+  public static final String PR_REVIEW_REQUEST_REMOVED = "review request removed";
+
+  private static final Map<String, String> actionsLabel = new HashMap<>();
 
   /**
    * String defining the format to build the Presentation ML part of the main message.
@@ -104,6 +109,12 @@ public class PullRequestGithubParser extends BaseGithubParser implements GithubP
           + "You can check this pull request online at: %s<br/>"
           + "Commit Summary:<br/>"
           + "%s";
+
+  public PullRequestGithubParser() {
+    actionsLabel.put(PR_ACTION_SYNCHRONIZE, PR_UPDATED);
+    actionsLabel.put(PR_ACTION_REVIEW_REQUESTED, PR_REVIEW_REQUESTED);
+    actionsLabel.put(PR_ACTION_REVIEW_REQUEST_REMOVED, PR_REVIEW_REQUEST_REMOVED);
+  }
 
   @Override
   public List<String> getEvents() {
@@ -164,7 +175,7 @@ public class PullRequestGithubParser extends BaseGithubParser implements GithubP
     return EntityBuilder
         .forIntegrationEvent(INTEGRATION_TAG, GITHUB_EVENT_PULL_REQUEST)
         .presentationML(presentationMl)
-        .attribute(ACTION_TAG, action)
+        .attribute(ACTION_TAG, getActionLabel(action))
         .attribute(MERGED_TAG, merged)
         .attribute(NUMBER_TAG, number)
         .attribute(COMMITS_TAG, commits)
@@ -207,7 +218,7 @@ public class PullRequestGithubParser extends BaseGithubParser implements GithubP
     String pullRequestFullDescription = prNode.path(BODY_TAG).asText();
 
     return presentationFormat(PRESENTATIONML_MESSAGE_FORMAT,
-        action,
+        getActionLabel(action),
         user,
         complementaryInfo,
         pullRequestTitle,
@@ -268,4 +279,18 @@ public class PullRequestGithubParser extends BaseGithubParser implements GithubP
         return noInfo;
     }
   }
+
+  /**
+   * Retrieves an specific label for the Pull Request action. If no label was defined returns the action name.
+   * @param actionName Action name
+   * @return action label
+   */
+  private String getActionLabel(String actionName) {
+    if (actionsLabel.containsKey(actionName)) {
+      return actionsLabel.get(actionName);
+    }
+
+    return actionName;
+  }
+
 }

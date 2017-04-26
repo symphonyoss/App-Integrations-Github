@@ -1,5 +1,5 @@
 export default ({
-  appTitle: 'Configure Github',
+  appTitle: 'Github',
   appName: 'Github',
   appSubTitle: 'Github',
   appIMShortHand: 'Github', // will display "One on One with Universal Webhook"

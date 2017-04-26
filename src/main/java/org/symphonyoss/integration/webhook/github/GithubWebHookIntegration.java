@@ -1,12 +1,12 @@
 /**
  * Copyright 2016-2017 Symphony Integrations - Symphony LLC
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,9 @@
 
 package org.symphonyoss.integration.webhook.github;
 
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_HEADER_EVENT_NAME;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.WebHookIntegration;
@@ -27,20 +28,21 @@ import org.symphonyoss.integration.webhook.github.parser.DefaultGithubParser;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import javax.annotation.PostConstruct;
+import javax.ws.rs.core.MediaType;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants
+    .GITHUB_HEADER_EVENT_NAME;
 
 /**
  * Implementation of a WebHook to integrate with GITHUB, rendering it's messages.
- *
+ * <p>
  * Created by Milton Quilzini on 06/09/16.
  */
 @Component
@@ -79,7 +81,8 @@ public class GithubWebHookIntegration extends WebHookIntegration {
 
       return super.buildMessageML(formattedMessage, webHookEvent);
     } catch (IOException e) {
-      throw new GithubParserException("Something went wrong while trying to convert your message to the expected format", e);
+      throw new GithubParserException(
+          "Something went wrong while trying to convert your message to the expected format", e);
     }
   }
 
@@ -99,5 +102,14 @@ public class GithubWebHookIntegration extends WebHookIntegration {
     return result;
   }
 
+  /**
+   * @see WebHookIntegration#getSupportedContentTypes()
+   */
+  @Override
+  public List<MediaType> getSupportedContentTypes() {
+    List<MediaType> supportedContentTypes = new ArrayList<>();
+    supportedContentTypes.add(MediaType.APPLICATION_JSON_TYPE);
+    return supportedContentTypes;
+  }
 }
 

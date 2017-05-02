@@ -1,6 +1,6 @@
 {
   "name": "symphony-integration-github",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "description": "Symphony App Integrations - Github",
   "main": "index.js",
   "scripts": {

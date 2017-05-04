@@ -17,6 +17,7 @@
 package org.symphonyoss.integration.webhook.github.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.symphonyoss.integration.model.message.Message;
 
 import java.util.List;
 import java.util.Map;
@@ -41,12 +42,18 @@ public interface GithubParser {
   List<String> getEvents();
 
   /**
+   * Update the integration username.
+   * @param integrationUser Integration username
+   */
+  void setIntegrationUser(String integrationUser);
+
+  /**
    * Parse a received Json message into a Symphony MessageML format.
    * @param parameters request's query string parameters.
    * @param node Json message.
-   * @return Symphony MessageML converted message.
+   * @return Symphony MessageML message.
    * @throws GithubParserException when there's insufficient information to validate the message.
    */
-  String parse(Map<String, String> parameters, JsonNode node) throws GithubParserException;
+  Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException;
 
 }

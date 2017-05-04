@@ -69,10 +69,10 @@ public abstract class GithubParserFactory implements WebHookParserFactory {
    */
   @Override
   public void onConfigChange(IntegrationSettings settings) {
-    String jiraUser = settings.getType();
+    String user = settings.getType();
 
     for (GithubParser parser : getBeans()) {
-      parser.setIntegrationUser(jiraUser);
+      parser.setIntegrationUser(user);
     }
   }
 

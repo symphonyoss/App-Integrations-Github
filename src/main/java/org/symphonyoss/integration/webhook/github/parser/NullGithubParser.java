@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Parser to skip incoming requests from JIRA
+ * Parser to skip incoming requests from Github
  * Created by campidelli on 02/05/17.
  */
 @Component

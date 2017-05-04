@@ -44,7 +44,7 @@ public class CommonGithubParser implements GithubParser {
   }
 
   @Override
-  public void setIntegrationUser(String jiraUser) {
+  public void setIntegrationUser(String integrationUser) {
     this.integrationUser = integrationUser;
   }
 

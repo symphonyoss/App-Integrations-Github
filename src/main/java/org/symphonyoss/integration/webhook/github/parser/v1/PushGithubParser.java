@@ -20,6 +20,7 @@ import static org.symphonyoss.integration.parser.ParserUtils.newUri;
 import static org.symphonyoss.integration.parser.ParserUtils.presentationFormat;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.AUTHOR_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.BRANCH_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMMITS_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMMITTER_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMMIT_TAG;
@@ -30,6 +31,8 @@ import static org.symphonyoss.integration.webhook.github.GithubEventTags.HEAD_CO
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ID_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.MESSAGE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAGS;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PUSHER_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TYPE_TAG;
@@ -83,13 +86,6 @@ public class PushGithubParser extends BaseGithubParser {
    */
   private static final String ACTION_PERFORMED_BRANCH = "changes to";
 
-  /**
-   * RefType constants.
-   */
-  private static final String TAG_REF_TYPE = "tag";
-  private static final String BRANCH_REF_TYPE = "branch";
-  public static final String TAGS = "/tags/";
-
   @Override
   public List<String> getEvents() {
     return Arrays.asList(GITHUB_EVENT_PUSH);
@@ -111,7 +107,7 @@ public class PushGithubParser extends BaseGithubParser {
       throws URISyntaxException, EntityXMLGeneratorException {
     String compareUrl = node.path(COMPARE_TAG).asText();
     String ref = node.path(REF_TAG).asText();
-    String refType = ref.contains(TAGS) ? TAG_REF_TYPE : BRANCH_REF_TYPE;
+    String refType = ref.contains(PATH_TAGS) ? PATH_TAG : BRANCH_TAG;
 
     Entity commits = buildEntityCommit(node);
     Entity headCommit = buildEntityHeadCommit(node);
@@ -206,7 +202,7 @@ public class PushGithubParser extends BaseGithubParser {
   protected SafeString buildPresentationML(JsonNode node) {
     String ref = node.path(REF_TAG).asText();
     String action;
-    if (ref.contains(TAGS)) {
+    if (ref.contains(PATH_TAGS)) {
       action = ACTION_PERFORMED_TAG;
     } else {
       action = ACTION_PERFORMED_BRANCH;

@@ -16,10 +16,25 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.symphonyoss.integration.entity.model.EntityConstants.USER_ENTITY_FIELD;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.BRANCH_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAGS;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TYPE_TAG;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
+import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.parser.metadata.MetadataParser;
+
+import java.util.Map;
 
 /**
  * Abstract Github parser responsible to augment the Github input data querying the user API and
@@ -35,5 +50,33 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   @Autowired
   public GithubMetadataParser(UserService userService) {
     this.userService = userService;
+  }
+
+  @Override
+  public void setIntegrationUser(String integrationUser) {
+    this.integrationUser = integrationUser;
+  }
+
+  @Override
+  public Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException {
+    return parse(node);
+  }
+
+  @Override
+  protected void preProcessInputData(JsonNode input) {
+    processRefType(input);
+  }
+
+  /**
+   * Adds 'ref_type' based on 'tag' value.
+   * @param input JSON input payload
+   */
+  private void processRefType(JsonNode input) {
+    String ref = input.path(REF_TAG).asText();
+    String refType = ref.contains(PATH_TAGS) ? PATH_TAG : BRANCH_TAG;
+
+    if (StringUtils.isNotEmpty(refType)) {
+      ((ObjectNode) input).put(REF_TYPE_TAG, refType);
+    }
   }
 }

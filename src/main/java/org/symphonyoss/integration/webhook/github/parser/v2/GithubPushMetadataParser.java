@@ -60,15 +60,4 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
   public List<String> getEvents() {
     return Arrays.asList(GITHUB_EVENT_PUSH);
   }
-
-  @Override
-  public void setIntegrationUser(String integrationUser) {
-    // TODO campidelli
-  }
-
-  @Override
-  public Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException {
-    // TODO campidelli
-    return null;
-  }
 }

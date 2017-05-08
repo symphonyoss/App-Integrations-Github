@@ -52,12 +52,12 @@ public class V2GithubParserFactory extends GithubParserFactory {
   }
 
   @Override
-  public GithubParser getParser(JsonNode node) {
-    GithubParser result = super.getParser(node);
+  public GithubParser getParser(String eventName) {
+    GithubParser result = super.getParser(eventName);
 
     if (result == null) {
       // Fallback use V1 Factory
-      return fallbackFactory.getParser(node);
+      return fallbackFactory.getParser(eventName);
     }
 
     return result;

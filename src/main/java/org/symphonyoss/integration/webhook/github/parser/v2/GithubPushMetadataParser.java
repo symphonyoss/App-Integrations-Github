@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
+import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,8 +43,8 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
   private static final String TEMPLATE_FILE = "templateGithubPush.xml";
 
   @Autowired
-  public GithubPushMetadataParser(UserService userService) {
-    super(userService);
+  public GithubPushMetadataParser(UserService userService, GithubParserUtils utils) {
+    super(userService, utils);
   }
 
   @Override

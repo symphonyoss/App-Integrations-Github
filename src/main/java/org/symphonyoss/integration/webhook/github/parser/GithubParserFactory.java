@@ -78,29 +78,28 @@ public abstract class GithubParserFactory implements WebHookParserFactory {
 
   @Override
   public WebHookParser getParser(WebHookPayload payload) {
-    try {
-      JsonNode rootNode = JsonUtils.readTree(payload.getBody());
-      GithubParser parser = getParser(rootNode);
+      String eventName = null;
+      if (payload.getHeaders() != null) {
+        eventName = payload.getHeaders().get(GITHUB_HEADER_EVENT_NAME);
+      }
+
+      GithubParser parser = getParser(eventName);
 
       if (parser == null) {
         parser = defaultGithubParser;
       }
 
       return new GithubWebHookParserAdapter(parser);
-    } catch (IOException e) {
-      throw new GithubParserException("Cannot retrieve the payload event", e);
-    }
   }
 
   /**
    * Get the parser class based on the event received from Github.
    *
    * The field used to do perform this selection is 'x-github-event'.
-   * @param node Github event
+   * @param eventName Github event
    * @return Parser class to handle the event
    */
-  public GithubParser getParser(JsonNode node) {
-    String eventName = node.path(GITHUB_HEADER_EVENT_NAME).asText();
+  public GithubParser getParser(String eventName) {
     GithubParser result = parsers.get(eventName);
 
     if (result == null) {

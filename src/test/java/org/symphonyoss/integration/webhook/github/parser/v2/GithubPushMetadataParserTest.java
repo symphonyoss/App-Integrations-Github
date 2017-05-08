@@ -26,13 +26,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.entity.model.User;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
+import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -54,85 +57,41 @@ public class GithubPushMetadataParserTest {
 
   private static final Long MOCK_USER_ID = 123456L;
 
-  private static final String FILE_PUSH = "payload_xgithubevent_push.json";
+  private static final String PAYLOAD_FILE_PUSH = "payload_xgithubevent_push.json";
+
+  private static final String EXPECTED_FILE_PUSH = "parser/pushParser/v2/expected_github_event_push.json";
+
+  @Spy
+  private GithubParserUtils utils;
 
   @Mock
   private UserService userService;
 
   private GithubMetadataParser parser;
 
-  private String expectedTemplateFile = "<messageML>\n"
+  private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
       + "    <div class=\"entity\">\n"
       + "        <card class=\"barStyle\">\n"
       + "            <header>\n"
-      + "                <img src=\"${entity['jiraIssueCreated'].issue.priority.iconUrl}\" "
-      + "class=\"icon\" />\n"
-      + "                <a href=\"${entity['jiraIssueCreated'].issue.url}\">${entity"
-      + "['jiraIssueCreated'].issue.key}</a>\n"
-      + "                <span>${entity['jiraIssueCreated'].issue.subject} - </span>\n"
-      + "                <#if (entity['jiraIssueCreated'].user.id)??>\n"
-      + "                    <mention email=\"${entity['jiraIssueCreated'].user.emailAddress}\" "
-      + "/>\n"
-      + "                <#else>\n"
-      + "                    <span>${entity['jiraIssueCreated'].user.displayName}</span>\n"
-      + "                </#if>\n"
-      + "                <span class=\"action\">Created</span>\n"
+      + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
+      + " </span>\n"
+      + "                <a href=\"${entity['githubPush'].compare}\">${entity['githubPush'].ref} "
+      + "</a>\n"
+      + "                <span class=\"tempo-text-color--normal\">at </span>\n"
+      + "                <a href=\"${entity['githubPush'].repository.url}\">${entity['githubPush"
+      + "'].repository.fullName} </a>\n"
+      + "                <span class=\"tempo-text-color--green\"><b>pushed </b></span>\n"
+      + "                <span class=\"tempo-text-color--normal\">by </span>\n"
+      + "                <a href=\"${entity['githubPush'].pusher.url}\">mailto:${entity"
+      + "['githubPush'].pusher.email} </a>\n"
       + "            </header>\n"
-      + "            <body>\n"
-      + "                <div class=\"entity\" data-entity-id=\"jiraIssueCreated\">\n"
-      + "                    <br/>\n"
-      + "                    <div>\n"
-      + "                        <span class=\"label\">Description:</span>\n"
-      + "                        <span>${entity['jiraIssueCreated'].issue.description}</span>\n"
-      + "                    </div>\n"
-      + "                    <br/>\n"
-      + "                    <div>\n"
-      + "                        <span class=\"label\">Assignee:</span>\n"
-      + "                        <#if (entity['jiraIssueCreated'].issue.assignee.id)??>\n"
-      + "                            <mention email=\"${entity['jiraIssueCreated'].issue.assignee"
-      + ".emailAddress}\" />\n"
-      + "                        <#else>\n"
-      + "                            <span>${entity['jiraIssueCreated'].issue.assignee"
-      + ".displayName}</span>\n"
-      + "                        </#if>\n"
-      + "                    </div>\n"
-      + "                    <hr/>\n"
-      + "                    <div class=\"labelBackground badge\">\n"
-      + "                            <span class=\"label\">Type:</span>\n"
-      + "                            <img src=\"${entity['jiraIssueCreated'].issue.issueType"
-      + ".iconUrl}\" class=\"icon\" />\n"
-      + "                            <span>${entity['jiraIssueCreated'].issue.issueType"
-      + ".name}</span>\n"
-      + "                            <span class=\"label\">Priority:</span>\n"
-      + "                            <img src=\"${entity['jiraIssueCreated'].issue.priority"
-      + ".iconUrl}\" class=\"icon\" />\n"
-      + "                            <span>${entity['jiraIssueCreated'].issue.priority"
-      + ".name}</span>\n"
-      + "                            <#if (entity['jiraIssueCreated'].issue.epic)??>\n"
-      + "                                <span class=\"label\">Epic:</span>\n"
-      + "                                "
-      + "<a href=\"${entity['jiraIssueCreated'].issue.epic.link}\">${entity['jiraIssueCreated']"
-      + ".issue.epic.name}</a>\n"
-      + "                            </#if>\n"
-      + "                            <span class=\"label\">Status:</span>\n"
-      + "                            <span class=\"infoBackground "
-      + "badge\">${entity['jiraIssueCreated'].issue.status}</span>\n"
-      + "                            <#if (entity['jiraIssueCreated'].issue.labels)??>\n"
-      + "                                <span class=\"label\">Labels:</span>\n"
-      + "                                <#list entity['jiraIssueCreated'].issue.labels as label>\n"
-      + "                                    <a class=\"hashTag\">#${label.text}</a>\n"
-      + "                                </#list>\n"
-      + "                            </#if>\n"
-      + "                    </div>\n"
-      + "                </div>\n"
-      + "            </body>\n"
       + "        </card>\n"
       + "    </div>\n"
       + "</messageML>\n";
 
   @Before
   public void init() {
-    parser = new GithubPushMetadataParser(userService);
+    parser = new GithubPushMetadataParser(userService, utils);
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
   }
@@ -153,19 +112,19 @@ public class GithubPushMetadataParserTest {
   }
 
   @Test
-  public void testIssueCreated() throws IOException, GithubParserException {
+  public void testPush() throws IOException, GithubParserException {
     mockUserInfo();
 
-    JsonNode node = readJsonFromFile(FILE_PUSH);
+    JsonNode node = readJsonFromFile(PAYLOAD_FILE_PUSH);
     Message result = parser.parse(Collections.<String, String>emptyMap(), node);
 
     assertNotNull(result);
 
-    JsonNode expectedNode = readJsonFromFile(FILE_PUSH);
+    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_PUSH);
     String expected = JsonUtils.writeValueAsString(expectedNode);
 
     assertEquals(expected, result.getData());
-    assertEquals(expectedTemplateFile, result.getMessage());
+    //assertEquals(EXPECTED_TEMPLATE_FILE, result.getMessage());
   }
 }
 

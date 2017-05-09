@@ -62,7 +62,7 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
       + "    <div class=\"entity\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"img/github_logo.png\" accent=\"blue\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"img/github_logo.png\" accent=\"gray\">\n"
       + "            <header>\n"
       + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
       + " </span>\n"

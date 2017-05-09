@@ -1,17 +1,53 @@
 <messageML>
     <div class="entity">
-        <card class="barStyle" iconSrc="img/github_logo.png" accent="blue">
+        <card class="barStyle" iconSrc="img/github_logo.png" accent="gray">
             <header>
-                <span class="tempo-text-color--normal">${entity['githubPush'].refType} </span>
-                <a href="${entity['githubPush'].repository.url}/tree/${entity['githubPush'].refShort}">${entity['githubPush'].refShort} </a>
-                <span class="tempo-text-color--normal">at </span>
-                <a href="${entity['githubPush'].repository.url}">${entity['githubPush'].repository.fullName} </a>
-                <span class="tempo-text-color--normal">- </span>
-                <a href="${entity['githubPush'].compare}">changes </a>
-                <span class="tempo-text-color--green"><b>pushed </b></span>
-                <span class="tempo-text-color--normal">by </span>
-                <span class="tempo-text-color--normal"><b>${entity['githubPush'].pusher.name} </b></span>
+                <a href="${entity['githubPullRequest'].url}">Pull Request #${entity['githubPullRequest'].number} </a>
+                <span class="tempo-text-color--normal">${entity['githubPullRequest'].title - </span>
+                <span class="tempo-text-color--green"><b>${entity['githubPullRequest'].action </b></span>
+
+                <#if entity['githubPullRequest'].action == 'assigned'>
+                    <span class="tempo-text-color--normal">to </span>
+                    <span class="tempo-text-color--normal"><b>${entity['githubPullRequest'].assignee.name} </b></span>
+                <#elseif entity['githubPullRequest'].action == 'labeled'>
+                    <span class="tempo-text-color--normal">with </span>
+                    <span class="tempo-text-color--normal"><b>${entity['githubPullRequest'].label} </b></span>
+                <#else>
+                    <span class="tempo-text-color--normal">by </span>
+                    <span class="tempo-text-color--normal"><b>${entity['githubPullRequest'].sender.name} </b></span>
+                </#if>
             </header>
+            <body>
+                <p>
+                    <span class="tempo-text-color--secondary">Summary: </span>
+                    <span class="tempo-text-color--normal">${entity['githubPullRequest'].body}</span>
+                </p>
+                <p>
+                    <span class="tempo-text-color--secondary">Commits in this PR: </span>
+                    <span class="tempo-text-color--normal">${entity['githubPullRequest'].commits}</span>
+                </p>
+                <p>
+                    <span class="tempo-text-color--secondary">PR State: </span>
+                    <span class="tempo-text-color--normal">${entity['githubPullRequest'].state} </span>
+                    <span class="tempo-text-color--secondary">Merged: </span>
+                    <#if entity['githubPullRequest'].merged == 'true'>
+                        <span class="tempo-text-color--normal">Yes </span>
+                    <#else>
+                        <span class="tempo-text-color--normal">No </span>
+                    </#if>
+                </p>
+                <p>
+                    <span class="tempo-text-color--secondary">Repositories involved: </span>
+                    <span class="tempo-text-color--normal">Changes from </span>
+                    <a href="${entity['githubPullRequest'].repoHead.url}/tree/${entity['githubPullRequest'].repoHead.branch}">
+                        ${entity['githubPullRequest'].repoHead.url}:${entity['githubPullRequest'].repoHead.branch}
+                    </a>
+                    <span class="tempo-text-color--normal"> to </span>
+                    <a href="${entity['githubPullRequest'].repoBase.url}/tree/${entity['githubPullRequest'].repoBase.branch}">
+                        ${entity['githubPullRequest'].repoBase.url}:${entity['githubPullRequest'].repoBase.branch}
+                    </a>
+                </p>
+            </body>
         </card>
     </div>
 </messageML>

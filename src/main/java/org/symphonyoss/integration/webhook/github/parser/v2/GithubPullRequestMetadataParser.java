@@ -18,10 +18,14 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_PULL_REQUEST;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.ASSIGNEE_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.service.UserService;
+import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,8 +43,8 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
   private static final String TEMPLATE_FILE = "templateGithubPullRequest.xml";
 
   @Autowired
-  public GithubPullRequestMetadataParser(UserService userService) {
-    super(userService);
+  public GithubPullRequestMetadataParser(UserService userService, GithubParserUtils utils) {
+    super(userService, utils);
   }
 
   @Override
@@ -56,5 +60,11 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
   @Override
   public List<String> getEvents() {
     return Arrays.asList(GITHUB_EVENT_PULL_REQUEST);
+  }
+
+  @Override
+  protected void preProcessInputData(JsonNode input) {
+    processUser(input.path(SENDER_TAG));
+    processUser(input.path(ASSIGNEE_TAG));
   }
 }

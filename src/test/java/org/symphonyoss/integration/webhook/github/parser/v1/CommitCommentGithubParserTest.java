@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 
+import org.symphonyoss.integration.webhook.github.CommonGithubTest;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -60,7 +62,8 @@ public class CommitCommentGithubParserTest extends CommonGithubTest {
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call
-    Message resultML = commitCommentGithubParser.parse(Collections.<String, String>emptyMap(), commitCommentNode);
+    Message resultML =
+        commitCommentGithubParser.parse(Collections.<String, String>emptyMap(), commitCommentNode);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
     assertEquals(expectedMessage, result);
   }
@@ -68,7 +71,8 @@ public class CommitCommentGithubParserTest extends CommonGithubTest {
   @Test
   public void testCommitCommentWithLinebreakParse() throws IOException, GithubParserException {
     // files
-    JsonNode commitCommentNode = getJsonFile("payload_xgithubevent_commit_comment_created_with_linebreak.json");
+    JsonNode commitCommentNode =
+        getJsonFile("payload_xgithubevent_commit_comment_created_with_linebreak.json");
     String expectedMessage = getExpectedMessageML(
         "payload_xgithubevent_commit_comment_created_with_linebreak_expected_message.xml");
     // mocks
@@ -76,7 +80,26 @@ public class CommitCommentGithubParserTest extends CommonGithubTest {
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call
-    Message resultML = commitCommentGithubParser.parse(Collections.<String, String>emptyMap(), commitCommentNode);
+    Message resultML =
+        commitCommentGithubParser.parse(Collections.<String, String>emptyMap(), commitCommentNode);
+    String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
+    assertEquals(expectedMessage, result);
+  }
+
+  @Test
+  public void testCommitCommentWithURLAndMarkupParse() throws IOException, GithubParserException {
+    // files
+    JsonNode commitCommentNode =
+        getJsonFile("payload_xgithubevent_commit_comment_created_with_URL.json");
+    String expectedMessage = getExpectedMessageML(
+        "payload_xgithubevent_commit_comment_created_with_URL_expected_message.xml");
+    // mocks
+    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
+
+    // call
+    Message resultML =
+        commitCommentGithubParser.parse(Collections.<String, String>emptyMap(), commitCommentNode);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
     assertEquals(expectedMessage, result);
   }

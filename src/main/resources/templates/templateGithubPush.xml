@@ -1,0 +1,17 @@
+<messageML>
+    <div class="entity">
+        <card class="barStyle" iconSrc="img/github_logo.png" accent="blue">
+            <header>
+                <span class="tempo-text-color--normal">${entity['githubPush'].refType} </span>
+                <a href="${entity['githubPush'].repository.url}/tree/${entity['githubPush'].refShort}">${entity['githubPush'].refShort} </a>
+                <span class="tempo-text-color--normal">at </span>
+                <a href="${entity['githubPush'].repository.url}">${entity['githubPush'].repository.fullName} </a>
+                <span class="tempo-text-color--normal">- </span>
+                <a href="${entity['githubPush'].compare}">changes </a>
+                <span class="tempo-text-color--green"><b>pushed </b></span>
+                <span class="tempo-text-color--normal">by </span>
+                <span class="tempo-text-color--normal"><b>${entity['githubPush'].pusher.name} </b></span>
+            </header>
+        </card>
+    </div>
+</messageML>

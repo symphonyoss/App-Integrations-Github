@@ -27,6 +27,8 @@ public final class GithubEventTags {
   private GithubEventTags() {
   }
 
+  public static final String PATH_TAG = "tag";
+  public static final String PATH_TAGS = "/tags/";
   public static final String SENDER_TAG = "sender";
   public static final String REPOSITORY_TAG = "repository";
   public static final String NAME_TAG = "name";

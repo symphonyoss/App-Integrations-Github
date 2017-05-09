@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubDeployment" type="com.symphony.integration.github.event.v2.deployment" version="1.0">
+    <object id="deployment" type="com.symphony.integration.github.deployment.deployment" version="1.0">
+        <field key="url" value="deployment.url"/>
+        <field key="id" value="deployment.id"/>
+        <field key="sha" value="deployment.sha"/>
+        <field key="ref" value="deployment.ref"/>
+        <field key="task" value="deployment.task"/>
+        <field key="environment" value="deployment.environment"/>
+        <field key="description" value="deployment.description"/>
+        <field key="created_at" value="deployment.created_at"/>
+        <field key="updated_at" value="deployment.updated_at"/>
+    </object>
+</metadata>

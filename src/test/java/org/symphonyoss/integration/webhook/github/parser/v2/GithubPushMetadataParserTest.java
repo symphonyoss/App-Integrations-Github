@@ -18,23 +18,21 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.symphonyoss.integration.entity.model.User;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
+import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.io.IOException;
@@ -45,23 +43,16 @@ import java.util.Collections;
  * Created by campidelli on 03/05/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class GithubPushMetadataParserTest {
+public class GithubPushMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
-  private static final String MOCK_DISPLAY_NAME = "Mock user";
-
-  private static final String MOCK_USERNAME = "username";
-
-  private static final String MOCK_EMAIL_ADDRESS = "test@symphony.com";
-
-  private static final Long MOCK_USER_ID = 123456L;
-
   private static final String PAYLOAD_FILE_PUSH = "payload_xgithubevent_push.json";
 
-  private static final String EXPECTED_FILE_PUSH = "parser/pushParser/v2/expected_github_event_push.json";
+  private static final String EXPECTED_FILE_PUSH =
+      "parser/pushParser/v2/expected_github_event_push.json";
 
-  @Spy
+  @Mock
   private GithubParserUtils utils;
 
   @Mock
@@ -71,19 +62,23 @@ public class GithubPushMetadataParserTest {
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
       + "    <div class=\"entity\">\n"
-      + "        <card class=\"barStyle\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"img/github_logo.png\" accent=\"blue\">\n"
       + "            <header>\n"
       + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
       + " </span>\n"
-      + "                <a href=\"${entity['githubPush'].compare}\">${entity['githubPush'].ref} "
-      + "</a>\n"
+      + "                "
+      +
+      "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].refShort}\">$"
+      + "{entity['githubPush'].refShort} </a>\n"
       + "                <span class=\"tempo-text-color--normal\">at </span>\n"
       + "                <a href=\"${entity['githubPush'].repository.url}\">${entity['githubPush"
       + "'].repository.fullName} </a>\n"
+      + "                <span class=\"tempo-text-color--normal\">- </span>\n"
+      + "                <a href=\"${entity['githubPush'].compare}\">changes </a>\n"
       + "                <span class=\"tempo-text-color--green\"><b>pushed </b></span>\n"
       + "                <span class=\"tempo-text-color--normal\">by </span>\n"
-      + "                <a href=\"${entity['githubPush'].pusher.url}\">mailto:${entity"
-      + "['githubPush'].pusher.email} </a>\n"
+      + "                <span class=\"tempo-text-color--normal\"><b>${entity['githubPush']"
+      + ".pusher.name} </b></span>\n"
       + "            </header>\n"
       + "        </card>\n"
       + "    </div>\n"
@@ -94,27 +89,16 @@ public class GithubPushMetadataParserTest {
     parser = new GithubPushMetadataParser(userService, utils);
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
-  }
 
-  private void mockUserInfo() {
-    User user = new User();
-    user.setId(MOCK_USER_ID);
-    user.setDisplayName(MOCK_DISPLAY_NAME);
-    user.setUserName(MOCK_USERNAME);
-    user.setEmailAddress(MOCK_EMAIL_ADDRESS);
-
-    doReturn(user).when(userService).getUserByEmail(eq(MOCK_INTEGRATION_USER), anyString());
-  }
-
-  protected JsonNode readJsonFromFile(String filename) throws IOException {
-    ClassLoader classLoader = getClass().getClassLoader();
-    return JsonUtils.readTree(classLoader.getResourceAsStream(filename));
+    try {
+      doReturn(null).when(utils).doGetJsonApi(anyString());
+    } catch (IOException e) {
+      fail("IOException should not be thrown because there is no real API calling, its mocked.");
+    }
   }
 
   @Test
   public void testPush() throws IOException, GithubParserException {
-    mockUserInfo();
-
     JsonNode node = readJsonFromFile(PAYLOAD_FILE_PUSH);
     Message result = parser.parse(Collections.<String, String>emptyMap(), node);
 
@@ -124,7 +108,7 @@ public class GithubPushMetadataParserTest {
     String expected = JsonUtils.writeValueAsString(expectedNode);
 
     assertEquals(expected, result.getData());
-    //assertEquals(EXPECTED_TEMPLATE_FILE, result.getMessage());
+    assertEquals(EXPECTED_TEMPLATE_FILE, result.getMessage());
   }
 }
 

@@ -4,6 +4,7 @@
     <field key="compare" value="compare" />
     <field key="ref" value="ref" />
     <field key="refType" value="ref_type" />
+    <field key="refShort" value="repo" />
 
     <object id="commits" type="com.symphony.integration.github.push.commits" version="1.0" list="true">
         <object id="commit" type="com.symphony.integration.github.push.commit" version="1.0">

@@ -17,12 +17,15 @@
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BRANCH_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAGS;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TYPE_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPOSITORY_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.URL_TAG;
 
@@ -88,17 +91,18 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   }
 
   /**
-   * Adds 'ref_type' based on 'tag' value.
+   * Adds 'ref_type' and 'repo' based on 'tag' value.
    * @param input JSON input payload
    */
   private void processRefType(JsonNode input) {
     String ref = input.path(REF_TAG).asText();
+
     String refType = ref.contains(PATH_TAGS) ? PATH_TAG : BRANCH_TAG;
     refType = WordUtils.capitalize(refType);
+    ((ObjectNode) input).put(REF_TYPE_TAG, refType);
 
-    if (StringUtils.isNotEmpty(refType)) {
-      ((ObjectNode) input).put(REF_TYPE_TAG, refType);
-    }
+    String repo = ref.contains("/") ? ref.substring(ref.lastIndexOf("/") + 1) : ref;
+    ((ObjectNode) input).put(REPO_TAG, repo);
   }
 
   /**
@@ -128,4 +132,5 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
 
     ((ObjectNode) senderNode).put(NAME_TAG, publicName);
   }
+
 }

@@ -1,6 +1,6 @@
 {
   "name": "symphony-integration-github",
-  "version": "0.11.0-SNAPSHOT",
+  "version": "0.12.0",
   "description": "Symphony App Integrations - Github",
   "main": "index.js",
   "scripts": {
@@ -66,6 +66,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/symphonyoss/App-Integrations-Universal.git"
+    "url": "https://github.com/symphonyoss/App-Integrations-Github.git"
   }
 }

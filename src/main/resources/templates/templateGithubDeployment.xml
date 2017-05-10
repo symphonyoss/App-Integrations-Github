@@ -1,24 +1,24 @@
 <messageML>
-    <div class="entity">
+    <div class="entity" data-entity-id="githubDeployment">
         <card class="barStyle" iconSrc="img/github_logo.png" accent="blue">
             <header>
                 <span class="tempo-text-color--normal">Deployment on environment</span>
-                <span class="tempo-text-color--normal"><b>teste</b></span>
+                <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.environment}</b></span>
                 <span class="tempo-text-color--green">createad</span>
                 <span class="tempo-text-color--normal">by</span>
-                <span class="tempo-text-color--normal"><b>baxterthehacker</b></span>]
+                <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.creator.login}</b></span>
                 <span class="tempo-text-color--normal">in</span>
-                <a class="tempo-text-color--link" href="http://www.globo.com">www.globo.com</a>
+                <a class="tempo-text-color--link" href="${entity['githubDeployment'].repository.html_url}">${entity['githubDeployment'].repository.full_name}</a>
             </header>
             <body>
                 <div>
                     <span class="tempo-text-color--secondary">Deployment Description:</span>
-                    <span>Test description</span>
+                    <span>${entity['githubDeployment'].deployment.description}</span>
                 </div>
                 <br/>
                 <div>
                     <span class="tempo-text-color--secondary">SHA:</span>
-                    <span>9049f1265b7d61be4a8904a9a27120d2064dab3b</span>
+                    <span>${entity['githubDeployment'].deployment.sha}</span>
                 </div>
             </body>
         </card>

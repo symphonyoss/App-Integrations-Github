@@ -18,36 +18,24 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BRANCH_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAGS;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TYPE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.URL_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.text.WordUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.symphonyoss.integration.Integration;
-import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
-import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.ProcessingException;
 
 /**
  * This class is responsible to validate the event 'push' sent by Github Webhook when
@@ -61,14 +49,9 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
 
   private static final String TEMPLATE_FILE = "templateGithubPush.xml";
 
-  private static final Logger LOG = LoggerFactory.getLogger(GithubMetadataParser.class);
-
-  private GithubParserUtils utils;
-
   @Autowired
   public GithubPushMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
-    super(userService, integrationProperties);
-    this.utils = utils;
+    super(userService, utils, integrationProperties);
   }
 
   @Override
@@ -89,7 +72,7 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
   @Override
   protected void preProcessInputData(JsonNode input) {
     processRefType(input);
-    processSender(input);
+    processUser(input.path(SENDER_TAG));
   }
 
   /**
@@ -107,31 +90,4 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
     ((ObjectNode) input).put(REPO_TAG, repo);
   }
 
-  /**
-   * Adds 'ref_type' based on 'tag' value.
-   * @param input JSON input payload
-   */
-  private void processSender(JsonNode input) {
-    JsonNode senderNode = input.path(SENDER_TAG);
-    String login = senderNode.path(LOGIN_TAG).asText();
-    String publicName = login;
-
-    try {
-      String url = senderNode.path(URL_TAG).asText();
-
-      JsonNode publicUserInfo = utils.doGetJsonApi(url);
-      if (publicUserInfo != null) {
-        publicName = publicUserInfo.path(NAME_TAG).textValue();
-        publicName = publicName == null ? login : publicName;
-      }
-
-    } catch (IOException e) {
-      LOG.warn("Couldn't reach GitHub API due to " + e.getMessage(), e);
-    } catch (ProcessingException e) {
-      Throwable cause = e.getCause();
-      LOG.warn("Couldn't reach GitHub API due to " + cause.getMessage(), e);
-    }
-
-    ((ObjectNode) senderNode).put(NAME_TAG, publicName);
-  }
 }

@@ -3,7 +3,6 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -36,15 +35,17 @@ public class GithubDeploymentMetadataParserTest extends GithubParserTest {
 
   private static final String PAYLOAD_FILE_DEPLOYMENT = "payload_xgithubevent_deployment.json";
 
-  private static final String EXPECTED_DATA_DEPLOYMENT = "parser/v2/expected_xgithub_event_deployment_data.json";
+  private static final String EXPECTED_DATA_DEPLOYMENT =
+      "parser/deployment/v2/expected_xgithub_event_deployment_data.json";
 
-  private static final String EXPECTED_TEMPLATE_DEPLOYMENT = "parser/v2/expected_xgithub_event_deployment_template";
+  private static final String EXPECTED_TEMPLATE_DEPLOYMENT =
+      "parser/deployment/v2/expected_xgithub_event_deployment_template";
 
   public static final String PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_DESCRIPTION_JSON =
       "payload_xgithubevent_deployment_without_description.json";
   public static final String
       PARSER_V2_PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_USERINFO_EXPECTED_DATA_JSON =
-      "parser/v2/payload_xgithubevent_deployment_without_userinfo_expected_data.json";
+      "parser/deployment/v2/payload_xgithubevent_deployment_without_userinfo_expected_data.json";
 
   @Mock
   private UserService userService;

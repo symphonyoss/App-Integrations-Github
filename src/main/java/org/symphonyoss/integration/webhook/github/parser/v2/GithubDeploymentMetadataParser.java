@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.GithubEventConstants;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
@@ -28,8 +29,8 @@ public class GithubDeploymentMetadataParser extends GithubMetadataParser {
 
   private static final String TEMPLATE_FILE = "templateGithubDeployment.xml";
 
-  public GithubDeploymentMetadataParser(UserService userService) {
-    super(userService);
+  public GithubDeploymentMetadataParser(UserService userService, IntegrationProperties integrationProperties) {
+    super(userService, integrationProperties);
   }
 
   @Override

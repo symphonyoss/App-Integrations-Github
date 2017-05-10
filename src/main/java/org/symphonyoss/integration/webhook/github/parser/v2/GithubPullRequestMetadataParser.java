@@ -21,6 +21,8 @@ import static org.symphonyoss.integration.webhook.github.GithubEventConstants
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.Integration;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 
 import java.util.Arrays;
@@ -39,8 +41,8 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
   private static final String TEMPLATE_FILE = "templateGithubPullRequest.xml";
 
   @Autowired
-  public GithubPullRequestMetadataParser(UserService userService) {
-    super(userService);
+  public GithubPullRequestMetadataParser(UserService userService, IntegrationProperties integrationProperties) {
+    super(userService, integrationProperties);
   }
 
   @Override

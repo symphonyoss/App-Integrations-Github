@@ -1,0 +1,26 @@
+<messageML>
+    <div class="entity" data-entity-id="githubDeployment">
+        <card class="barStyle" iconSrc="${entity['githubDeployment'].URLIconIntegration}" accent="blue">
+            <header>
+                <span class="tempo-text-color--normal">Deployment on environment</span>
+                <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.environment}</b></span>
+                <span class="tempo-text-color--green">createad</span>
+                <span class="tempo-text-color--normal">by</span>
+                <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.creator.login}</b></span>
+                <span class="tempo-text-color--normal">in</span>
+                <a class="tempo-text-color--link" href="${entity['githubDeployment'].repository.html_url}">${entity['githubDeployment'].repository.full_name}</a>
+            </header>
+            <body>
+                <div>
+                    <span class="tempo-text-color--secondary">Deployment Description:</span>
+                    <span>${entity['githubDeployment'].deployment.description}</span>
+                </div>
+                <br/>
+                <div>
+                    <span class="tempo-text-color--secondary">SHA:</span>
+                    <span>${entity['githubDeployment'].deployment.sha}</span>
+                </div>
+            </body>
+        </card>
+    </div>
+</messageML>

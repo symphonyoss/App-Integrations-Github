@@ -35,7 +35,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.Integration;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
@@ -64,8 +66,8 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
   private GithubParserUtils utils;
 
   @Autowired
-  public GithubPushMetadataParser(UserService userService, GithubParserUtils utils) {
-    super(userService);
+  public GithubPushMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+    super(userService, integrationProperties);
     this.utils = utils;
   }
 

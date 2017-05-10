@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.symphonyoss.integration.Integration;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
@@ -36,7 +37,6 @@ import java.util.Map;
  */
 public abstract class GithubMetadataParser extends MetadataParser implements GithubParser {
 
-  @Autowired
   private IntegrationProperties integrationProperties;
 
   private static final String PATH_IMG = "img";
@@ -48,8 +48,9 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   private String integrationUser;
 
   @Autowired
-  public GithubMetadataParser(UserService userService) {
+  public GithubMetadataParser(UserService userService, IntegrationProperties integrationProperties) {
     this.userService = userService;
+    this.integrationProperties = integrationProperties;
   }
 
   @Override

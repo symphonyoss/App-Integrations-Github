@@ -6,17 +6,14 @@ import static org.symphonyoss.integration.webhook.github.GithubEventConstants
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Component;
-import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.GithubEventConstants;
-import org.symphonyoss.integration.webhook.github.parser.GithubParser;
-import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
-import org.symphonyoss.integration.webhook.parser.metadata.MetadataParser;
+import org.symphonyoss.integration.webhook.github.GithubEventTags;
+import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by crepache on 09/05/17.
@@ -29,8 +26,8 @@ public class GithubDeploymentMetadataParser extends GithubMetadataParser {
 
   private static final String TEMPLATE_FILE = "templateGithubDeployment.xml";
 
-  public GithubDeploymentMetadataParser(UserService userService, IntegrationProperties integrationProperties) {
-    super(userService, integrationProperties);
+  public GithubDeploymentMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+    super(userService, utils, integrationProperties);
   }
 
   @Override
@@ -51,6 +48,7 @@ public class GithubDeploymentMetadataParser extends GithubMetadataParser {
   @Override
   protected void preProcessInputData(JsonNode input) {
     proccessURLIconIntegration(input);
+    proccessUserGithub(input);
   }
 
   private void proccessURLIconIntegration(JsonNode node) {
@@ -59,6 +57,12 @@ public class GithubDeploymentMetadataParser extends GithubMetadataParser {
     if (!urlIconIntegration.isEmpty()) {
       ((ObjectNode) node).put(GithubEventConstants.URL_ICON_INTEGRATION, urlIconIntegration);
     }
+  }
+
+  private void proccessUserGithub(JsonNode node) {
+    JsonNode nodeCreator = node.path(GithubEventTags.DEPLOYMENT_TAG).path(GithubEventTags.CREATOR_TAG);
+
+    ((ObjectNode) nodeCreator).put(GithubEventTags.LOGIN_TAG, getGithubUserPublicName(nodeCreator));
   }
 
 }

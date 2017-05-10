@@ -11,11 +11,13 @@
                 <a class="tempo-text-color--link" href="${entity['githubDeployment'].repository.html_url}">${entity['githubDeployment'].repository.full_name}</a>
             </header>
             <body>
-                <div>
-                    <span class="tempo-text-color--secondary">Deployment Description:</span>
-                    <span>${entity['githubDeployment'].deployment.description}</span>
-                </div>
+                <#if (entity['githubDeployment'].deployment.description)??>
+                    <div>
+                        <span class="tempo-text-color--secondary">Deployment Description:</span>
+                        <span>${entity['githubDeployment'].deployment.description}</span>
+                    </div>
                 <br/>
+                </#if>
                 <div>
                     <span class="tempo-text-color--secondary">SHA:</span>
                     <span>${entity['githubDeployment'].deployment.sha}</span>

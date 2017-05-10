@@ -18,6 +18,7 @@ import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
+import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -39,25 +40,35 @@ public class GithubDeploymentMetadataParserTest extends GithubParserTest {
 
   private static final String EXPECTED_TEMPLATE_DEPLOYMENT = "parser/v2/expected_xgithub_event_deployment_template";
 
+  public static final String PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_DESCRIPTION_JSON =
+      "payload_xgithubevent_deployment_without_description.json";
+  public static final String
+      PARSER_V2_PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_USERINFO_EXPECTED_DATA_JSON =
+      "parser/v2/payload_xgithubevent_deployment_without_userinfo_expected_data.json";
+
   @Mock
   private UserService userService;
 
   @Mock
   private IntegrationProperties integrationProperties;
 
+  @Mock
+  private GithubParserUtils utils;
+
+
   private GithubMetadataParser parser;
 
   @Before
   public void init() {
-    parser = new GithubDeploymentMetadataParser(userService, integrationProperties);
+    parser = new GithubDeploymentMetadataParser(userService, utils,integrationProperties);
 
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
+    mockIntegrationProperties();
   }
 
   @Test
   public void testDeployment() throws IOException, GithubParserException {
-    mockIntegrationProperties();
     JsonNode node = readJsonFromFile(PAYLOAD_FILE_DEPLOYMENT);
     Message result = parser.parse(Collections.<String, String>emptyMap(), node);
 
@@ -70,6 +81,17 @@ public class GithubDeploymentMetadataParserTest extends GithubParserTest {
 
     String expectedTemplate = readFile(EXPECTED_TEMPLATE_DEPLOYMENT);
     assertEquals(expectedTemplate, result.getMessage().replace("\n",""));
+  }
+
+  @Test
+  public void testDeploymentEventWithoutUserInfoAndDescription() throws IOException {
+    JsonNode node = readJsonFromFile(PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_DESCRIPTION_JSON);
+
+    JsonNode expectedNode = readJsonFromFile(PARSER_V2_PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_USERINFO_EXPECTED_DATA_JSON);
+    String expected = JsonUtils.writeValueAsString(expectedNode);
+    Message result = parser.parse(Collections.<String, String>emptyMap(), node);
+
+    assertEquals(expected, result.getData());
   }
 
   private void mockIntegrationProperties() {

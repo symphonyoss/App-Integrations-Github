@@ -4,9 +4,11 @@ import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_DEPLOYMENT;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.service.UserService;
+import org.symphonyoss.integration.webhook.github.GithubEventConstants;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.parser.metadata.MetadataParser;
@@ -47,6 +49,15 @@ public class GithubDeploymentMetadataParser extends GithubMetadataParser {
 
   @Override
   protected void preProcessInputData(JsonNode input) {
-    // Do nothing
+    proccessURLIconIntegration(input);
   }
+
+  private void proccessURLIconIntegration(JsonNode node) {
+    String urlIconIntegration = getURLFromIcon("github_logo.svg");
+
+    if (!urlIconIntegration.isEmpty()) {
+      ((ObjectNode) node).put(GithubEventConstants.URL_ICON_INTEGRATION, urlIconIntegration);
+    }
+  }
+
 }

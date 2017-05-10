@@ -17,8 +17,11 @@
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
@@ -32,6 +35,13 @@ import java.util.Map;
  * Created by campidelli on 02/05/17.
  */
 public abstract class GithubMetadataParser extends MetadataParser implements GithubParser {
+
+  @Autowired
+  private IntegrationProperties integrationProperties;
+
+  private static final String PATH_IMG = "img";
+
+  private static final String INTEGRATION_NAME = "github";
 
   private UserService userService;
 
@@ -50,5 +60,15 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   @Override
   public Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException {
     return parse(node);
+  }
+
+  protected String getURLFromIcon(String iconName) {
+    String urlBase = integrationProperties.getApplicationUrl(INTEGRATION_NAME);
+
+    if (!urlBase.isEmpty()) {
+      return String.format("%s/%s/%s", urlBase, PATH_IMG, iconName);
+    } else {
+      return StringUtils.EMPTY;
+    }
   }
 }

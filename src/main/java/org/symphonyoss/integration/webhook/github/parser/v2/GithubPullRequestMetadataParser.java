@@ -66,6 +66,7 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
 
   @Override
   protected void preProcessInputData(JsonNode input) {
+    proccessIconURL(input);
     processUser(input.path(SENDER_TAG));
     processUser(input.path(ASSIGNEE_TAG));
   }

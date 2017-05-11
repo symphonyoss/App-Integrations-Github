@@ -16,6 +16,7 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.URL_TAG;
@@ -54,7 +55,7 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
 
   private IntegrationProperties integrationProperties;
 
-  private static final String PATH_IMG = "img";
+  private static final String PATH_IMG_ICON = "img/github_logo.svg";
 
   private static final String INTEGRATION_NAME = "github";
 
@@ -85,17 +86,6 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   @Override
   public Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException {
     return parse(node);
-  }
-
-
-  protected String getURLFromIcon(String iconName) {
-    String urlBase = integrationProperties.getApplicationUrl(INTEGRATION_NAME);
-
-    if (!urlBase.isEmpty()) {
-      return String.format("%s/%s/%s", urlBase, PATH_IMG, iconName);
-    } else {
-      return StringUtils.EMPTY;
-    }
   }
 
   @PostConstruct
@@ -161,6 +151,19 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
     if (!userNode.isMissingNode() && !userNode.isNull()) {
       String publicName = getGithubUserPublicName(userNode);
       ((ObjectNode) userNode).put(NAME_TAG, publicName);
+    }
+  }
+
+  /**
+   * Add an entry for Github icon in the JSON node.
+   * @param node JSON node to have the icon added in.
+   */
+  protected void proccessIconURL(JsonNode node) {
+    String url = integrationProperties.getApplicationUrl(INTEGRATION_NAME);
+
+    if (!url.isEmpty()) {
+      url = String.format("%s/%s", url, PATH_IMG_ICON);
+      ((ObjectNode) node).put(ICON_URL_TAG, url);
     }
   }
 }

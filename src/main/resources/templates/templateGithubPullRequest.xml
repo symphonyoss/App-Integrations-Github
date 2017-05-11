@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity">
-        <card class="barStyle" iconSrc="img/github_logo.png" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubPullRequest'].iconURL}" accent="gray">
             <header>
                 <a href="${entity['githubPullRequest'].url}">Pull Request #${entity['githubPullRequest'].number} </a>
                 <span class="tempo-text-color--normal">${entity['githubPullRequest'].title} - </span>

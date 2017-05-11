@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <metadata name="githubDeployment" type="com.symphony.integration.github.event.v2.deployment" version="1.0">
-    <field key="URLIconIntegration" value="URLIconIntegration"/>
+    <field key="iconURL" value="iconURL"/>
 
     <object id="deployment" type="com.symphony.integration.github.deployment.deployment" version="1.0">
         <field key="sha" value="deployment.sha"/>

@@ -16,10 +16,13 @@
 
 package org.symphonyoss.integration.webhook.github.parser;
 
+import static org.mockito.Mockito.doReturn;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.io.FileUtils;
 import org.junit.Ignore;
 import org.symphonyoss.integration.json.JsonUtils;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +32,8 @@ import java.io.IOException;
  */
 @Ignore("not a test per se")
 public class GithubParserTest {
+
+  private static final String INTEGRATION_NAME = "github";
 
   protected JsonNode readJsonFromFile(String filename) throws IOException {
     ClassLoader classLoader = getClass().getClassLoader();
@@ -40,6 +45,10 @@ public class GithubParserTest {
     String expected =
         FileUtils.readFileToString(new File(classLoader.getResource(fileName).getPath()));
     return expected = expected.replaceAll("\n", "");
+  }
+
+  protected void mockIntegrationProperties(IntegrationProperties integrationProperties) {
+    doReturn("symphony.com").when(integrationProperties).getApplicationUrl(INTEGRATION_NAME);
   }
 
 }

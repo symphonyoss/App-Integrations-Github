@@ -2,7 +2,7 @@
   "githubDeployment": {
     "type": "com.symphony.integration.github.event.v2.deployment",
     "version": "1.0",
-    "URLIconIntegration": "symphony.com/img/github_logo.svg",
+    "iconURL": "symphony.com/img/github_logo.svg",
     "deployment": {
       "type": "com.symphony.integration.github.deployment.deployment",
       "version": "1.0",

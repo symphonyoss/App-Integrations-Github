@@ -71,6 +71,7 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
 
   @Override
   protected void preProcessInputData(JsonNode input) {
+    proccessIconURL(input);
     processRefType(input);
     processUser(input.path(SENDER_TAG));
   }

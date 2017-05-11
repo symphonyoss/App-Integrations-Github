@@ -2,8 +2,6 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.doReturn;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Before;
@@ -30,8 +28,6 @@ import java.util.Collections;
 public class GithubDeploymentMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
-
-  private static final String INTEGRATION_NAME = "github";
 
   private static final String PAYLOAD_FILE_DEPLOYMENT = "payload_xgithubevent_deployment.json";
 
@@ -61,11 +57,11 @@ public class GithubDeploymentMetadataParserTest extends GithubParserTest {
 
   @Before
   public void init() {
-    parser = new GithubDeploymentMetadataParser(userService, utils,integrationProperties);
+    parser = new GithubDeploymentMetadataParser(userService, utils, integrationProperties);
 
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
-    mockIntegrationProperties();
+    mockIntegrationProperties(integrationProperties);
   }
 
   @Test
@@ -81,22 +77,18 @@ public class GithubDeploymentMetadataParserTest extends GithubParserTest {
     assertEquals(expected, result.getData());
 
     String expectedTemplate = readFile(EXPECTED_TEMPLATE_DEPLOYMENT);
-    assertEquals(expectedTemplate, result.getMessage().replace("\n",""));
+    assertEquals(expectedTemplate, result.getMessage().replace("\n", ""));
   }
 
   @Test
   public void testDeploymentEventWithoutUserInfoAndDescription() throws IOException {
     JsonNode node = readJsonFromFile(PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_DESCRIPTION_JSON);
 
-    JsonNode expectedNode = readJsonFromFile(PARSER_V2_PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_USERINFO_EXPECTED_DATA_JSON);
+    JsonNode expectedNode = readJsonFromFile(
+        PARSER_V2_PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_USERINFO_EXPECTED_DATA_JSON);
     String expected = JsonUtils.writeValueAsString(expectedNode);
     Message result = parser.parse(Collections.<String, String>emptyMap(), node);
 
     assertEquals(expected, result.getData());
   }
-
-  private void mockIntegrationProperties() {
-    doReturn("symphony.com").when(integrationProperties).getApplicationUrl(INTEGRATION_NAME);
-  }
-
 }

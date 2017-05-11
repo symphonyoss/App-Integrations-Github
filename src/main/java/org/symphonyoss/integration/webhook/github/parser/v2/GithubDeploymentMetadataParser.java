@@ -47,16 +47,8 @@ public class GithubDeploymentMetadataParser extends GithubMetadataParser {
 
   @Override
   protected void preProcessInputData(JsonNode input) {
-    proccessURLIconIntegration(input);
+    proccessIconURL(input);
     proccessUserGithub(input);
-  }
-
-  private void proccessURLIconIntegration(JsonNode node) {
-    String urlIconIntegration = getURLFromIcon("github_logo.svg");
-
-    if (!urlIconIntegration.isEmpty()) {
-      ((ObjectNode) node).put(GithubEventConstants.URL_ICON_INTEGRATION, urlIconIntegration);
-    }
   }
 
   private void proccessUserGithub(JsonNode node) {

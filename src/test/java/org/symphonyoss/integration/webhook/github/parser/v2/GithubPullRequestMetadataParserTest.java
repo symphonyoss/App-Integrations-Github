@@ -96,7 +96,7 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
       + "    <div class=\"entity\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"img/github_logo.png\" accent=\"gray\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPullRequest'].iconURL}\" accent=\"gray\">\n"
       + "            <header>\n"
       + "                <a href=\"${entity['githubPullRequest'].url}\">Pull Request "
       + "#${entity['githubPullRequest'].number} </a>\n"
@@ -178,6 +178,8 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
     } catch (IOException e) {
       fail("IOException should not be thrown because there is no real API calling, its mocked.");
     }
+
+    mockIntegrationProperties(integrationProperties);
   }
 
   private void testPR(String payloadFile, String expectedFile)

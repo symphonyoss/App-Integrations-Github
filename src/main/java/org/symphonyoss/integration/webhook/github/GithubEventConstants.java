@@ -54,6 +54,4 @@ public final class GithubEventConstants {
   public static final String EDITED = "edited";
 
   public static final String DELETED = "deleted";
-
-  public static final String URL_ICON_INTEGRATION = "URLIconIntegration";
 }

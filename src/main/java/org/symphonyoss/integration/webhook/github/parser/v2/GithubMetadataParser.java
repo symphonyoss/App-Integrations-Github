@@ -16,10 +16,8 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.ASSIGNEE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.URL_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
@@ -53,6 +52,12 @@ import javax.ws.rs.ProcessingException;
  */
 public abstract class GithubMetadataParser extends MetadataParser implements GithubParser {
 
+  private IntegrationProperties integrationProperties;
+
+  private static final String PATH_IMG = "img";
+
+  private static final String INTEGRATION_NAME = "github";
+
   private static final Logger LOG = LoggerFactory.getLogger(GithubMetadataParser.class);
 
   private static final int CACHE_EXPIRATION_IN_MINUTES = 60;
@@ -66,9 +71,10 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   private LoadingCache<String, String> userServiceInfoCache;
 
   @Autowired
-  public GithubMetadataParser(UserService userService, GithubParserUtils utils) {
+  public GithubMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
     this.userService = userService;
     this.utils = utils;
+    this.integrationProperties = integrationProperties;
   }
 
   @Override
@@ -79,6 +85,17 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   @Override
   public Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException {
     return parse(node);
+  }
+
+
+  protected String getURLFromIcon(String iconName) {
+    String urlBase = integrationProperties.getApplicationUrl(INTEGRATION_NAME);
+
+    if (!urlBase.isEmpty()) {
+      return String.format("%s/%s/%s", urlBase, PATH_IMG, iconName);
+    } else {
+      return StringUtils.EMPTY;
+    }
   }
 
   @PostConstruct
@@ -146,5 +163,4 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
       ((ObjectNode) userNode).put(NAME_TAG, publicName);
     }
   }
-
 }

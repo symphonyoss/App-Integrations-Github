@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <metadata name="githubPullRequest" type="com.symphony.integration.github.event.v2.pullRequest" version="1.0">
 
+    <field key="iconURL" value="iconURL"/>
+
     <field key="action" value="action" />
     <field key="number" value="number" />
 

@@ -18,34 +18,24 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BRANCH_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAGS;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TYPE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.URL_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.text.WordUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
-import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.ProcessingException;
 
 /**
  * This class is responsible to validate the event 'push' sent by Github Webhook when
@@ -60,8 +50,8 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
   private static final String TEMPLATE_FILE = "templateGithubPush.xml";
 
   @Autowired
-  public GithubPushMetadataParser(UserService userService, GithubParserUtils utils) {
-    super(userService, utils);
+  public GithubPushMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+    super(userService, utils, integrationProperties);
   }
 
   @Override
@@ -81,6 +71,7 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
 
   @Override
   protected void preProcessInputData(JsonNode input) {
+    proccessIconURL(input);
     processRefType(input);
     processUser(input.path(SENDER_TAG));
   }

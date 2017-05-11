@@ -98,4 +98,5 @@ public final class GithubEventTags {
   public static final String PUBLISHED_AT_TAG = "published_at";
   public static final String STATUS_TAG = "status";
   public static final String CONTEXT_TAG = "context";
+  public static final String ICON_URL_TAG = "iconURL";
 }

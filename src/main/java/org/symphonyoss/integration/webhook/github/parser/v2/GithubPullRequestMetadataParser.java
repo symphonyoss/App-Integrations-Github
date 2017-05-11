@@ -24,6 +24,8 @@ import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.Integration;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
@@ -43,8 +45,8 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
   private static final String TEMPLATE_FILE = "templateGithubPullRequest.xml";
 
   @Autowired
-  public GithubPullRequestMetadataParser(UserService userService, GithubParserUtils utils) {
-    super(userService, utils);
+  public GithubPullRequestMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+    super(userService, utils, integrationProperties);
   }
 
   @Override
@@ -64,6 +66,7 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
 
   @Override
   protected void preProcessInputData(JsonNode input) {
+    proccessIconURL(input);
     processUser(input.path(SENDER_TAG));
     processUser(input.path(ASSIGNEE_TAG));
   }

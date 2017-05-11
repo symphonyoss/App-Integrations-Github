@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity">
-        <card class="barStyle" iconSrc="img/github_logo.png" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubPush'].iconURL}" accent="gray">
             <header>
                 <span class="tempo-text-color--normal">${entity['githubPush'].refType} </span>
                 <a href="${entity['githubPush'].repository.url}/tree/${entity['githubPush'].refShort}">${entity['githubPush'].refShort} </a>

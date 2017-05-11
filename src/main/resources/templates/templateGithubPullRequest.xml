@@ -1,10 +1,10 @@
 <messageML>
     <div class="entity">
-        <card class="barStyle" iconSrc="img/github_logo.png" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubPullRequest'].iconURL}" accent="gray">
             <header>
                 <a href="${entity['githubPullRequest'].url}">Pull Request #${entity['githubPullRequest'].number} </a>
-                <span class="tempo-text-color--normal">${entity['githubPullRequest'].title - </span>
-                <span class="tempo-text-color--green"><b>${entity['githubPullRequest'].action </b></span>
+                <span class="tempo-text-color--normal">${entity['githubPullRequest'].title} - </span>
+                <span class="tempo-text-color--green"><b>${entity['githubPullRequest'].action} </b></span>
 
                 <#if entity['githubPullRequest'].action == 'assigned'>
                     <span class="tempo-text-color--normal">to </span>
@@ -40,11 +40,11 @@
                     <span class="tempo-text-color--secondary">Repositories involved: </span>
                     <span class="tempo-text-color--normal">Changes from </span>
                     <a href="${entity['githubPullRequest'].repoHead.url}/tree/${entity['githubPullRequest'].repoHead.branch}">
-                        ${entity['githubPullRequest'].repoHead.url}:${entity['githubPullRequest'].repoHead.branch}
+                        ${entity['githubPullRequest'].repoHead.fullName}:${entity['githubPullRequest'].repoHead.branch}
                     </a>
                     <span class="tempo-text-color--normal"> to </span>
                     <a href="${entity['githubPullRequest'].repoBase.url}/tree/${entity['githubPullRequest'].repoBase.branch}">
-                        ${entity['githubPullRequest'].repoBase.url}:${entity['githubPullRequest'].repoBase.branch}
+                        ${entity['githubPullRequest'].repoBase.fullName}:${entity['githubPullRequest'].repoBase.branch}
                     </a>
                 </p>
             </body>

@@ -30,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
@@ -58,11 +59,14 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
   @Mock
   private UserService userService;
 
+  @Mock
+  private IntegrationProperties integrationProperties;
+
   private GithubMetadataParser parser;
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
       + "    <div class=\"entity\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"img/github_logo.png\" accent=\"gray\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPush'].iconURL}\" accent=\"gray\">\n"
       + "            <header>\n"
       + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
       + " </span>\n"
@@ -86,7 +90,7 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
 
   @Before
   public void init() {
-    parser = new GithubPushMetadataParser(userService, utils);
+    parser = new GithubPushMetadataParser(userService, utils, integrationProperties);
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
 
@@ -95,6 +99,8 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
     } catch (IOException e) {
       fail("IOException should not be thrown because there is no real API calling, its mocked.");
     }
+
+    mockIntegrationProperties(integrationProperties);
   }
 
   @Test

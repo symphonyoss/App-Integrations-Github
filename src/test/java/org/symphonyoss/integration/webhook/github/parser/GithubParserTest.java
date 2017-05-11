@@ -17,9 +17,11 @@
 package org.symphonyoss.integration.webhook.github.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.io.FileUtils;
 import org.junit.Ignore;
 import org.symphonyoss.integration.json.JsonUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -31,6 +33,13 @@ public class GithubParserTest {
   protected JsonNode readJsonFromFile(String filename) throws IOException {
     ClassLoader classLoader = getClass().getClassLoader();
     return JsonUtils.readTree(classLoader.getResourceAsStream(filename));
+  }
+
+  protected String readFile(String fileName) throws IOException {
+    ClassLoader classLoader = getClass().getClassLoader();
+    String expected =
+        FileUtils.readFileToString(new File(classLoader.getResource(fileName).getPath()));
+    return expected = expected.replaceAll("\n", "");
   }
 
 }

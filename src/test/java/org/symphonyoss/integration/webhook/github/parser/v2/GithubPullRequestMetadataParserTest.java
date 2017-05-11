@@ -30,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
@@ -87,6 +88,9 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
 
   @Mock
   private UserService userService;
+
+  @Mock
+  private IntegrationProperties integrationProperties;
 
   private GithubMetadataParser parser;
 
@@ -165,7 +169,7 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
 
   @Before
   public void init() {
-    parser = new GithubPullRequestMetadataParser(userService, utils);
+    parser = new GithubPullRequestMetadataParser(userService, utils, integrationProperties);
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
 

@@ -1,5 +1,5 @@
 <messageML>
-    <div class="entity">
+    <div class="entity" data-entity-id="githubPush">
         <card class="barStyle" iconSrc="${entity['githubPush'].iconURL}" accent="gray">
             <header>
                 <span class="tempo-text-color--normal">${entity['githubPush'].refType} </span>

@@ -95,7 +95,7 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
   private GithubMetadataParser parser;
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
-      + "    <div class=\"entity\">\n"
+      + "    <div class=\"entity\" data-entity-id=\"githubPullRequest\">\n"
       + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPullRequest'].iconURL}\" accent=\"gray\">\n"
       + "            <header>\n"
       + "                <a href=\"${entity['githubPullRequest'].url}\">Pull Request "

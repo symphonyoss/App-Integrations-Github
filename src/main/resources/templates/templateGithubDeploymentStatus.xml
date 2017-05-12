@@ -1,11 +1,11 @@
 <messageML>
     <div class="entity" data-entity-id="githubDeploymentStatus">
-        <card class="barStyle" iconSrc="${entity['githubDeploymentStatus'].URLIconIntegration}" accent="blue">
+        <card class="barStyle" iconSrc="${entity['githubDeploymentStatus'].iconURL}" accent="blue">
             <header>
                 <span class="tempo-text-color--normal">Deployment on environment</span>
                 <span class="tempo-text-color--normal"><b>${entity['githubDeploymentStatus'].deployment.environment}</b></span>
-                <span class="tempo-text-color--green">changed its status to</span>
-                <span class="tempo-text-color--green">StatusMetadata</span>
+                <span class="tempo-text-color--normal">changed its status to</span>
+                <span class="tempo-text-color--green">${entity['githubDeploymentStatus'].deployment_status.state}</span>
                 <span class="tempo-text-color--normal">by</span>
                 <span class="tempo-text-color--normal"><b>${entity['githubDeploymentStatus'].deployment.creator.login}</b></span>
                 <span class="tempo-text-color--normal">in</span>
@@ -19,6 +19,11 @@
                 </div>
                 <br/>
             </#if>
+            <div>
+                <span class="tempo-text-color--secondary">Status Description:</span>
+                <span>${entity['githubDeploymentStatus'].deployment_status.description}</span>
+            </div>
+            <br/>
             <div>
                 <span class="tempo-text-color--secondary">SHA:</span>
                 <span>${entity['githubDeploymentStatus'].deployment.sha}</span>

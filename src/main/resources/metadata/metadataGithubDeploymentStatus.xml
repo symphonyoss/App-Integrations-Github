@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubDeploymentStatus" type="com.symphony.integration.github.event.v2.deployment" version="1.0">
+    <field key="URLIconIntegration" value="URLIconIntegration"/>
+
+    <object id="deployment" type="com.symphony.integration.github.deployment.deployment" version="1.0">
+        <field key="sha" value="deployment.sha"/>
+        <field key="description" value="deployment.description"/>
+        <field key="environment" value="deployment.environment"/>
+
+        <object id="creator" type="com.symphony.integration.github.deployment.creator" version="1.0">
+            <field key="login" value="deployment.creator.login"/>
+            <field key="email" value="deployment.creator.email"/>
+        </object>
+    </object>
+
+    <object id="repository" type="com.symphony.integration.github.deployment.repository" version="1.0">
+        <field key="html_url" value="repository.html_url"/>
+        <field key="full_name" value="repository.full_name"/>
+    </object>
+</metadata>

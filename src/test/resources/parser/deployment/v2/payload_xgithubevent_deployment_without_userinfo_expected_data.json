@@ -3,6 +3,7 @@
     "type": "com.symphony.integration.github.event.v2.deployment",
     "version": "1.0",
     "iconURL": "symphony.com/img/github_logo.svg",
+    "typeEvent": "deployment",
     "deployment": {
       "type": "com.symphony.integration.github.deployment.deployment",
       "version": "1.0",

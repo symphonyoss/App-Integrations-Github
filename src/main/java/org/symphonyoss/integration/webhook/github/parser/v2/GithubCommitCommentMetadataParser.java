@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.parser.ParserUtils;
 import org.symphonyoss.integration.parser.SafeString;
 import org.symphonyoss.integration.service.UserService;
@@ -47,8 +48,8 @@ public class GithubCommitCommentMetadataParser extends GithubMetadataParser {
   private static final String TEMPLATE_FILE = "templateGithubCommitComment.xml";
 
   @Autowired
-  public GithubCommitCommentMetadataParser(UserService userService, GithubParserUtils utils) {
-    super(userService, utils);
+  public GithubCommitCommentMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+    super(userService, utils, integrationProperties);
   }
 
   @Override

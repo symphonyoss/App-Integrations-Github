@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
@@ -58,6 +59,9 @@ public class GithubCommitCommentMetadataParserTest extends GithubParserTest {
   @Mock
   private UserService userService;
 
+  @Mock
+  private IntegrationProperties integrationProperties;
+
   private GithubCommitCommentMetadataParser parser;
 
   @BeforeClass
@@ -71,12 +75,13 @@ public class GithubCommitCommentMetadataParserTest extends GithubParserTest {
 
   @Before
   public void init() {
-    parser = new GithubCommitCommentMetadataParser(userService, utils);
+    parser = new GithubCommitCommentMetadataParser(userService, utils, integrationProperties);
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
 
     try {
       doReturn(null).when(utils).doGetJsonApi(anyString());
+      doReturn("").when(integrationProperties).getApplicationUrl(anyString());
     } catch (IOException e) {
       fail("IOException should not be thrown because there is no real API calling, its mocked.");
     }

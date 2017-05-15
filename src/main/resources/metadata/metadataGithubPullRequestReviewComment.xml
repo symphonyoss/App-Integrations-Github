@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <metadata name="githubPullRequestReviewComment"
-          type="com.symphony.integration.github.event.v2.githubPullRequestReviewComment"
+          type="com.symphony.integration.github.event.v2.pullRequestReviewComment"
           version="1.0">
 
     <field key="iconURL" value="iconURL"/>

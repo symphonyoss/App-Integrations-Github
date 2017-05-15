@@ -73,7 +73,7 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
       + " </span>\n"
       + "                "
       + "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].ref}\">$"
-      + "{entity['githubPush'].refShort} </a>\n"
+      + "{entity['githubPush'].ref} </a>\n"
       + "                <span class=\"tempo-text-color--normal\">at </span>\n"
       + "                <a href=\"${entity['githubPush'].repository.url}\">${entity['githubPush"
       + "'].repository.fullName} </a>\n"

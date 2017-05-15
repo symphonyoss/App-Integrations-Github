@@ -18,11 +18,13 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BRANCH_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMPARE_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAGS;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TYPE_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPOSITORY_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -74,6 +76,8 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
     proccessIconURL(input);
     processRef(input);
     processUser(input.path(SENDER_TAG));
+    processURL(input, COMPARE_TAG);
+    processURL(input.path(REPOSITORY_TAG), HTML_URL_TAG);
   }
 
   /**

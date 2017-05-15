@@ -17,14 +17,10 @@
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
-    .GITHUB_EVENT_PULL_REQUEST;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_PULL_REQUEST_REVIEW_COMMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.ASSIGNEE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMMENT_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_URL_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.USER_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -80,6 +76,7 @@ public class GithubPullRequestReviewCommentMetadataParser extends GithubMetadata
     proccessIconURL(input);
     processAction(input);
     processUser(input.path(COMMENT_TAG).path(USER_TAG));
+    processURL(input.path(COMMENT_TAG), HTML_URL_TAG);
   }
 
   /**

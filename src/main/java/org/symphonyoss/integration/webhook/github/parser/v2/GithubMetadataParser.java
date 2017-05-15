@@ -17,6 +17,8 @@
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.parser.ParserUtils.MESSAGEML_LINEBREAK;
+import static org.symphonyoss.integration.parser.ParserUtils.buildEncodedUrl;
+import static org.symphonyoss.integration.parser.ParserUtils.newUri;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
@@ -40,6 +42,9 @@ import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 import org.symphonyoss.integration.webhook.parser.metadata.MetadataParser;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -171,5 +176,21 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
       url = String.format("%s/%s", url, PATH_IMG_ICON);
       ((ObjectNode) node).put(ICON_URL_TAG, url);
     }
+  }
+
+  /**
+   * Process URL to escape invalid characters.
+   * @param node Node to get/put the URL.
+   * @param tag Tag (key) to get/put the URL.
+   */
+  protected void processURL(JsonNode node, String tag) {
+    String url = node.path(tag).asText(StringUtils.EMPTY);
+    try {
+      url = buildEncodedUrl(url);
+    } catch (MalformedURLException e) {
+      Throwable cause = e.getCause();
+      LOG.warn("Couldn't create URL due to " + cause.getMessage(), e);
+    }
+    ((ObjectNode) node).put(tag, url);
   }
 }

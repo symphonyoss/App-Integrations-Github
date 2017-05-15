@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubPullRequestReviewComment"
+          type="com.symphony.integration.github.event.v2.githubPullRequestReviewComment"
+          version="1.0">
+
+    <field key="iconURL" value="iconURL"/>
+    <field key="action" value="action"/>
+    <field key="title" value="pull_request.title"/>
+
+    <object id="comment" type="com.symphony.integration.github.comment" version="1.0">
+        <field key="body" value="comment.body"/>
+        <field key="url" value="comment.html_url"/>
+        <field key="diffHunk" value="comment.diff_hunk"/>
+
+        <object id="author" type="com.symphony.integration.github.user" version="1.0">
+            <field key="name" value="comment.user.name"/>
+        </object>
+    </object>
+</metadata>

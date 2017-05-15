@@ -16,6 +16,7 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.symphonyoss.integration.parser.ParserUtils.MESSAGEML_LINEBREAK;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
@@ -85,7 +86,12 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
 
   @Override
   public Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException {
-    return parse(node);
+    Message message = parse(node);
+    if (message != null && message.getData() != null) {
+      String data = message.getData().replace("\\n", MESSAGEML_LINEBREAK);
+      message.setData(data);
+    }
+    return message;
   }
 
   @PostConstruct

@@ -66,13 +66,13 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
       + "    <div class=\"entity\" data-entity-id=\"githubPush\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPush'].iconURL}\" accent=\"gray\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPush'].iconURL}\" "
+      + "accent=\"gray\">\n"
       + "            <header>\n"
       + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
       + " </span>\n"
       + "                "
-      +
-      "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].refShort}\">$"
+      + "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].ref}\">$"
       + "{entity['githubPush'].refShort} </a>\n"
       + "                <span class=\"tempo-text-color--normal\">at </span>\n"
       + "                <a href=\"${entity['githubPush'].repository.url}\">${entity['githubPush"

@@ -72,23 +72,23 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
   @Override
   protected void preProcessInputData(JsonNode input) {
     proccessIconURL(input);
-    processRefType(input);
+    processRef(input);
     processUser(input.path(SENDER_TAG));
   }
 
   /**
-   * Adds 'ref_type' and 'repo' based on 'tag' value.
+   * Adds 'ref_type' and 'ref' based on 'tag' value.
    * @param input JSON input payload
    */
-  private void processRefType(JsonNode input) {
+  private void processRef(JsonNode input) {
     String ref = input.path(REF_TAG).asText();
 
     String refType = ref.contains(PATH_TAGS) ? PATH_TAG : BRANCH_TAG;
     refType = WordUtils.capitalize(refType);
     ((ObjectNode) input).put(REF_TYPE_TAG, refType);
 
-    String repo = ref.contains("/") ? ref.substring(ref.lastIndexOf("/") + 1) : ref;
-    ((ObjectNode) input).put(REPO_TAG, repo);
+    ref = ref.contains("/") ? ref.substring(ref.lastIndexOf("/") + 1) : ref;
+    ((ObjectNode) input).put(REF_TAG, ref);
   }
 
 }

@@ -40,17 +40,18 @@ import java.io.IOException;
 import java.util.Collections;
 
 /**
- * Unit test class for {@link GithubReleaseMetadataParser}
- * Created by campidelli on 10/05/17.
+ * Unit test class for {@link GithubPullRequestReviewCommentMetadataParser}
+ * Created by campidelli on 11/05/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class GithubReleaseMetadataParserTest extends GithubParserTest {
+public class GithubPullRequestReviewCommentMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
-  private static final String PAYLOAD_FILE_RELEASE = "payload_xgithubevent_release.json";
-  private static final String EXPECTED_FILE_RELEASE =
-      "parser/releaseParser/v2/expected_xgithub_event_release.json";
+  private static final String PAYLOAD_FILE_PR_REVIEW_COMMENT =
+      "payload_xgithubevent_pullRequestReviewComment.json";
+  private static final String EXPECTED_FILE_PR_REVIEW_COMMENT =
+      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_review_comment.json";
 
   @Mock
   private GithubParserUtils utils;
@@ -64,29 +65,46 @@ public class GithubReleaseMetadataParserTest extends GithubParserTest {
   private GithubMetadataParser parser;
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
-      + "    <div class=\"entity\" data-entity-id=\"githubRelease\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubRelease'].iconURL}\" "
-      + "accent=\"gray\">\n"
+      + "    <div class=\"entity\" data-entity-id=\"githubPullRequestReviewComment\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPullRequestReviewComment']"
+      + ".iconURL}\" accent=\"gray\">\n"
       + "            <header>\n"
-      + "                <a href=\"${entity['githubRelease'].release.url}\">\n"
-      + "                    Release ${entity['githubRelease'].release.tagName}\n"
-      + "                </a>\n"
-      + "                <span class=\"tempo-text-color--green\"><b> created </b></span>\n"
+      + "                <a href=\"${entity['githubPullRequestReviewComment'].url}\">Pull Request"
+      + " #${entity['githubPullRequestReviewComment'].title} </a>\n"
+      + "                <span class=\"tempo-text-color--green\">comment "
+      + "${entity['githubPullRequestReviewComment'].action} </span>\n"
       + "                <span class=\"tempo-text-color--normal\">by </span>\n"
-      + "                <span class=\"tempo-text-color--normal\"><b>${entity['githubRelease']"
-      + ".release.author.name} </b></span>\n"
-      + "                <span class=\"tempo-text-color--normal\">in </span>\n"
-      + "                <a href=\"${entity['githubRelease'].repository.url}\">\n"
-      + "                    ${entity['githubRelease'].repository.fullName}\n"
-      + "                </a>\n"
+      + "                <span class=\"tempo-text-color--normal\"><b>${entity['githubPullRequest"
+      + "'].comment.author.name} </b></span>\n"
       + "            </header>\n"
+      + "            <body>\n"
+      + "                <p>\n"
+      + "                    <span class=\"tempo-text-color--secondary\">Comment: </span>\n"
+      + "                    <span "
+      + "class=\"tempo-text-color--normal\">${entity['githubPullRequestReviewComment'].comment"
+      + ".body}</span>\n"
+      + "                </p>\n"
+      + "                <p>\n"
+      + "                    <span class=\"tempo-text-color--secondary\">Diff Hunk: </span>\n"
+      + "                    <span "
+      + "class=\"tempo-text-color--normal\">${entity['githubPullRequestReviewComment'].comment"
+      + ".diffHunk}</span>\n"
+      + "                </p>\n"
+      + "                <p>\n"
+      + "                    <span class=\"tempo-text-color--secondary\">Details: </span>\n"
+      + "                    <a href=\"${entity['githubPullRequestReviewComment'].comment.url}\">\n"
+      + "                        ${entity['githubPullRequestReviewComment'].comment.url}\n"
+      + "                    </a>\n"
+      + "                </p>\n"
+      + "            </body>\n"
       + "        </card>\n"
       + "    </div>\n"
       + "</messageML>\n";
 
   @Before
   public void init() {
-    parser = new GithubReleaseMetadataParser(userService, utils, integrationProperties);
+    parser =
+        new GithubPullRequestReviewCommentMetadataParser(userService, utils, integrationProperties);
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
 
@@ -100,13 +118,13 @@ public class GithubReleaseMetadataParserTest extends GithubParserTest {
   }
 
   @Test
-  public void testRelease() throws IOException, GithubParserException {
-    JsonNode node = readJsonFromFile(PAYLOAD_FILE_RELEASE);
+  public void testPRReviewComment() throws IOException, GithubParserException {
+    JsonNode node = readJsonFromFile(PAYLOAD_FILE_PR_REVIEW_COMMENT);
     Message result = parser.parse(Collections.<String, String>emptyMap(), node);
 
     assertNotNull(result);
 
-    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_RELEASE);
+    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_PR_REVIEW_COMMENT);
     String expected = JsonUtils.writeValueAsString(expectedNode);
 
     assertEquals(expected, result.getData());

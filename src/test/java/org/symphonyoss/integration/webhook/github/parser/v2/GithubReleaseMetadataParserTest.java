@@ -40,18 +40,21 @@ import java.io.IOException;
 import java.util.Collections;
 
 /**
- * Unit test class for {@link GithubPushMetadataParser}
- * Created by campidelli on 03/05/17.
+ * Unit test class for {@link GithubReleaseMetadataParser}
+ * Created by campidelli on 10/05/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class GithubPushMetadataParserTest extends GithubParserTest {
+public class GithubReleaseMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
-  private static final String PAYLOAD_FILE_PUSH = "payload_xgithubevent_push.json";
+  private static final String PAYLOAD_FILE_RELEASE = "payload_xgithubevent_release.json";
+  private static final String EXPECTED_FILE_RELEASE =
+      "parser/releaseParser/v2/expected_xgithub_event_release.json";
 
-  private static final String EXPECTED_FILE_PUSH =
-      "parser/pushParser/v2/expected_xgithub_event_push.json";
+  private static final String PAYLOAD_FILE_RELEASE_NAME = "payload_xgithubevent_release_with_release_name.json";
+  private static final String EXPECTED_FILE_RELEASE_NAME =
+      "parser/releaseParser/v2/expected_xgithub_event_release_with_release_name.json";
 
   @Mock
   private GithubParserUtils utils;
@@ -65,24 +68,21 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
   private GithubMetadataParser parser;
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
-      + "    <div class=\"entity\" data-entity-id=\"githubPush\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPush'].iconURL}\" accent=\"gray\">\n"
+      + "    <div class=\"entity\" data-entity-id=\"githubRelease\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubRelease'].iconURL}\" "
+      + "accent=\"gray\">\n"
       + "            <header>\n"
-      + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
-      + " </span>\n"
-      + "                "
-      +
-      "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].refShort}\">$"
-      + "{entity['githubPush'].refShort} </a>\n"
-      + "                <span class=\"tempo-text-color--normal\">at </span>\n"
-      + "                <a href=\"${entity['githubPush'].repository.url}\">${entity['githubPush"
-      + "'].repository.fullName} </a>\n"
-      + "                <span class=\"tempo-text-color--normal\">- </span>\n"
-      + "                <a href=\"${entity['githubPush'].compare}\">changes </a>\n"
-      + "                <span class=\"tempo-text-color--green\"><b>pushed </b></span>\n"
+      + "                <a href=\"${entity['githubRelease'].release.url}\">\n"
+      + "                    Release ${entity['githubRelease'].release.tagName}\n"
+      + "                </a>\n"
+      + "                <span class=\"tempo-text-color--green\"><b> created </b></span>\n"
       + "                <span class=\"tempo-text-color--normal\">by </span>\n"
-      + "                <span class=\"tempo-text-color--normal\"><b>${entity['githubPush']"
-      + ".pusher.name} </b></span>\n"
+      + "                <span class=\"tempo-text-color--normal\"><b>${entity['githubRelease']"
+      + ".release.author.name} </b></span>\n"
+      + "                <span class=\"tempo-text-color--normal\">in </span>\n"
+      + "                <a href=\"${entity['githubRelease'].repository.url}\">\n"
+      + "                    ${entity['githubRelease'].repository.fullName}\n"
+      + "                </a>\n"
       + "            </header>\n"
       + "        </card>\n"
       + "    </div>\n"
@@ -90,7 +90,7 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
 
   @Before
   public void init() {
-    parser = new GithubPushMetadataParser(userService, utils, integrationProperties);
+    parser = new GithubReleaseMetadataParser(userService, utils, integrationProperties);
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
 
@@ -104,13 +104,27 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
   }
 
   @Test
-  public void testPush() throws IOException, GithubParserException {
-    JsonNode node = readJsonFromFile(PAYLOAD_FILE_PUSH);
+  public void testRelease() throws IOException, GithubParserException {
+    JsonNode node = readJsonFromFile(PAYLOAD_FILE_RELEASE);
     Message result = parser.parse(Collections.<String, String>emptyMap(), node);
 
     assertNotNull(result);
 
-    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_PUSH);
+    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_RELEASE);
+    String expected = JsonUtils.writeValueAsString(expectedNode);
+
+    assertEquals(expected, result.getData());
+    assertEquals(EXPECTED_TEMPLATE_FILE, result.getMessage());
+  }
+
+  @Test
+  public void testReleaseWithReleaseName() throws IOException, GithubParserException {
+    JsonNode node = readJsonFromFile(PAYLOAD_FILE_RELEASE_NAME);
+    Message result = parser.parse(Collections.<String, String>emptyMap(), node);
+
+    assertNotNull(result);
+
+    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_RELEASE_NAME);
     String expected = JsonUtils.writeValueAsString(expectedNode);
 
     assertEquals(expected, result.getData());

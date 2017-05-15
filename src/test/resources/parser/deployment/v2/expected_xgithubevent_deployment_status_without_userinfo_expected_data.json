@@ -3,10 +3,12 @@
     "type": "com.symphony.integration.github.event.v2.deployment",
     "version": "1.0",
     "iconURL": "symphony.com/img/github_logo.svg",
+    "typeEvent": "deployment_status",
     "deployment": {
       "type": "com.symphony.integration.github.deployment.deployment",
       "version": "1.0",
       "sha": "9049f1265b7d61be4a8904a9a27120d2064dab3b",
+      "description": "Test description\nwith line break",
       "environment": "production",
       "creator": {
         "type": "com.symphony.integration.github.deployment.creator",
@@ -19,6 +21,11 @@
       "version": "1.0",
       "html_url": "https://github.com/baxterthehacker/public-repo",
       "full_name": "baxterthehacker/public-repo"
+    },
+    "deployment_status": {
+      "type": "com.symphony.integration.github.deployment.deployment_status",
+      "version": "1.0",
+      "state": "success"
     }
   }
 }

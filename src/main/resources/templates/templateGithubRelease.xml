@@ -1,0 +1,18 @@
+<messageML>
+    <div class="entity" data-entity-id="githubRelease">
+        <card class="barStyle" iconSrc="${entity['githubRelease'].iconURL}" accent="gray">
+            <header>
+                <a href="${entity['githubRelease'].release.url}">
+                    Release ${entity['githubRelease'].release.tagName}
+                </a>
+                <span class="tempo-text-color--green"><b> created </b></span>
+                <span class="tempo-text-color--normal">by </span>
+                <span class="tempo-text-color--normal"><b>${entity['githubRelease'].release.author.name} </b></span>
+                <span class="tempo-text-color--normal">in </span>
+                <a href="${entity['githubRelease'].repository.url}">
+                    ${entity['githubRelease'].repository.fullName}
+                </a>
+            </header>
+        </card>
+    </div>
+</messageML>

@@ -1,5 +1,5 @@
 <messageML>
-    <div class="entity">
+    <div class="entity" data-entity-id="githubPullRequest">
         <card class="barStyle" iconSrc="${entity['githubPullRequest'].iconURL}" accent="gray">
             <header>
                 <a href="${entity['githubPullRequest'].url}">Pull Request #${entity['githubPullRequest'].number} </a>

@@ -1,0 +1,14 @@
+<messageML>
+    <div class="entity" data-entity-id="githubPublic">
+        <card class="barStyle" iconSrc="${entity['githubPublic'].iconURL}" accent="gray">
+            <header>
+                <span class="tempo-text-color--normal">Repository</span>
+                <a class="tempo-text-color--link" href="${entity['githubPublic'].repository.html_url}">${entity['githubPublic'].repository.full_name}</a>
+                <span class="tempo-text-color--normal">was made</span>
+                <span class="tempo-text-color--green">public</span>
+                <span class="tempo-text-color--normal">by</span>
+                <span class="tempo-text-color--normal"><b>${entity['githubPublic'].sender.login}</b></span>
+            </header>
+        </card>
+    </div>
+</messageML>

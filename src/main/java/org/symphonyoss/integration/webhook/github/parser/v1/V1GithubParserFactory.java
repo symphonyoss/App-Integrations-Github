@@ -33,7 +33,7 @@ import java.util.List;
 public class V1GithubParserFactory extends GithubParserFactory {
 
   @Autowired
-  private List<GithubParser> beans;
+  private List<CommonGithubParser> beans;
 
   @Override
   public boolean accept(MessageMLVersion version) {

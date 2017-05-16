@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubCommit" type="com.symphony.integration.github.event.v2.push" version="1.0">
+
+    <object id="comment" type="com.symphony.integration.github.repository" version="1.0">
+        <field key="id" value="comment.id" />
+        <field key="body" value="comment.body" />
+        <field key="url" value="comment.html_url" />
+    </object>
+
+    <object id="user" type="com.symphony.integration.github.repository" version="1.0">
+        <field key="id" value="comment.user.id" />
+        <field key="login" value="comment.user.login" />
+        <field key="name" value="comment.user.name" />
+    </object>
+
+    <object id="repository" type="com.symphony.integration.github.repository" version="1.0">
+        <field key="id" value="repository.id" />
+        <field key="fullName" value="repository.full_name" />
+        <field key="url" value="repository.html_url" />
+    </object>
+
+</metadata>

@@ -1,0 +1,29 @@
+<messageML>
+    <div class="entity" data-entity-id="githubComment">
+        <card class="barStyle" iconSrc="" accent="gray">
+            <header>
+                <p>
+                    <#if (entity['githubComment'].user.name)??>
+                        <span class="tempo-text-color--normal"><b>${entity['githubComment'].user.name}</b> </span>
+                    <#else>
+                        <span class="tempo-text-color--normal"><b>${entity['githubComment'].user.login}</b> </span>
+                    </#if>
+                    <span class="tempo-text-color--green">commented </span>
+                    <span>on a
+                        <#if (entity['githubComment'].comment.action == "commit_comment")>
+                            <a href="${entity['githubComment'].comment.url}">commit</a>
+                        </#if>
+                    </span>
+                </p>
+            </header>
+            <body>
+                <div class="labelBackground badge">
+                    <p>
+                        <span class="tempo-text-color--secondary">Comment:</span>
+                        <span class="tempo-text-color--normal"><b>${entity['githubComment'].comment.body}</b></span>
+                    </p>
+                </div>
+            </body>
+        </card>
+    </div>
+</messageML>

@@ -18,7 +18,9 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.parser.ParserUtils.MESSAGEML_LINEBREAK;
 import static org.symphonyoss.integration.parser.ParserUtils.buildEncodedUrl;
-import static org.symphonyoss.integration.parser.ParserUtils.newUri;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants
+    .GITHUB_HEADER_EVENT_NAME;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
@@ -43,8 +45,6 @@ import org.symphonyoss.integration.webhook.parser.metadata.MetadataParser;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -78,7 +78,8 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   private LoadingCache<String, String> userServiceInfoCache;
 
   @Autowired
-  public GithubMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+  public GithubMetadataParser(UserService userService, GithubParserUtils utils,
+      IntegrationProperties integrationProperties) {
     this.userService = userService;
     this.utils = utils;
     this.integrationProperties = integrationProperties;
@@ -97,6 +98,13 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
       message.setData(data);
     }
     return message;
+  }
+
+  @Override
+  public Message parse(Map<String, String> headers, Map<String, String> parameters, JsonNode node)
+      throws GithubParserException {
+    ((ObjectNode) node).put(ACTION_TAG, headers.get(GITHUB_HEADER_EVENT_NAME));
+    return parse(node);
   }
 
   @PostConstruct

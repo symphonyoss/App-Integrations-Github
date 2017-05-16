@@ -18,6 +18,8 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_COMMIT_COMMENT;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants
+    .GITHUB_EVENT_ISSUE_COMMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BODY_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMMENT_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.USER_TAG;
@@ -32,8 +34,9 @@ import org.symphonyoss.integration.parser.SafeString;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is responsible to validate the event 'commit_comment' sent by Github Webhook when
@@ -41,14 +44,15 @@ import java.util.List;
  * Created by apimentel on 10/05/17.
  */
 @Component
-public class GithubCommitCommentMetadataParser extends GithubMetadataParser {
+public class GithubCommentMetadataParser extends GithubMetadataParser {
 
-  private static final String METADATA_FILE = "metadataGithubCommitComment.xml";
+  private static final String METADATA_FILE = "metadataGithubComment.xml";
 
-  private static final String TEMPLATE_FILE = "templateGithubCommitComment.xml";
+  private static final String TEMPLATE_FILE = "templateGithubComment.xml";
 
   @Autowired
-  public GithubCommitCommentMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+  public GithubCommentMetadataParser(UserService userService, GithubParserUtils utils,
+      IntegrationProperties integrationProperties) {
     super(userService, utils, integrationProperties);
   }
 
@@ -64,19 +68,27 @@ public class GithubCommitCommentMetadataParser extends GithubMetadataParser {
 
   @Override
   public List<String> getEvents() {
-    return Collections.singletonList(GITHUB_EVENT_COMMIT_COMMENT);
+    return Arrays.asList(GITHUB_EVENT_COMMIT_COMMENT, GITHUB_EVENT_ISSUE_COMMENT);
   }
 
   @Override
   protected void preProcessInputData(JsonNode input) {
     super.preProcessInputData(input);
+    proccessIconURL(input);
     processUser(input.with(COMMENT_TAG).path(USER_TAG));
     processUserComment(input);
+    processAction(input);
   }
 
   private void processUserComment(JsonNode rootNode) {
     ObjectNode commentNode = (ObjectNode) rootNode.path(COMMENT_TAG);
     SafeString comment = ParserUtils.escapeAndAddLineBreaks(commentNode.path(BODY_TAG).asText());
     commentNode.put(BODY_TAG, comment.toString());
+  }
+
+  private void processAction(JsonNode input) {
+//    ObjectNode commentNode = (ObjectNode) rootNode.path(COMMENT_TAG);
+//
+//    if()
   }
 }

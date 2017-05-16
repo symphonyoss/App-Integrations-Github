@@ -8,7 +8,7 @@
       "type": "com.symphony.integration.github.deployment.deployment",
       "version": "1.0",
       "sha": "9049f1265b7d61be4a8904a9a27120d2064dab3b",
-      "description": "Test description\nwith line break",
+      "description": "Test description<br/>with line break",
       "environment": "production",
       "creator": {
         "type": "com.symphony.integration.github.deployment.creator",

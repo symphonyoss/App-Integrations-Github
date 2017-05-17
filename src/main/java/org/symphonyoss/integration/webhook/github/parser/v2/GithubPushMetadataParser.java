@@ -18,11 +18,13 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BRANCH_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMPARE_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PATH_TAGS;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REF_TYPE_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPOSITORY_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -72,23 +74,25 @@ public class GithubPushMetadataParser extends GithubMetadataParser {
   @Override
   protected void preProcessInputData(JsonNode input) {
     proccessIconURL(input);
-    processRefType(input);
+    processRef(input);
     processUser(input.path(SENDER_TAG));
+    processURL(input, COMPARE_TAG);
+    processURL(input.path(REPOSITORY_TAG), HTML_URL_TAG);
   }
 
   /**
-   * Adds 'ref_type' and 'repo' based on 'tag' value.
+   * Adds 'ref_type' and 'ref' based on 'tag' value.
    * @param input JSON input payload
    */
-  private void processRefType(JsonNode input) {
+  private void processRef(JsonNode input) {
     String ref = input.path(REF_TAG).asText();
 
     String refType = ref.contains(PATH_TAGS) ? PATH_TAG : BRANCH_TAG;
     refType = WordUtils.capitalize(refType);
     ((ObjectNode) input).put(REF_TYPE_TAG, refType);
 
-    String repo = ref.contains("/") ? ref.substring(ref.lastIndexOf("/") + 1) : ref;
-    ((ObjectNode) input).put(REPO_TAG, repo);
+    ref = ref.contains("/") ? ref.substring(ref.lastIndexOf("/") + 1) : ref;
+    ((ObjectNode) input).put(REF_TAG, ref);
   }
 
 }

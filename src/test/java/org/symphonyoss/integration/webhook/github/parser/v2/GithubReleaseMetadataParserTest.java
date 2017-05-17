@@ -52,10 +52,6 @@ public class GithubReleaseMetadataParserTest extends GithubParserTest {
   private static final String EXPECTED_FILE_RELEASE =
       "parser/releaseParser/v2/expected_xgithub_event_release.json";
 
-  private static final String PAYLOAD_FILE_RELEASE_NAME = "payload_xgithubevent_release_with_release_name.json";
-  private static final String EXPECTED_FILE_RELEASE_NAME =
-      "parser/releaseParser/v2/expected_xgithub_event_release_with_release_name.json";
-
   @Mock
   private GithubParserUtils utils;
 
@@ -111,20 +107,6 @@ public class GithubReleaseMetadataParserTest extends GithubParserTest {
     assertNotNull(result);
 
     JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_RELEASE);
-    String expected = JsonUtils.writeValueAsString(expectedNode);
-
-    assertEquals(expected, result.getData());
-    assertEquals(EXPECTED_TEMPLATE_FILE, result.getMessage());
-  }
-
-  @Test
-  public void testReleaseWithReleaseName() throws IOException, GithubParserException {
-    JsonNode node = readJsonFromFile(PAYLOAD_FILE_RELEASE_NAME);
-    Message result = parser.parse(Collections.<String, String>emptyMap(), node);
-
-    assertNotNull(result);
-
-    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_RELEASE_NAME);
     String expected = JsonUtils.writeValueAsString(expectedNode);
 
     assertEquals(expected, result.getData());

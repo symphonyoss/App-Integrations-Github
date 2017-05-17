@@ -16,6 +16,11 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.symphonyoss.integration.parser.ParserUtils.MESSAGEML_LINEBREAK;
+import static org.symphonyoss.integration.parser.ParserUtils.buildEncodedUrl;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants
+    .GITHUB_HEADER_EVENT_NAME;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.EVENT_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
@@ -39,6 +44,7 @@ import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 import org.symphonyoss.integration.webhook.parser.metadata.MetadataParser;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -72,7 +78,8 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   private LoadingCache<String, String> userServiceInfoCache;
 
   @Autowired
-  public GithubMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+  public GithubMetadataParser(UserService userService, GithubParserUtils utils,
+      IntegrationProperties integrationProperties) {
     this.userService = userService;
     this.utils = utils;
     this.integrationProperties = integrationProperties;
@@ -85,7 +92,19 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
 
   @Override
   public Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException {
-    return parse(node);
+    Message message = parse(node);
+    if (message != null && message.getData() != null) {
+      String data = message.getData().replace("\\n", MESSAGEML_LINEBREAK);
+      message.setData(data);
+    }
+    return message;
+  }
+
+  @Override
+  public Message parse(Map<String, String> headers, Map<String, String> parameters, JsonNode node)
+      throws GithubParserException {
+    addTagToNode(node, EVENT_TAG, headers.get(GITHUB_HEADER_EVENT_NAME));
+    return parse(parameters, node);
   }
 
   @PostConstruct
@@ -150,7 +169,7 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   protected void processUser(JsonNode userNode) {
     if (!userNode.isMissingNode() && !userNode.isNull()) {
       String publicName = getGithubUserPublicName(userNode);
-      ((ObjectNode) userNode).put(NAME_TAG, publicName);
+      addTagToNode(userNode, NAME_TAG, publicName);
     }
   }
 
@@ -163,7 +182,29 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
 
     if (!url.isEmpty()) {
       url = String.format("%s/%s", url, PATH_IMG_ICON);
-      ((ObjectNode) node).put(ICON_URL_TAG, url);
+      addTagToNode(node, ICON_URL_TAG, url);
     }
+  }
+
+  /**
+   * Process URL to escape invalid characters.
+   * @param node Node to get/put the URL.
+   * @param tag Tag (key) to get/put the URL.
+   */
+  protected void processURL(JsonNode node, String tag) {
+    String url = node.path(tag).asText(StringUtils.EMPTY);
+    try {
+      url = buildEncodedUrl(url);
+    } catch (MalformedURLException e) {
+      Throwable cause = e.getCause();
+      LOG.warn("Couldn't create URL due to " + cause.getMessage(), e);
+    }
+    addTagToNode(node, tag, url);
+  }
+
+
+  private void addTagToNode(JsonNode node, String tag,
+      String value) {
+    ((ObjectNode) node).put(tag, value);
   }
 }

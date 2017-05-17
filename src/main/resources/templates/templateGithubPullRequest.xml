@@ -11,7 +11,7 @@
                     <span class="tempo-text-color--normal"><b>${entity['githubPullRequest'].assignee.name} </b></span>
                 <#elseif entity['githubPullRequest'].action == 'labeled'>
                     <span class="tempo-text-color--normal">with </span>
-                    <span class="tempo-text-color--normal"><b>${entity['githubPullRequest'].label} </b></span>
+                    <span class="tempo-text-color--normal"><b>${entity['githubPullRequest'].label.name} </b></span>
                 <#else>
                     <span class="tempo-text-color--normal">by </span>
                     <span class="tempo-text-color--normal"><b>${entity['githubPullRequest'].sender.name} </b></span>

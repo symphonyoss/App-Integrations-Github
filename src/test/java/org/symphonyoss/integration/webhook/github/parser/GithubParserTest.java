@@ -26,6 +26,7 @@ import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * Created by campidelli on 08/05/17.
@@ -43,8 +44,9 @@ public class GithubParserTest {
   protected String readFile(String fileName) throws IOException {
     ClassLoader classLoader = getClass().getClassLoader();
     String expected =
-        FileUtils.readFileToString(new File(classLoader.getResource(fileName).getPath()));
-    return expected = expected.replaceAll("\n", "");
+        FileUtils.readFileToString(new File(classLoader.getResource(fileName).getPath()),
+            Charset.defaultCharset());
+    return expected.replaceAll("\n", "");
   }
 
   protected void mockIntegrationProperties(IntegrationProperties integrationProperties) {

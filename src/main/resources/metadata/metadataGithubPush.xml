@@ -6,48 +6,13 @@
     <field key="compare" value="compare" />
     <field key="ref" value="ref" />
     <field key="refType" value="ref_type" />
-    <field key="refShort" value="repo" />
-
-    <object id="commits" type="com.symphony.integration.github.commits" version="1.0" list="true">
-        <object id="commit" type="com.symphony.integration.github.commit" version="1.0">
-            <field key="id" value="id" />
-            <field key="message" value="message" />
-            <field key="timestamp" value="timestamp" />
-            <field key="url" value="url" />
-
-            <object id="author" type="com.symphony.integration.github.user" version="1.0">
-                <field key="name" value="author.name" />
-                <field key="email" value="author.email" />
-                <field key="username" value="author.username" />
-            </object>
-
-            <object id="committer" type="com.symphony.integration.github.user" version="1.0">
-                <field key="name" value="committer.name" />
-                <field key="email" value="committer.email" />
-                <field key="username" value="committer.username" />
-            </object>
-        </object>
-    </object>
-
-    <object id="headCommmit" type="com.symphony.integration.github.commit" version="1.0">
-        <field key="id" value="head_commit.id" />
-    </object>
 
     <object id="repository" type="com.symphony.integration.github.repository" version="1.0">
-        <field key="id" value="repository.id" />
         <field key="fullName" value="repository.full_name" />
         <field key="url" value="repository.html_url" />
     </object>
 
     <object id="pusher" type="com.symphony.integration.github.user" version="1.0">
         <field key="name" value="pusher.name" />
-        <field key="email" value="pusher.email" />
     </object>
-
-    <object id="sender" type="com.symphony.integration.github.user" version="1.0">
-        <field key="id" value="sender.id" />
-        <field key="login" value="sender.login" />
-        <field key="name" value="pusher.name" />
-    </object>
-
 </metadata>

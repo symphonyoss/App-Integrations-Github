@@ -2,49 +2,36 @@
 <metadata name="githubPullRequest" type="com.symphony.integration.github.event.v2.pullRequest" version="1.0">
 
     <field key="iconURL" value="iconURL"/>
-
     <field key="action" value="action" />
     <field key="number" value="number" />
-
-    <field key="label" value="label.name" />
-
-    <field key="id" value="pull_request.id" />
     <field key="state" value="pull_request.state" />
     <field key="title" value="pull_request.title" />
     <field key="body" value="pull_request.body" />
     <field key="url" value="pull_request.html_url" />
     <field key="merged" value="pull_request.merged" />
     <field key="commits" value="pull_request.commits" />
-    <field key="createdAt" value="pull_request.created_at" />
-    <field key="updatedAt" value="pull_request.updated_at" />
-    <field key="closedAt" value="pull_request.closed_at" />
-    <field key="mergedAt" value="pull_request.merged_at" />
+
+    <object id="label" type="com.symphony.integration.github.label" version="1.0">
+        <field key="name" value="label.name" />
+    </object>
 
     <object id="repoHead" type="com.symphony.integration.github.repository" version="1.0">
-        <field key="id" value="pull_request.head.repo.id" />
         <field key="fullName" value="pull_request.head.repo.full_name" />
         <field key="branch" value="pull_request.head.ref" />
         <field key="url" value="pull_request.head.repo.html_url" />
     </object>
 
     <object id="repoBase" type="com.symphony.integration.github.repository" version="1.0">
-        <field key="id" value="pull_request.base.repo.id" />
         <field key="fullName" value="pull_request.base.repo.full_name" />
         <field key="branch" value="pull_request.base.ref" />
         <field key="url" value="pull_request.base.repo.html_url" />
     </object>
 
     <object id="sender" type="com.symphony.integration.github.user" version="1.0">
-        <field key="id" value="sender.name" />
         <field key="name" value="sender.name" />
-        <field key="email" value="sender.email" />
-        <field key="login" value="sender.login" />
     </object>
 
     <object id="assignee" type="com.symphony.integration.github.user" version="1.0">
-        <field key="id" value="assignee.name" />
         <field key="name" value="assignee.name" />
-        <field key="email" value="assignee.email" />
-        <field key="login" value="assignee.login" />
     </object>
 </metadata>

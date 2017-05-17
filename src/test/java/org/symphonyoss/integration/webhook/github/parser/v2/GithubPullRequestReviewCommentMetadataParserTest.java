@@ -40,18 +40,18 @@ import java.io.IOException;
 import java.util.Collections;
 
 /**
- * Unit test class for {@link GithubPushMetadataParser}
- * Created by campidelli on 03/05/17.
+ * Unit test class for {@link GithubPullRequestReviewCommentMetadataParser}
+ * Created by campidelli on 11/05/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class GithubPushMetadataParserTest extends GithubParserTest {
+public class GithubPullRequestReviewCommentMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
-  private static final String PAYLOAD_FILE_PUSH = "payload_xgithubevent_push.json";
-
-  private static final String EXPECTED_FILE_PUSH =
-      "parser/pushParser/v2/expected_xgithub_event_push.json";
+  private static final String PAYLOAD_FILE_PR_REVIEW_COMMENT =
+      "payload_xgithubevent_pullRequestReviewComment.json";
+  private static final String EXPECTED_FILE_PR_REVIEW_COMMENT =
+      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_review_comment.json";
 
   @Mock
   private GithubParserUtils utils;
@@ -65,32 +65,51 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
   private GithubMetadataParser parser;
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
-      + "    <div class=\"entity\" data-entity-id=\"githubPush\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPush'].iconURL}\" "
-      + "accent=\"gray\">\n"
+      + "    <div class=\"entity\" data-entity-id=\"githubPullRequestReviewComment\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPullRequestReviewComment']"
+      + ".iconURL}\" accent=\"gray\">\n"
       + "            <header>\n"
-      + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
-      + " </span>\n"
-      + "                "
-      + "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].ref}\">$"
-      + "{entity['githubPush'].ref} </a>\n"
-      + "                <span class=\"tempo-text-color--normal\">at </span>\n"
-      + "                <a href=\"${entity['githubPush'].repository.url}\">${entity['githubPush"
-      + "'].repository.fullName} </a>\n"
-      + "                <span class=\"tempo-text-color--normal\">- </span>\n"
-      + "                <a href=\"${entity['githubPush'].compare}\">changes </a>\n"
-      + "                <span class=\"tempo-text-color--green\"><b>pushed </b></span>\n"
+      + "                <a href=\"${entity['githubPullRequestReviewComment'].comment.url}\">Pull"
+      + " Request </a>\n"
+      + "                <span "
+      + "class=\"tempo-text-color--normal\">${entity['githubPullRequestReviewComment'].title} - "
+      + "</span>\n"
+      + "                <span class=\"tempo-text-color--green\">comment "
+      + "${entity['githubPullRequestReviewComment'].action} </span>\n"
       + "                <span class=\"tempo-text-color--normal\">by </span>\n"
-      + "                <span class=\"tempo-text-color--normal\"><b>${entity['githubPush']"
-      + ".pusher.name} </b></span>\n"
+      + "                <span "
+      + "class=\"tempo-text-color--normal\"><b>${entity['githubPullRequestReviewComment'].comment"
+      + ".author.name} </b></span>\n"
       + "            </header>\n"
+      + "            <body>\n"
+      + "                <p>\n"
+      + "                    <span class=\"tempo-text-color--secondary\">Comment: </span>\n"
+      + "                    <span "
+      + "class=\"tempo-text-color--normal\">${entity['githubPullRequestReviewComment'].comment"
+      + ".body}</span>\n"
+      + "                </p>\n"
+      + "                <p>\n"
+      + "                    <span class=\"tempo-text-color--secondary\">Diff Hunk: </span>\n"
+      + "                    <br/>\n"
+      + "                    <span "
+      + "class=\"tempo-text-color--normal\">${entity['githubPullRequestReviewComment'].comment"
+      + ".diffHunk}</span>\n"
+      + "                </p>\n"
+      + "                <p>\n"
+      + "                    <span class=\"tempo-text-color--secondary\">Details: </span>\n"
+      + "                    <a href=\"${entity['githubPullRequestReviewComment'].comment.url}\">\n"
+      + "                        ${entity['githubPullRequestReviewComment'].comment.url}\n"
+      + "                    </a>\n"
+      + "                </p>\n"
+      + "            </body>\n"
       + "        </card>\n"
       + "    </div>\n"
       + "</messageML>\n";
 
   @Before
   public void init() {
-    parser = new GithubPushMetadataParser(userService, utils, integrationProperties);
+    parser =
+        new GithubPullRequestReviewCommentMetadataParser(userService, utils, integrationProperties);
     parser.init();
     parser.setIntegrationUser(MOCK_INTEGRATION_USER);
 
@@ -104,13 +123,13 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
   }
 
   @Test
-  public void testPush() throws IOException, GithubParserException {
-    JsonNode node = readJsonFromFile(PAYLOAD_FILE_PUSH);
+  public void testPRReviewComment() throws IOException, GithubParserException {
+    JsonNode node = readJsonFromFile(PAYLOAD_FILE_PR_REVIEW_COMMENT);
     Message result = parser.parse(Collections.<String, String>emptyMap(), node);
 
     assertNotNull(result);
 
-    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_PUSH);
+    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_PR_REVIEW_COMMENT);
     String expected = JsonUtils.writeValueAsString(expectedNode);
 
     assertEquals(expected, result.getData());

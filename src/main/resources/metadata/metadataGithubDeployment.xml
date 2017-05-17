@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <metadata name="githubDeployment" type="com.symphony.integration.github.event.v2.deployment" version="1.0">
     <field key="iconURL" value="iconURL"/>
+    <field key="typeEvent" value="typeEvent"/>
 
     <object id="deployment" type="com.symphony.integration.github.deployment.deployment" version="1.0">
         <field key="sha" value="deployment.sha"/>
@@ -16,5 +17,10 @@
     <object id="repository" type="com.symphony.integration.github.deployment.repository" version="1.0">
         <field key="html_url" value="repository.html_url"/>
         <field key="full_name" value="repository.full_name"/>
+    </object>
+
+    <object id="deployment_status" type="com.symphony.integration.github.deployment.deployment_status" version="1.0">
+        <field key="state" value="deployment_status.state"/>
+        <field key="description" value="deployment_status.description"/>
     </object>
 </metadata>

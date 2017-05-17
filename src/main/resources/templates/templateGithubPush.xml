@@ -3,7 +3,7 @@
         <card class="barStyle" iconSrc="${entity['githubPush'].iconURL}" accent="gray">
             <header>
                 <span class="tempo-text-color--normal">${entity['githubPush'].refType} </span>
-                <a href="${entity['githubPush'].repository.url}/tree/${entity['githubPush'].refShort}">${entity['githubPush'].refShort} </a>
+                <a href="${entity['githubPush'].repository.url}/tree/${entity['githubPush'].ref}">${entity['githubPush'].ref} </a>
                 <span class="tempo-text-color--normal">at </span>
                 <a href="${entity['githubPush'].repository.url}">${entity['githubPush'].repository.fullName} </a>
                 <span class="tempo-text-color--normal">- </span>

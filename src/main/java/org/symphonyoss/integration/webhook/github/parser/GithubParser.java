@@ -31,7 +31,7 @@ public interface GithubParser {
 
   /**
    * Integration identifier tag.
-   * Required for usage with {@link com.symphony.integration.entity.EntityBuilder}
+   * Required for usage with {@link org.symphonyoss.integration.entity.EntityBuilder}
    */
   String INTEGRATION_TAG = "github";
 
@@ -55,5 +55,15 @@ public interface GithubParser {
    * @throws GithubParserException when there's insufficient information to validate the message.
    */
   Message parse(Map<String, String> parameters, JsonNode node) throws GithubParserException;
+
+  /**
+   * Parse a received Json message into a Symphony MessageML format.
+   * @param headers request's reader parameters.
+   * @param parameters request's query string parameters.
+   * @param node Json message.
+   * @return Symphony MessageML message.
+   * @throws GithubParserException when there's insufficient information to validate the message.
+   */
+  Message parse(Map<String, String> headers, Map<String, String> parameters, JsonNode node) throws GithubParserException;
 
 }

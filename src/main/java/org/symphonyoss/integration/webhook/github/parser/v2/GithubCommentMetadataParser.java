@@ -22,10 +22,16 @@ import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_ISSUE_COMMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BODY_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMMENT_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.ENTITY_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.ENTITY_URL_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.EVENT_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.ISSUE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.USER_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.model.yaml.IntegrationProperties;
@@ -36,7 +42,6 @@ import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class is responsible to validate the event 'commit_comment' sent by Github Webhook when
@@ -49,6 +54,8 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
   private static final String METADATA_FILE = "metadataGithubComment.xml";
 
   private static final String TEMPLATE_FILE = "templateGithubComment.xml";
+  private static final String COMMIT_ENTITY = "commit";
+  private static final String ISSUE_ENTITY = "issue";
 
   @Autowired
   public GithubCommentMetadataParser(UserService userService, GithubParserUtils utils,
@@ -77,7 +84,7 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
     proccessIconURL(input);
     processUser(input.with(COMMENT_TAG).path(USER_TAG));
     processUserComment(input);
-    processAction(input);
+    processCommentEntity(input);
   }
 
   private void processUserComment(JsonNode rootNode) {
@@ -86,9 +93,37 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
     commentNode.put(BODY_TAG, comment.toString());
   }
 
-  private void processAction(JsonNode input) {
-//    ObjectNode commentNode = (ObjectNode) rootNode.path(COMMENT_TAG);
-//
-//    if()
+  /**
+   * As this class handles issues and commit comments, this method inserts two fields in the final
+   * json:
+   * <ol>
+   * <li><b>Entity</b>: contains the text describing if this event was triggered by an issue or a
+   * commit</li>
+   * <li><b>Entity Url</b>: the url to access this entity</li>
+   * </ol>
+   * @param input Root json node for the webhook event
+   */
+  private void processCommentEntity(JsonNode input) {
+    if (input.has(EVENT_TAG)) {
+      String event = input.get(EVENT_TAG).asText();
+      if (StringUtils.isNotEmpty(event)) {
+
+        String entity;
+        String entityUrl;
+        switch (event) {
+          case GITHUB_EVENT_ISSUE_COMMENT:
+            entity = ISSUE_ENTITY;
+            entityUrl = input.path(ISSUE_TAG).path(HTML_URL_TAG).asText();
+            break;
+          case GITHUB_EVENT_COMMIT_COMMENT:
+          default:
+            entity = COMMIT_ENTITY;
+            entityUrl = input.path(COMMENT_TAG).path(HTML_URL_TAG).asText();
+            break;
+        }
+        ((ObjectNode) input).put(ENTITY_TAG, entity);
+        ((ObjectNode) input).put(ENTITY_URL_TAG, entityUrl);
+      }
+    }
   }
 }

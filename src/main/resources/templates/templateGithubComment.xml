@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity" data-entity-id="githubComment">
-        <card class="barStyle" iconSrc="" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubComment'].iconURL}" accent="gray">
             <header>
                 <p>
                     <#if (entity['githubComment'].user.name)??>
@@ -8,22 +8,31 @@
                     <#else>
                         <span class="tempo-text-color--normal"><b>${entity['githubComment'].user.login}</b> </span>
                     </#if>
-                    <span class="tempo-text-color--green">commented </span>
-                    <span>on a
-                        <#if (entity['githubComment'].comment.action == "commit_comment")>
-                            <a href="${entity['githubComment'].comment.url}">commit</a>
+                    <span class="tempo-text-color--green">
+                        <#if (entity['githubComment'].action == "edited")>
+                            edited a comment
+                        <#elseif (entity['githubComment'].action == "deleted")>
+                            deleted a comment
+                        <#else>
+                            commented
                         </#if>
                     </span>
+                    <span>on a <a href="${entity['githubComment'].entityUrl}">${entity['githubComment'].entity}</a></span>
                 </p>
             </header>
-            <body>
-                <div class="labelBackground badge">
-                    <p>
-                        <span class="tempo-text-color--secondary">Comment:</span>
-                        <span class="tempo-text-color--normal"><b>${entity['githubComment'].comment.body}</b></span>
-                    </p>
-                </div>
-            </body>
+            <#if (entity['githubComment'].comment.body)??>
+                <body>
+                    <div class="labelBackground badge">
+                        <p>
+                            <span class="tempo-text-color--secondary">Comment:</span>
+                            <span class="tempo-text-color--normal">${entity['githubComment'].comment.body}</span>
+                        </p>
+                        <p>
+                            <a class="tempo-text-color--link" href="${entity['githubComment'].comment.url}">View comment</a>
+                        </p>
+                    </div>
+                </body>
+            </#if>
         </card>
     </div>
 </messageML>

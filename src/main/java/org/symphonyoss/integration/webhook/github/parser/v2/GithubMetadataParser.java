@@ -20,7 +20,7 @@ import static org.symphonyoss.integration.parser.ParserUtils.MESSAGEML_LINEBREAK
 import static org.symphonyoss.integration.parser.ParserUtils.buildEncodedUrl;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_HEADER_EVENT_NAME;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.EVENT_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.LOGIN_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.NAME_TAG;
@@ -103,8 +103,8 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   @Override
   public Message parse(Map<String, String> headers, Map<String, String> parameters, JsonNode node)
       throws GithubParserException {
-    ((ObjectNode) node).put(ACTION_TAG, headers.get(GITHUB_HEADER_EVENT_NAME));
-    return parse(node);
+    addTagToNode(node, EVENT_TAG, headers.get(GITHUB_HEADER_EVENT_NAME));
+    return parse(parameters, node);
   }
 
   @PostConstruct
@@ -169,7 +169,7 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   protected void processUser(JsonNode userNode) {
     if (!userNode.isMissingNode() && !userNode.isNull()) {
       String publicName = getGithubUserPublicName(userNode);
-      ((ObjectNode) userNode).put(NAME_TAG, publicName);
+      addTagToNode(userNode, NAME_TAG, publicName);
     }
   }
 
@@ -182,7 +182,7 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
 
     if (!url.isEmpty()) {
       url = String.format("%s/%s", url, PATH_IMG_ICON);
-      ((ObjectNode) node).put(ICON_URL_TAG, url);
+      addTagToNode(node, ICON_URL_TAG, url);
     }
   }
 
@@ -199,6 +199,12 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
       Throwable cause = e.getCause();
       LOG.warn("Couldn't create URL due to " + cause.getMessage(), e);
     }
-    ((ObjectNode) node).put(tag, url);
+    addTagToNode(node, tag, url);
+  }
+
+
+  private void addTagToNode(JsonNode node, String tag,
+      String value) {
+    ((ObjectNode) node).put(tag, value);
   }
 }

@@ -65,15 +65,15 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
   private GithubMetadataParser parser;
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
-      + "    <div class=\"entity\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"img/github_logo.png\" accent=\"gray\">\n"
+      + "    <div class=\"entity\" data-entity-id=\"githubPush\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPush'].iconURL}\" "
+      + "accent=\"gray\">\n"
       + "            <header>\n"
       + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
       + " </span>\n"
       + "                "
-      +
-      "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].refShort}\">$"
-      + "{entity['githubPush'].refShort} </a>\n"
+      + "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].ref}\">$"
+      + "{entity['githubPush'].ref} </a>\n"
       + "                <span class=\"tempo-text-color--normal\">at </span>\n"
       + "                <a href=\"${entity['githubPush'].repository.url}\">${entity['githubPush"
       + "'].repository.fullName} </a>\n"
@@ -99,6 +99,8 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
     } catch (IOException e) {
       fail("IOException should not be thrown because there is no real API calling, its mocked.");
     }
+
+    mockIntegrationProperties(integrationProperties);
   }
 
   @Test

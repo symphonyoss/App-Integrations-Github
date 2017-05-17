@@ -1,10 +1,17 @@
 <messageML>
     <div class="entity" data-entity-id="githubDeployment">
-        <card class="barStyle" iconSrc="${entity['githubDeployment'].URLIconIntegration}" accent="blue">
+        <card class="barStyle" iconSrc="${entity['githubDeployment'].iconURL}" accent="gray">
             <header>
                 <span class="tempo-text-color--normal">Deployment on environment</span>
                 <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.environment}</b></span>
-                <span class="tempo-text-color--green">createad</span>
+
+                <#if entity['githubDeployment'].typeEvent == 'deployment_status'>
+                    <span class="tempo-text-color--normal">changed its status to</span>
+                    <span class="tempo-text-color--green">${entity['githubDeployment'].deployment_status.state}</span>
+                <#else>
+                    <span class="tempo-text-color--green">createad</span>
+                </#if>
+
                 <span class="tempo-text-color--normal">by</span>
                 <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.creator.login}</b></span>
                 <span class="tempo-text-color--normal">in</span>
@@ -16,7 +23,14 @@
                         <span class="tempo-text-color--secondary">Deployment Description:</span>
                         <span>${entity['githubDeployment'].deployment.description}</span>
                     </div>
-                <br/>
+                    <br/>
+                </#if>
+                <#if entity['githubDeployment'].typeEvent == "deployment_status">
+                    <div>
+                        <span class="tempo-text-color--secondary">Status Description:</span>
+                        <span>${entity['githubDeployment'].deployment_status.description}</span>
+                    </div>
+                    <br/>
                 </#if>
                 <div>
                     <span class="tempo-text-color--secondary">SHA:</span>

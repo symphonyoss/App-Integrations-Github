@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubCreate" type="com.symphony.integration.github.event.v2.create" version="1.0">
+    <field key="ref_type" value="ref_type"/>
+    <field key="ref" value="ref"/>
+    <field key="iconURL" value="iconURL"/>
+
+    <object id="repository" type="com.symphony.integration.github.create.repository" version="1.0">
+        <field key="html_url" value="repository.html_url"/>
+        <field key="full_name" value="repository.full_name"/>
+    </object>
+
+    <object id="sender" type="com.symphony.integration.github.create.sender" version="1.0">
+        <field key="login" value="sender.login"/>
+    </object>
+</metadata>

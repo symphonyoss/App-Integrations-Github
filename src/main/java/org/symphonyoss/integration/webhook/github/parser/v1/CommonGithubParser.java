@@ -66,6 +66,12 @@ public class CommonGithubParser implements GithubParser {
     return null;
   }
 
+  @Override
+  public Message parse(Map<String, String> headers, Map<String, String> parameters, JsonNode node)
+      throws GithubParserException {
+    return parse(parameters, node);
+  }
+
   protected String getMessage(Map<String, String> parameters, JsonNode node)
       throws GithubParserException {
     return null;

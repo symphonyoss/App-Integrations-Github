@@ -19,6 +19,11 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_PULL_REQUEST;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ASSIGNEE_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.BASE_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.HEAD_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.PULL_REQUEST_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -66,7 +71,11 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
 
   @Override
   protected void preProcessInputData(JsonNode input) {
+    proccessIconURL(input);
     processUser(input.path(SENDER_TAG));
     processUser(input.path(ASSIGNEE_TAG));
+    processURL(input.path(PULL_REQUEST_TAG), HTML_URL_TAG);
+    processURL(input.path(PULL_REQUEST_TAG).path(HEAD_TAG).path(REPO_TAG), HTML_URL_TAG);
+    processURL(input.path(PULL_REQUEST_TAG).path(BASE_TAG).path(REPO_TAG), HTML_URL_TAG);
   }
 }

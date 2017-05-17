@@ -47,4 +47,10 @@ public class NullGithubParser implements GithubParser {
     return null;
   }
 
+  @Override
+  public Message parse(Map<String, String> headers, Map<String, String> parameters, JsonNode node)
+      throws GithubParserException {
+    return null;
+  }
+
 }

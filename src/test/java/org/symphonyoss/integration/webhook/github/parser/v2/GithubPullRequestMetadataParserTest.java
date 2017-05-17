@@ -95,15 +95,16 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
   private GithubMetadataParser parser;
 
   private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
-      + "    <div class=\"entity\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"img/github_logo.png\" accent=\"gray\">\n"
+      + "    <div class=\"entity\" data-entity-id=\"githubPullRequest\">\n"
+      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPullRequest'].iconURL}\" "
+      + "accent=\"gray\">\n"
       + "            <header>\n"
       + "                <a href=\"${entity['githubPullRequest'].url}\">Pull Request "
       + "#${entity['githubPullRequest'].number} </a>\n"
       + "                <span class=\"tempo-text-color--normal\">${entity['githubPullRequest']"
-      + ".title - </span>\n"
+      + ".title} - </span>\n"
       + "                <span class=\"tempo-text-color--green\"><b>${entity['githubPullRequest']"
-      + ".action </b></span>\n"
+      + ".action} </b></span>\n"
       + "\n"
       + "                <#if entity['githubPullRequest'].action == 'assigned'>\n"
       + "                    <span class=\"tempo-text-color--normal\">to </span>\n"
@@ -113,7 +114,8 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
       + "                <#elseif entity['githubPullRequest'].action == 'labeled'>\n"
       + "                    <span class=\"tempo-text-color--normal\">with </span>\n"
       + "                    <span "
-      + "class=\"tempo-text-color--normal\"><b>${entity['githubPullRequest'].label} </b></span>\n"
+      + "class=\"tempo-text-color--normal\"><b>${entity['githubPullRequest'].label.name} "
+      + "</b></span>\n"
       + "                <#else>\n"
       + "                    <span class=\"tempo-text-color--normal\">by </span>\n"
       + "                    <span "
@@ -152,14 +154,14 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
       +
       "<a href=\"${entity['githubPullRequest'].repoHead.url}/tree/${entity['githubPullRequest'].repoHead.branch}\">\n"
       + "                        ${entity['githubPullRequest'].repoHead"
-      + ".url}:${entity['githubPullRequest'].repoHead.branch}\n"
+      + ".fullName}:${entity['githubPullRequest'].repoHead.branch}\n"
       + "                    </a>\n"
       + "                    <span class=\"tempo-text-color--normal\"> to </span>\n"
       + "                    "
       +
       "<a href=\"${entity['githubPullRequest'].repoBase.url}/tree/${entity['githubPullRequest'].repoBase.branch}\">\n"
       + "                        ${entity['githubPullRequest'].repoBase"
-      + ".url}:${entity['githubPullRequest'].repoBase.branch}\n"
+      + ".fullName}:${entity['githubPullRequest'].repoBase.branch}\n"
       + "                    </a>\n"
       + "                </p>\n"
       + "            </body>\n"
@@ -178,6 +180,8 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
     } catch (IOException e) {
       fail("IOException should not be thrown because there is no real API calling, its mocked.");
     }
+
+    mockIntegrationProperties(integrationProperties);
   }
 
   private void testPR(String payloadFile, String expectedFile)

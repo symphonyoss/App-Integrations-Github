@@ -21,6 +21,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_DELETED;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -36,7 +38,6 @@ import org.symphonyoss.integration.exception.URISyntaxRuntimeException;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.github.CommonGithubTest;
-import org.symphonyoss.integration.webhook.github.GithubEventConstants;
 import org.symphonyoss.integration.webhook.github.GithubEventTags;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
@@ -81,7 +82,7 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
   public void testPRReviewCommentDeletedParse() throws IOException, GithubParserException {
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
         "payload_xgithubevent_pullRequestReviewComment.json"));
-    ((ObjectNode) node).put(GithubEventTags.ACTION_TAG, GithubEventConstants.DELETED);
+    ((ObjectNode) node).put(GithubEventTags.ACTION_TAG, GITHUB_ACTION_DELETED);
     Message resultML = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
 

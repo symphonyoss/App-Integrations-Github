@@ -17,7 +17,7 @@
 package org.symphonyoss.integration.webhook.github.parser.v1;
 
 import static org.symphonyoss.integration.parser.ParserUtils.presentationFormat;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants.CREATE;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_CREATE;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.FULL_NAME_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.MASTER_BRANCH_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PUSHER_TYPE_TAG;
@@ -62,7 +62,7 @@ public class CreateGithubParser extends BaseGithubParser {
 
   @Override
   public List<String> getEvents() {
-    return Arrays.asList(CREATE);
+    return Arrays.asList(GITHUB_EVENT_CREATE);
   }
 
   @Override
@@ -89,7 +89,7 @@ public class CreateGithubParser extends BaseGithubParser {
     Entity sender = buildEntityUser(node.path(SENDER_TAG), SENDER_TAG);
 
     return EntityBuilder
-        .forIntegrationEvent(INTEGRATION_TAG, CREATE)
+        .forIntegrationEvent(INTEGRATION_TAG, GITHUB_EVENT_CREATE)
         .presentationML(presentationMl)
         .attribute(REF_TAG, ref)
         .attribute(REF_TYPE_TAG, refType)

@@ -27,9 +27,11 @@
                             <span class="tempo-text-color--secondary">Comment:</span>
                             <span class="tempo-text-color--normal">${entity['githubComment'].comment.body}</span>
                         </p>
-                        <p>
-                            <a class="tempo-text-color--link" href="${entity['githubComment'].comment.url}">View comment</a>
-                        </p>
+                        <#if (entity['githubComment'].action != "deleted")>
+                            <p>
+                                <a class="tempo-text-color--link" href="${entity['githubComment'].comment.url}">View comment</a>
+                            </p>
+                        </#if>
                     </div>
                 </body>
             </#if>

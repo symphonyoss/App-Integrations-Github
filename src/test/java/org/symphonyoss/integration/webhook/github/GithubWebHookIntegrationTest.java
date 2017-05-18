@@ -22,10 +22,9 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants.CREATE;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_CREATE;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_DEPLOYMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
@@ -51,7 +50,6 @@ import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
-import org.symphonyoss.integration.webhook.github.parser.GithubParser;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserFactory;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserResolver;
@@ -65,7 +63,6 @@ import org.symphonyoss.integration.webhook.github.parser.v1.PublicGithubParser;
 import org.symphonyoss.integration.webhook.github.parser.v1.PullRequestReviewCommentGithubParser;
 import org.symphonyoss.integration.webhook.github.parser.v1.PushGithubParser;
 import org.symphonyoss.integration.webhook.github.parser.v1.StatusGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.V1GithubParserFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -267,7 +264,7 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
   @Test
   public void testTagCreatedEventPayload() throws WebHookParseException, IOException {
     Map<String, String> headers = new HashMap<>();
-    headers.put(GITHUB_HEADER_EVENT_NAME, CREATE);
+    headers.put(GITHUB_HEADER_EVENT_NAME, GITHUB_EVENT_CREATE);
 
     String body = readFile("payload_xgithubevent_tag_created.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);

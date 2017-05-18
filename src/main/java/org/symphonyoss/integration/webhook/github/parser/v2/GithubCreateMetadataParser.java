@@ -22,13 +22,14 @@ public class GithubCreateMetadataParser extends GithubMetadataParser {
 
   private static final String TEMPLATE_FILE = "templateGithubCreate.xml";
 
-  public GithubCreateMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+  public GithubCreateMetadataParser(UserService userService, GithubParserUtils utils,
+      IntegrationProperties integrationProperties) {
     super(userService, utils, integrationProperties);
   }
 
   @Override
   public List<String> getEvents() {
-    return Arrays.asList(GithubEventConstants.CREATE);
+    return Arrays.asList(GithubEventConstants.GITHUB_EVENT_CREATE);
   }
 
   @Override

@@ -52,14 +52,16 @@ public class PushGithubParserTest extends CommonGithubTest {
   @Before
   public void setup() throws IOException {
     String baxterUrl = "https://api.github.com/users/baxterthehacker";
-    JsonNode publicUserInfoBaxter = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfoBaxter = getJsonFile(
+        "parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(baxterUrl);
   }
 
   @Test
   public void testPushParse() throws IOException, GithubParserException {
-    JsonNode node = getJsonFile("payload_xgithubevent_push.json");
-    String expectedMessage = getExpectedMessageML("payload_xgithubevent_push_expected_message.xml");
+    JsonNode node = getJsonFile("parser/push/payload_xgithubevent_push.json");
+    String expectedMessage = getExpectedMessageML(
+        "parser/push/v1/payload_xgithubevent_push_expected_message.xml");
 
     Message resultML = pushGithubParser.parse(Collections.<String, String>emptyMap(), node);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
@@ -68,9 +70,10 @@ public class PushGithubParserTest extends CommonGithubTest {
 
   @Test
   public void testPushTagParse() throws IOException, GithubParserException {
-    JsonNode node = getJsonFile("payload_xgithubevent_push_tag.json");
+    JsonNode node = getJsonFile("parser/push/payload_xgithubevent_push_tag.json");
     String expectedMessage =
-        getExpectedMessageML("payload_xgithubevent_push_tag_expected_message.xml");
+        getExpectedMessageML(
+            "parser/push/v1/payload_xgithubevent_push_tag_expected_message.xml");
 
     Message resultML = pushGithubParser.parse(Collections.<String, String>emptyMap(), node);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();

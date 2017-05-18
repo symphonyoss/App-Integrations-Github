@@ -31,8 +31,6 @@ import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.github.CommonGithubTest;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
-import org.symphonyoss.integration.webhook.github.parser.v1.CommitCommentGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.IssueCommentGithubParser;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -53,11 +51,12 @@ public class IssueCommentGithubParserTest extends CommonGithubTest {
   @Test
   public void testIssueCommentCreatedParse() throws IOException, GithubParserException {
     // files
-    JsonNode commitCommentNode = getJsonFile("payload_xgithubevent_issue_comment_created.json");
+    JsonNode commitCommentNode = getJsonFile(
+        "parser/issueComment/payload_xgithubevent_issue_comment_created.json");
     String expectedMessage = getExpectedMessageML(
-        "payload_xgithubevent_issue_comment_created_expected_message.xml");
+        "parser/issueComment/v1/payload_xgithubevent_issue_comment_created_expected_message.xml");
     // mocks
-    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfo = getJsonFile("parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call
@@ -69,11 +68,12 @@ public class IssueCommentGithubParserTest extends CommonGithubTest {
   @Test
   public void testIssueCommentEditedParse() throws IOException, GithubParserException {
     // files
-    JsonNode commitCommentNode = getJsonFile("payload_xgithubevent_issue_comment_edited.json");
+    JsonNode commitCommentNode = getJsonFile(
+        "parser/issueComment/payload_xgithubevent_issue_comment_edited.json");
     String expectedMessage = getExpectedMessageML(
-        "payload_xgithubevent_issue_comment_edited_expected_message.xml");
+        "parser/issueComment/v1/payload_xgithubevent_issue_comment_edited_expected_message.xml");
     // mocks
-    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfo = getJsonFile("parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call
@@ -85,11 +85,12 @@ public class IssueCommentGithubParserTest extends CommonGithubTest {
   @Test
   public void testIssueCommentDeletedParse() throws IOException, GithubParserException {
     // files
-    JsonNode commitCommentNode = getJsonFile("payload_xgithubevent_issue_comment_deleted.json");
+    JsonNode commitCommentNode = getJsonFile(
+        "parser/issueComment/payload_xgithubevent_issue_comment_deleted.json");
     String expectedMessage = getExpectedMessageML(
-        "payload_xgithubevent_issue_comment_deleted_expected_message.xml");
+        "parser/issueComment/v1/payload_xgithubevent_issue_comment_deleted_expected_message.xml");
     // mocks
-    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfo = getJsonFile("parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call

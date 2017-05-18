@@ -30,10 +30,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.model.message.Message;
-import org.symphonyoss.integration.webhook.github.CommonGithubTest;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
-import org.symphonyoss.integration.webhook.github.parser.v1.CommitCommentGithubParser;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -54,11 +52,12 @@ public class CommitCommentGithubParserTest extends CommonGithubTest {
   @Test
   public void testCommitCommentParse() throws IOException, GithubParserException {
     // files
-    JsonNode commitCommentNode = getJsonFile("payload_xgithubevent_commit_comment_created.json");
+    JsonNode commitCommentNode = getJsonFile(
+        "parser/commitComment/payload_xgithubevent_commit_comment_created.json");
     String expectedMessage = getExpectedMessageML(
-        "payload_xgithubevent_commit_comment_created_expected_message.xml");
+        "parser/commitComment/v1/payload_xgithubevent_commit_comment_created_expected_message.xml");
     // mocks
-    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfo = getJsonFile("parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call
@@ -72,11 +71,13 @@ public class CommitCommentGithubParserTest extends CommonGithubTest {
   public void testCommitCommentWithLinebreakParse() throws IOException, GithubParserException {
     // files
     JsonNode commitCommentNode =
-        getJsonFile("payload_xgithubevent_commit_comment_created_with_linebreak.json");
+        getJsonFile(
+            "parser/commitComment/payload_xgithubevent_commit_comment_created_with_linebreak.json");
     String expectedMessage = getExpectedMessageML(
-        "payload_xgithubevent_commit_comment_created_with_linebreak_expected_message.xml");
+        "parser/commitComment/v1"
+            + "/payload_xgithubevent_commit_comment_created_with_linebreak_expected_message.xml");
     // mocks
-    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfo = getJsonFile("parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call
@@ -90,11 +91,12 @@ public class CommitCommentGithubParserTest extends CommonGithubTest {
   public void testCommitCommentWithURLAndMarkupParse() throws IOException, GithubParserException {
     // files
     JsonNode commitCommentNode =
-        getJsonFile("payload_xgithubevent_commit_comment_created_with_URL.json");
+        getJsonFile(
+            "parser/commitComment/payload_xgithubevent_commit_comment_created_with_URL.json");
     String expectedMessage = getExpectedMessageML(
-        "payload_xgithubevent_commit_comment_created_with_URL_expected_message.xml");
+        "parser/commitComment/v1/payload_xgithubevent_commit_comment_created_with_URL_expected_message.xml");
     // mocks
-    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfo = getJsonFile("parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
 
     // call

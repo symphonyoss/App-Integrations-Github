@@ -49,39 +49,39 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest {
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
   private static final String PAYLOAD_FILE_PR_ASSIGNED =
-      "payload_xgithubevent_pull_request_assigned.json";
+      "parser/pullRequest/payload_xgithubevent_pull_request_assigned.json";
   private static final String EXPECTED_FILE_PR_ASSIGNED =
-      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_assigned.json";
+      "parser/pullRequest/v2/expected_xgithub_event_pull_request_assigned.json";
 
   private static final String PAYLOAD_FILE_PR_CLOSED =
-      "payload_xgithubevent_pull_request_closed.json";
+      "parser/pullRequest/payload_xgithubevent_pull_request_closed.json";
   private static final String EXPECTED_FILE_PR_CLOSED =
-      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_closed.json";
+      "parser/pullRequest/v2/expected_xgithub_event_pull_request_closed.json";
 
   private static final String PAYLOAD_FILE_PR_LABELED =
-      "payload_xgithubevent_pull_request_labeled.json";
+      "parser/pullRequest/payload_xgithubevent_pull_request_labeled.json";
   private static final String EXPECTED_FILE_PR_LABELED =
-      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_labeled.json";
+      "parser/pullRequest/v2/expected_xgithub_event_pull_request_labeled.json";
 
   private static final String PAYLOAD_FILE_PR_OPENED =
-      "payload_xgithubevent_pull_request_opened.json";
+      "parser/pullRequest/payload_xgithubevent_pull_request_opened.json";
   private static final String EXPECTED_FILE_PR_OPENED =
-      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_opened.json";
+      "parser/pullRequest/v2/expected_xgithub_event_pull_request_opened.json";
 
   private static final String PAYLOAD_FILE_PR_REVIEW_REQUEST =
-      "payload_xgithubevent_pull_request_review_request.json";
+      "parser/pullRequest/payload_xgithubevent_pull_request_review_request.json";
   private static final String EXPECTED_FILE_PR_REVIEW_REQUEST =
-      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_review_request.json";
+      "parser/pullRequest/v2/expected_xgithub_event_pull_request_review_request.json";
 
   private static final String PAYLOAD_FILE_PR_REVIEW_REQUEST_REMOVED =
-      "payload_xgithubevent_pull_request_review_request_removed.json";
+      "parser/pullRequest/payload_xgithubevent_pull_request_review_request_removed.json";
   private static final String EXPECTED_FILE_PR_REVIEW_REQUEST_REMOVED =
-      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_review_request_removed.json";
+      "parser/pullRequest/v2/expected_xgithub_event_pull_request_review_request_removed.json";
 
   private static final String PAYLOAD_FILE_PR_SYNCHRONIZE =
-      "payload_xgithubevent_pull_request_synchronize.json";
+      "parser/pullRequest/payload_xgithubevent_pull_request_synchronize.json";
   private static final String EXPECTED_FILE_PR_SYNCHRONIZE =
-      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_synchronize.json";
+      "parser/pullRequest/v2/expected_xgithub_event_pull_request_synchronize.json";
 
   @Mock
   private GithubParserUtils utils;

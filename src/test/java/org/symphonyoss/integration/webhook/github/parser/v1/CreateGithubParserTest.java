@@ -52,16 +52,17 @@ public class CreateGithubParserTest extends CommonGithubTest {
   @Before
   public void setup() throws IOException {
     JsonNode publicUserInfoBaxter = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_github_public_info_baxterthehacker.json"));
+        classLoader.getResourceAsStream("parser/payload_github_public_info_baxterthehacker.json"));
     doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(USER_URL);
   }
 
   @Test
   public void testBranchCreated() throws IOException, GithubParserException {
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_xgithubevent_branch_created.json"));
+        classLoader.getResourceAsStream("parser/created/payload_xgithubevent_branch_created.json"));
 
-    String expected = readFile("payload_xgithubevent_branch_created_expected_message.xml");
+    String expected = readFile(
+        "parser/created/v1/payload_xgithubevent_branch_created_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);
@@ -70,9 +71,10 @@ public class CreateGithubParserTest extends CommonGithubTest {
   @Test
   public void testTagCreated() throws IOException, GithubParserException {
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_xgithubevent_tag_created.json"));
+        classLoader.getResourceAsStream("parser/created/v1/payload_xgithubevent_tag_created.json"));
 
-    String expected = readFile("payload_xgithubevent_tag_created_expected_message.xml");
+    String expected = readFile(
+        "parser/created/v1/payload_xgithubevent_tag_created_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);
@@ -83,10 +85,11 @@ public class CreateGithubParserTest extends CommonGithubTest {
     doReturn(null).when(utils).doGetJsonApi(USER_URL);
 
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_xgithubevent_tag_created.json"));
+        classLoader.getResourceAsStream("parser/created/v1/payload_xgithubevent_tag_created.json"));
 
     String expected =
-        readFile("payload_xgithubevent_tag_created_without_fullname_expected_message.xml");
+        readFile(
+            "parser/created/v1/payload_xgithubevent_tag_created_without_fullname_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);

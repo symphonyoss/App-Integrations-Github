@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.model.message.MessageMLVersion;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserFactory;
+import org.symphonyoss.integration.webhook.github.parser.NullGithubParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,9 @@ import java.util.List;
  */
 @Component
 public class V1GithubParserFactory extends GithubParserFactory {
+
+  @Autowired
+  private NullGithubParser defaultGithubParser;
 
   @Autowired
   private List<CommonGithubParser> beans;
@@ -45,4 +49,14 @@ public class V1GithubParserFactory extends GithubParserFactory {
     return new ArrayList<GithubParser>(beans);
   }
 
+  @Override
+  public GithubParser getParser(String eventName) {
+    GithubParser result = super.getParser(eventName);
+
+    if (result == null) {
+      result = defaultGithubParser;
+    }
+
+    return result;
+  }
 }

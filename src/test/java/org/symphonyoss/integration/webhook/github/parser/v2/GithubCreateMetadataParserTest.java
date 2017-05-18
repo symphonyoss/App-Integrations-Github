@@ -28,9 +28,11 @@ public class GithubCreateMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
-  private static final String PAYLOAD_TAG_CREATED = "payload_xgithubevent_tag_created.json";
+  private static final String PAYLOAD_TAG_CREATED =
+      "parser/created/v1/payload_xgithubevent_tag_created.json";
 
-  private static final String PAYLOAD_BRANCH_CREATED = "payload_xgithubevent_branch_created.json";
+  private static final String PAYLOAD_BRANCH_CREATED =
+      "parser/created/payload_xgithubevent_branch_created.json";
 
   private static final String EXPECTED_DATA_TAG_CREATED =
       "parser/created/v2/expected_xgithub_event_tag_created_data.json";

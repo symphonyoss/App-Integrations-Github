@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.webhook.github.CommonGithubTest;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
@@ -106,7 +105,7 @@ public class GithubParserUtilsTest extends CommonGithubTest {
 
   @Test
   public void testOK() throws IOException {
-    String jsonFile = "payload_github_public_info_baxterthehacker.json";
+    String jsonFile = "parser/payload_github_public_info_baxterthehacker.json";
     mockRequest(jsonFile);
 
     JsonNode result = utils.doGetJsonApi(TEST_URL);

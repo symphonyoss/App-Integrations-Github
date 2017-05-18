@@ -52,13 +52,13 @@ public class PublicGithubParserTest extends CommonGithubTest {
   @Test
   public void testPublicEvent() throws IOException, GithubParserException {
     JsonNode publicUserInfoBaxter = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_github_public_info_baxterthehacker.json"));
+        classLoader.getResourceAsStream("parser/payload_github_public_info_baxterthehacker.json"));
     doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(USER_URL);
 
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_xgithubevent_public.json"));
+        classLoader.getResourceAsStream("parser/public/payload_xgithubevent_public.json"));
 
-    String expected = readFile("payload_xgithubevent_public_expected_message.xml");
+    String expected = readFile("parser/public/v1/payload_xgithubevent_public_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);
@@ -69,9 +69,10 @@ public class PublicGithubParserTest extends CommonGithubTest {
     doReturn(null).when(utils).doGetJsonApi(USER_URL);
 
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_xgithubevent_public.json"));
+        classLoader.getResourceAsStream("parser/public/payload_xgithubevent_public.json"));
 
-    String expected = readFile("payload_xgithubevent_public_without_userinfo_expected_message.xml");
+    String expected = readFile(
+        "parser/public/v1/payload_xgithubevent_public_without_userinfo_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);

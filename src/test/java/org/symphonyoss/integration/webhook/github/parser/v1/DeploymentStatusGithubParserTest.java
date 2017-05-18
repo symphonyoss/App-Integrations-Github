@@ -52,13 +52,15 @@ public class DeploymentStatusGithubParserTest extends CommonGithubTest {
   @Test
   public void testDeploymentStatusEvent() throws IOException, GithubParserException {
     JsonNode publicUserInfoBaxter = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_github_public_info_baxterthehacker.json"));
+        classLoader.getResourceAsStream("parser/payload_github_public_info_baxterthehacker.json"));
     doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(USER_URL);
 
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_xgithubevent_deployment_status.json"));
+        classLoader.getResourceAsStream(
+            "parser/deployment/payload_xgithubevent_deployment_status.json"));
 
-    String expected = readFile("payload_xgithubevent_deployment_status_expected_message.xml");
+    String expected = readFile(
+        "parser/deployment/v1/payload_xgithubevent_deployment_status_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);
@@ -70,10 +72,11 @@ public class DeploymentStatusGithubParserTest extends CommonGithubTest {
     doReturn(null).when(utils).doGetJsonApi(USER_URL);
 
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
-        "payload_xgithubevent_deployment_status_without_description.json"));
+        "parser/deployment/payload_xgithubevent_deployment_status_without_description.json"));
 
     String expected =
-        readFile("payload_xgithubevent_deployment_status_without_userinfo_expected_message.xml");
+        readFile(
+            "parser/deployment/v1/payload_xgithubevent_deployment_status_without_userinfo_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);

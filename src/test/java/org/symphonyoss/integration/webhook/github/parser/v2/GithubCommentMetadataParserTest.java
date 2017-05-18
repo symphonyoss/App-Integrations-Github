@@ -47,17 +47,17 @@ public class GithubCommentMetadataParserTest extends GithubParserTest {
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
   private static final String PAYLOAD_FILE_COMMENT_CREATED =
-      "payload_xgithubevent_commit_comment_created.json";
+      "parser/commitComment/payload_xgithubevent_commit_comment_created.json";
   private static final String EXPECTED_FILE_COMMENT_COMMIT =
       "parser/commitComment/v2/expected_xgithub_event_commit_comment_created.json";
 
   private static final String PAYLOAD_FILE_COMMENT_WITH_LINE_BREAK =
-      "payload_xgithubevent_commit_comment_created_with_linebreak.json";
+      "parser/commitComment/payload_xgithubevent_commit_comment_created_with_linebreak.json";
   private static final String EXPECTED_FILE_COMMENT_COMMIT_WITH_LINE_BREAK =
       "parser/commitComment/v2/expected_xgithub_event_commit_with_line_break.json";
 
   private static final String PAYLOAD_FILE_COMMENT_WITH_URL =
-      "payload_xgithubevent_commit_comment_created_with_URL.json";
+      "parser/commitComment/payload_xgithubevent_commit_comment_created_with_URL.json";
   private static final String EXPECTED_FILE_COMMENT_COMMIT_WITH_URL =
       "parser/commitComment/v2/expected_xgithub_event_commit_with_url.json";
 
@@ -65,17 +65,17 @@ public class GithubCommentMetadataParserTest extends GithubParserTest {
       "parser/commitComment/v2/expected_xgithub_event_commit_with_custom_action.json";
 
   private static final String PAYLOAD_FILE_ISSUE_COMMENT_CREATED =
-      "payload_xgithubevent_issue_comment_created.json";
+      "parser/issueComment/payload_xgithubevent_issue_comment_created.json";
   private static final String EXPECTED_FILE_ISSUE_COMMENT_CREATED =
       "parser/issueComment/v2/expected_xgithub_event_issue_comment_created.json";
 
   private static final String PAYLOAD_FILE_ISSUE_COMMENT_DELETED =
-      "payload_xgithubevent_issue_comment_deleted.json";
+      "parser/issueComment/payload_xgithubevent_issue_comment_deleted.json";
   private static final String EXPECTED_FILE_ISSUE_COMMENT_DELETED =
       "parser/issueComment/v2/expected_xgithub_event_issue_comment_deleted.json";
 
   private static final String PAYLOAD_FILE_ISSUE_COMMENT_EDITED =
-      "payload_xgithubevent_issue_comment_edited.json";
+      "parser/issueComment/payload_xgithubevent_issue_comment_edited.json";
   private static final String EXPECTED_FILE_ISSUE_COMMENT_EDITED =
       "parser/issueComment/v2/expected_xgithub_event_issue_comment_edited.json";
 

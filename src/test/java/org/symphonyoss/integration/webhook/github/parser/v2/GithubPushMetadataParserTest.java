@@ -48,10 +48,11 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
-  private static final String PAYLOAD_FILE_PUSH = "payload_xgithubevent_push.json";
+  private static final String PAYLOAD_FILE_PUSH =
+      "parser/push/payload_xgithubevent_push.json";
 
   private static final String EXPECTED_FILE_PUSH =
-      "parser/pushParser/v2/expected_xgithub_event_push.json";
+      "parser/push/v2/expected_xgithub_event_push.json";
 
   @Mock
   private GithubParserUtils utils;

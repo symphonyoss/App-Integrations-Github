@@ -32,12 +32,14 @@ public class GithubPublicMetadataParserTest extends GithubParserTest {
   public static final String
       PARSER_PUBLIC_V2_PAYLOAD_XGITHUBEVENT_PUBLIC_WITHOUT_USERINFO_EXPECTED_DATA_JSON =
       "parser/public/v2/payload_xgithubevent_public_without_userinfo_expected_data.json";
-  public static final String PAYLOAD_XGITHUBEVENT_PUBLIC_JSON = "payload_xgithubevent_public.json";
+  public static final String PAYLOAD_XGITHUBEVENT_PUBLIC_JSON =
+      "parser/public/payload_xgithubevent_public.json";
   public static final String PARSER_PUBLIC_V2_PAYLOAD_XGITHUBEVENT_PUBLIC_EXPECTED_TEMPLATE =
       "parser/public/v2/payload_xgithubevent_public_expected_template";
   public static final String PARSER_PUBLIC_V2_PAYLOAD_XGITHUBEVENT_PUBLIC_EXPECTED_DATA_JSON =
       "parser/public/v2/payload_xgithubevent_public_expected_data.json";
-  public static final String PAYLOAD_XGITHUBEVENT_PUBLIC_JSON1 = "payload_xgithubevent_public.json";
+  public static final String PAYLOAD_XGITHUBEVENT_PUBLIC_JSON1 =
+      "parser/public/payload_xgithubevent_public.json";
 
   @Mock
   private UserService userService;
@@ -62,7 +64,8 @@ public class GithubPublicMetadataParserTest extends GithubParserTest {
 
   @Test
   public void testPublicEvent() throws IOException {
-    JsonNode publicUserInfoBaxter = readJsonFromFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfoBaxter = readJsonFromFile(
+        "parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(USER_URL);
 
     JsonNode node = readJsonFromFile(PAYLOAD_XGITHUBEVENT_PUBLIC_JSON1);

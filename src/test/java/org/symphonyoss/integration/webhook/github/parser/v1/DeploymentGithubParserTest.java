@@ -30,7 +30,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
-import org.symphonyoss.integration.webhook.github.parser.v1.DeploymentGithubParser;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -54,13 +53,14 @@ public class DeploymentGithubParserTest extends CommonGithubTest {
   @Test
   public void testDeploymentEvent() throws IOException, GithubParserException {
     JsonNode publicUserInfoBaxter = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_github_public_info_baxterthehacker.json"));
+        classLoader.getResourceAsStream("parser/payload_github_public_info_baxterthehacker.json"));
     doReturn(publicUserInfoBaxter).when(utils).doGetJsonApi(USER_URL);
 
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_xgithubevent_deployment.json"));
+        classLoader.getResourceAsStream("parser/deployment/payload_xgithubevent_deployment.json"));
 
-    String expected = readFile("payload_xgithubevent_deployment_expected_message.xml");
+    String expected = readFile(
+        "parser/deployment/v1/payload_xgithubevent_deployment_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);
@@ -71,10 +71,11 @@ public class DeploymentGithubParserTest extends CommonGithubTest {
     doReturn(null).when(utils).doGetJsonApi(USER_URL);
 
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
-        "payload_xgithubevent_deployment_without_description.json"));
+        "parser/deployment/payload_xgithubevent_deployment_without_description.json"));
 
     String expected =
-        readFile("payload_xgithubevent_deployment_without_userinfo_expected_message.xml");
+        readFile(
+            "parser/deployment/v1/payload_xgithubevent_deployment_without_userinfo_expected_message.xml");
     String result = parser.parse(Collections.<String, String>emptyMap(), node).getMessage();
 
     assertEquals(expected, result);

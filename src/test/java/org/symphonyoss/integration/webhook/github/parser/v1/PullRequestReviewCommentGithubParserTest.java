@@ -62,45 +62,50 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
   @Before
   public void setup() throws IOException {
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_github_public_info_baxterthehacker.json"));
+        classLoader.getResourceAsStream("parser/payload_github_public_info_baxterthehacker.json"));
     doReturn(node).when(githubParserUtils).doGetJsonApi(anyString());
   }
 
   @Test
   public void testPRReviewCommentParse() throws IOException, GithubParserException {
     JsonNode node = JsonUtils.readTree(
-        classLoader.getResourceAsStream("payload_xgithubevent_pullRequestReviewComment.json"));
+        classLoader.getResourceAsStream(
+            "parser/pullRequestReviewComment/payload_xgithubevent_pullRequestReviewComment.json"));
     Message resultML = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
 
     String expected =
-        readFile("payload_xgithubevent_pullRequestReviewComment_expected_message.xml");
+        readFile(
+            "parser/pullRequestReviewComment/v1"
+                + "/payload_xgithubevent_pullRequestReviewComment_expected_message.xml");
     assertEquals(expected, result);
   }
 
   @Test
   public void testPRReviewCommentDeletedParse() throws IOException, GithubParserException {
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
-        "payload_xgithubevent_pullRequestReviewComment.json"));
+        "parser/pullRequestReviewComment/payload_xgithubevent_pullRequestReviewComment.json"));
     ((ObjectNode) node).put(GithubEventTags.ACTION_TAG, GITHUB_ACTION_DELETED);
     Message resultML = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
 
     String expected =
-        readFile("payload_xgithubevent_pullRequestReviewCommentDeleted_expected_message.xml");
+        readFile(
+            "parser/pullRequestReviewComment/v1/payload_xgithubevent_pullRequestReviewCommentDeleted_expected_message.xml");
     assertEquals(expected, result);
   }
 
   @Test
   public void testPRReviewCommentUpdatedParse() throws IOException, GithubParserException {
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
-        "payload_xgithubevent_pullRequestReviewCommentUpdated.json"));
+        "parser/pullRequestReviewComment/payload_xgithubevent_pullRequestReviewCommentUpdated.json"));
 
     Message resultML = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
 
     String expected =
-        readFile("payload_xgithubevent_pullRequestReviewCommentUpdated_expected_message.xml");
+        readFile(
+            "parser/pullRequestReviewComment/v1/payload_xgithubevent_pullRequestReviewCommentUpdated_expected_message.xml");
     assertEquals(expected, result);
   }
 
@@ -109,7 +114,7 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
       throws IOException, GithubParserException {
 
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
-        "payload_xgithubevent_pullRequestReviewComment.json"));
+        "parser/pullRequestReviewComment/payload_xgithubevent_pullRequestReviewComment.json"));
     JsonNode commentNode = node.path(GithubEventTags.COMMENT_TAG);
     ((ObjectNode) commentNode).put(GithubEventTags.HTML_URL_TAG, "te<s>t");
     try {
@@ -127,12 +132,12 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
     ReflectionTestUtils.setField(prReviewCommentParser, "utils", githubParserUtils);
 
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
-        "payload_xgithubevent_pullRequestReviewComment.json"));
+        "parser/pullRequestReviewComment/payload_xgithubevent_pullRequestReviewComment.json"));
     Message resultML = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
 
     String expected = readFile(
-        "payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message.xml");
+        "parser/pullRequestReviewComment/v1/payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message.xml");
     assertEquals(expected, result);
   }
 
@@ -143,12 +148,12 @@ public class PullRequestReviewCommentGithubParserTest extends CommonGithubTest {
     ReflectionTestUtils.setField(prReviewCommentParser, "utils", githubParserUtils);
 
     JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(
-        "payload_xgithubevent_pullRequestReviewComment.json"));
+        "parser/pullRequestReviewComment/payload_xgithubevent_pullRequestReviewComment.json"));
     Message resultML = prReviewCommentParser.parse(Collections.<String, String>emptyMap(), node);
     String result = resultML == null ? StringUtils.EMPTY : resultML.getMessage();
 
     String expected = readFile(
-        "payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message.xml");
+        "parser/pullRequestReviewComment/v1/payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message.xml");
     assertEquals(expected, result);
   }
 

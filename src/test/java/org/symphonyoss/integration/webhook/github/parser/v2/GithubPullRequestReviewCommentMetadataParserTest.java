@@ -49,9 +49,9 @@ public class GithubPullRequestReviewCommentMetadataParserTest extends GithubPars
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
   private static final String PAYLOAD_FILE_PR_REVIEW_COMMENT =
-      "payload_xgithubevent_pullRequestReviewComment.json";
+      "parser/pullRequestReviewComment/payload_xgithubevent_pullRequestReviewComment.json";
   private static final String EXPECTED_FILE_PR_REVIEW_COMMENT =
-      "parser/pullRequestParser/v2/expected_xgithub_event_pull_request_review_comment.json";
+      "parser/pullRequestReviewComment/v2/expected_xgithub_event_pull_request_review_comment.json";
 
   @Mock
   private GithubParserUtils utils;

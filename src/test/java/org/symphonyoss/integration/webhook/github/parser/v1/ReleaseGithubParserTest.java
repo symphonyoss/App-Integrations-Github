@@ -53,7 +53,7 @@ public class ReleaseGithubParserTest extends CommonGithubTest {
   @Before
   public void setup() throws IOException {
     // mocks
-    JsonNode publicUserInfo = getJsonFile("payload_github_public_info_baxterthehacker.json");
+    JsonNode publicUserInfo = getJsonFile("parser/payload_github_public_info_baxterthehacker.json");
     doReturn(publicUserInfo).when(utils).doGetJsonApi(anyString());
   }
 
@@ -61,9 +61,9 @@ public class ReleaseGithubParserTest extends CommonGithubTest {
   public void testRelease() throws IOException, GithubParserException {
 
     // files
-    JsonNode releaseNode = getJsonFile("payload_xgithubevent_release.json");
+    JsonNode releaseNode = getJsonFile("parser/release/payload_xgithubevent_release.json");
     String expectedMessage = getExpectedMessageML(
-        "payload_xgithubevent_release_expected_message.xml");
+        "parser/release/v1/payload_xgithubevent_release_expected_message.xml");
 
     // call
     Message resultML =
@@ -76,9 +76,11 @@ public class ReleaseGithubParserTest extends CommonGithubTest {
   public void testReleaseWithName() throws IOException, GithubParserException {
 
     // files
-    JsonNode releaseNode = getJsonFile("payload_xgithubevent_release_with_release_name.json");
+    JsonNode releaseNode = getJsonFile(
+        "parser/release/payload_xgithubevent_release_with_release_name.json");
     String expectedMessage = getExpectedMessageML(
-        "payload_xgithubevent_release_expected_message_with_release_name.xml");
+        "parser/release/v1/payload_xgithubevent_release_expected_message_with_release_name"
+            + ".xml");
 
     // call
     Message resultML =

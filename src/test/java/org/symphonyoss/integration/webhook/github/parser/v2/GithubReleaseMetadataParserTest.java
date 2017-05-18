@@ -48,9 +48,10 @@ public class GithubReleaseMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
-  private static final String PAYLOAD_FILE_RELEASE = "payload_xgithubevent_release.json";
+  private static final String PAYLOAD_FILE_RELEASE =
+      "parser/release/payload_xgithubevent_release.json";
   private static final String EXPECTED_FILE_RELEASE =
-      "parser/releaseParser/v2/expected_xgithub_event_release.json";
+      "parser/release/v2/expected_xgithub_event_release.json";
 
   @Mock
   private GithubParserUtils utils;

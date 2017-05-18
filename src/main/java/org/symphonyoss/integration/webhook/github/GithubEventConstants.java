@@ -49,9 +49,5 @@ public final class GithubEventConstants {
 
   public static final String GITHUB_EVENT_STATUS = "status";
 
-  public static final String CREATE = "create";
-
-  public static final String EDITED = "edited";
-
-  public static final String DELETED = "deleted";
+  public static final String GITHUB_EVENT_CREATE = "create";
 }

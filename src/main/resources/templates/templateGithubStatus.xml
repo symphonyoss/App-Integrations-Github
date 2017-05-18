@@ -1,0 +1,33 @@
+<messageML>
+    <div class="entity" data-entity-id="githubStatus">
+        <card class="barStyle" iconSrc="${entity['githubStatus'].iconURL}" accent="gray">
+            <header>
+                <a href="${entity['githubStatus'].commit.url}">Commit </a>
+                <span class="tempo-text-color--normal">status changed to </span>
+                <span class="tempo-text-color--green">${entity['githubStatus'].state} </span>
+                <span class="tempo-text-color--normal">by </span>
+                <span class="tempo-text-color--normal"><b>${entity['githubStatus'].sender.name} </b></span>
+                <span class="tempo-text-color--normal">in </span>
+                <a href="${entity['githubStatus'].repository.url}">${entity['githubStatus'].repository.fullName} </a>
+            </header>
+            <body>
+                <p>
+                    <span class="tempo-text-color--secondary">SHA: </span>
+                    <span class="tempo-text-color--normal">${entity['githubStatus'].sha}</span>
+                </p>
+                <p>
+                    <span class="tempo-text-color--secondary">Branches: </span>
+                    <span class="tempo-text-color--normal">
+                        <#list entity['githubStatus'].branches as branch>
+                            ${branch.name}<#sep>,
+                        </#list>
+                    </span>
+                </p>
+                <p>
+                    <span class="tempo-text-color--secondary">Description: </span>
+                    <span class="tempo-text-color--normal">${entity['githubStatus'].description}</span>
+                </p>
+            </body>
+        </card>
+    </div>
+</messageML>

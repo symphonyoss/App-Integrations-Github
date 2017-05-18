@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubStatus" type="com.symphony.integration.github.event.v2.status" version="1.0">
+
+    <field key="iconURL" value="iconURL"/>
+
+    <field key="state" value="state"/>
+    <field key="sha" value="sha"/>
+    <field key="description" value="description"/>
+
+    <object id="branches" type="com.symphony.integration.github.branches" version="1.0" list="true">
+        <object id="branch" type="com.symphony.integration.github.branch" version="1.0">
+            <field key="name" value="name"/>
+        </object>
+    </object>
+
+    <object id="commit" type="com.symphony.integration.github.commit" version="1.0">
+        <field key="url" value="commit.html_url"/>
+    </object>
+
+    <object id="repository" type="com.symphony.integration.github.repository" version="1.0">
+        <field key="fullName" value="repository.full_name"/>
+        <field key="url" value="repository.html_url"/>
+    </object>
+
+    <object id="sender" type="com.symphony.integration.github.user" version="1.0">
+        <field key="name" value="sender.name"/>
+    </object>
+</metadata>

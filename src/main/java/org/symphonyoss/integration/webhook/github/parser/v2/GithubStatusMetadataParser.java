@@ -16,10 +16,9 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_RELEASE;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.AUTHOR_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_STATUS;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMMIT_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.RELEASE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPOSITORY_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
 
@@ -34,19 +33,19 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * This class is responsible to validate the event 'release' sent by Github Webhook when
+ * This class is responsible to validate the event 'status' sent by Github Webhook when
  * the Agent version is equal to or greater than '1.46.0'.
- * Created by campidelli on 10/05/17.
+ * Created by campidelli on 16/05/17.
  */
 @Component
-public class GithubReleaseMetadataParser extends GithubMetadataParser {
+public class GithubStatusMetadataParser extends GithubMetadataParser {
 
-  private static final String METADATA_FILE = "metadataGithubRelease.xml";
+  private static final String METADATA_FILE = "metadataGithubStatus.xml";
 
-  private static final String TEMPLATE_FILE = "templateGithubRelease.xml";
+  private static final String TEMPLATE_FILE = "templateGithubStatus.xml";
 
   @Autowired
-  public GithubReleaseMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+  public GithubStatusMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
     super(userService, utils, integrationProperties);
   }
 
@@ -62,15 +61,14 @@ public class GithubReleaseMetadataParser extends GithubMetadataParser {
 
   @Override
   public List<String> getEvents() {
-    return Arrays.asList(GITHUB_EVENT_RELEASE);
+    return Arrays.asList(GITHUB_EVENT_STATUS);
   }
 
   @Override
   protected void preProcessInputData(JsonNode input) {
     proccessIconURL(input);
-    processUser(input.path(RELEASE_TAG).path(AUTHOR_TAG));
     processUser(input.path(SENDER_TAG));
-    processURL(input.path(RELEASE_TAG), HTML_URL_TAG);
+    processURL(input.path(COMMIT_TAG), HTML_URL_TAG);
     processURL(input.path(REPOSITORY_TAG), HTML_URL_TAG);
   }
 }

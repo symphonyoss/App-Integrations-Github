@@ -18,7 +18,7 @@ package org.symphonyoss.integration.webhook.github.parser.v1;
 
 import static org.symphonyoss.integration.parser.ParserUtils.newUri;
 import static org.symphonyoss.integration.parser.ParserUtils.presentationFormat;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants.EDITED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants.GITHUB_ACTION_EDITED;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_PULL_REQUEST_REVIEW_COMMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
@@ -126,7 +126,7 @@ public class PullRequestReviewCommentGithubParser extends BaseGithubParser {
   }
 
   private Entity buildEntityChangesForEditedEvent(JsonNode node, String action) {
-    if (!EDITED.equals(action)) {
+    if (!GITHUB_ACTION_EDITED.equals(action)) {
       return null;
     }
 

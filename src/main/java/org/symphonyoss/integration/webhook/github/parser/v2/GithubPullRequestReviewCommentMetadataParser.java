@@ -16,6 +16,9 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants.GITHUB_ACTION_ADDED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_CREATED;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_PULL_REQUEST_REVIEW_COMMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
@@ -45,10 +48,6 @@ public class GithubPullRequestReviewCommentMetadataParser extends GithubMetadata
   private static final String METADATA_FILE = "metadataGithubPullRequestReviewComment.xml";
 
   private static final String TEMPLATE_FILE = "templateGithubPullRequestReviewComment.xml";
-
-  private static final String ACTION_CREATED = "created";
-
-  private static final String ACTION_ADDED = "added";
 
   @Autowired
   public GithubPullRequestReviewCommentMetadataParser(UserService userService,
@@ -85,7 +84,7 @@ public class GithubPullRequestReviewCommentMetadataParser extends GithubMetadata
    */
   private void processAction(JsonNode input) {
     String action = input.path(ACTION_TAG).asText();
-    action = ACTION_CREATED.equals(action) ? ACTION_ADDED : action;
+    action = GITHUB_ACTION_CREATED.equals(action) ? GITHUB_ACTION_ADDED : action;
     ((ObjectNode) input).put(ACTION_TAG, action);
   }
 }

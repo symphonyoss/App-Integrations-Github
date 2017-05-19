@@ -5,17 +5,17 @@
                 <span class="tempo-text-color--normal">Deployment on environment</span>
                 <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.environment}</b></span>
 
-                <#if entity['githubDeployment'].typeEvent == 'deployment_status'>
+                <#if (entity['githubDeployment'].status)??>
                     <span class="tempo-text-color--normal">changed its status to</span>
-                    <span class="tempo-text-color--green">${entity['githubDeployment'].deployment_status.state}</span>
+                    <span class="tempo-text-color--green">${entity['githubDeployment'].status.state}</span>
                 <#else>
                     <span class="tempo-text-color--green">createad</span>
                 </#if>
 
                 <span class="tempo-text-color--normal">by</span>
-                <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.creator.login}</b></span>
+                <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.creator.name}</b></span>
                 <span class="tempo-text-color--normal">in</span>
-                <a class="tempo-text-color--link" href="${entity['githubDeployment'].repository.html_url}">${entity['githubDeployment'].repository.full_name}</a>
+                <a class="tempo-text-color--link" href="${entity['githubDeployment'].repository.url}">${entity['githubDeployment'].repository.fullName}</a>
             </header>
             <body>
                 <#if (entity['githubDeployment'].deployment.description)??>
@@ -25,10 +25,10 @@
                     </div>
                     <br/>
                 </#if>
-                <#if entity['githubDeployment'].typeEvent == "deployment_status">
+                <#if (entity['githubDeployment'].status)??>
                     <div>
                         <span class="tempo-text-color--secondary">Status Description:</span>
-                        <span>${entity['githubDeployment'].deployment_status.description}</span>
+                        <span>${entity['githubDeployment'].status.description}</span>
                     </div>
                     <br/>
                 </#if>

@@ -34,9 +34,6 @@ import java.util.List;
 public class V1GithubParserFactory extends GithubParserFactory {
 
   @Autowired
-  private NullGithubParser defaultGithubParser;
-
-  @Autowired
   private List<CommonGithubParser> beans;
 
   @Override
@@ -49,14 +46,4 @@ public class V1GithubParserFactory extends GithubParserFactory {
     return new ArrayList<GithubParser>(beans);
   }
 
-  @Override
-  public GithubParser getParser(String eventName) {
-    GithubParser result = super.getParser(eventName);
-
-    if (result == null) {
-      result = defaultGithubParser;
-    }
-
-    return result;
-  }
 }

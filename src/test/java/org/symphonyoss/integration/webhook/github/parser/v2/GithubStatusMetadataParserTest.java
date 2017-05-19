@@ -50,7 +50,6 @@ public class GithubStatusMetadataParserTest extends GithubParserTest {
 
   private static final String PAYLOAD_FILE_STATUS =
       "parser/status/payload_xgithubevent_status.json";
-
   private static final String EXPECTED_FILE_STATUS =
       "parser/status/v2/expected_xgithub_event_status.json";
 

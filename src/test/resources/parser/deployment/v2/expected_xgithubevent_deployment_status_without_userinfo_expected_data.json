@@ -3,7 +3,6 @@
     "type": "com.symphony.integration.github.event.v2.deployment",
     "version": "1.0",
     "iconURL": "symphony.com/img/github_logo.svg",
-    "typeEvent": "deployment_status",
     "deployment": {
       "type": "com.symphony.integration.github.deployment.deployment",
       "version": "1.0",
@@ -13,17 +12,17 @@
       "creator": {
         "type": "com.symphony.integration.github.deployment.creator",
         "version": "1.0",
-        "login": "baxterthehacker"
+        "name": "baxterthehacker"
       }
     },
     "repository": {
       "type": "com.symphony.integration.github.deployment.repository",
       "version": "1.0",
-      "html_url": "https://github.com/baxterthehacker/public-repo",
-      "full_name": "baxterthehacker/public-repo"
+      "url": "https://github.com/baxterthehacker/public-repo",
+      "fullName": "baxterthehacker/public-repo"
     },
-    "deployment_status": {
-      "type": "com.symphony.integration.github.deployment.deployment_status",
+    "status": {
+      "type": "com.symphony.integration.github.deployment.status",
       "version": "1.0",
       "state": "success"
     }

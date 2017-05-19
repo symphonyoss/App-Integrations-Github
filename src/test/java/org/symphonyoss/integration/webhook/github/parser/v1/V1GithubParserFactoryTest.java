@@ -18,6 +18,7 @@ package org.symphonyoss.integration.webhook.github.parser.v1;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -25,8 +26,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -108,10 +107,8 @@ public class V1GithubParserFactoryTest {
   }
 
   @Test
-  public void testGetDefaultParser() {
-    ObjectNode node = JsonNodeFactory.instance.objectNode();
-
-    assertEquals(defaultGithubParser, factory.getParser(StringUtils.EMPTY));
+  public void testNullParser() {
+    assertNull(factory.getParser(StringUtils.EMPTY));
   }
 
   @Test

@@ -78,11 +78,7 @@ public abstract class GithubParserFactory implements WebHookParserFactory {
 
   @Override
   public WebHookParser getParser(WebHookPayload payload) {
-      String eventName = null;
-      if (payload.getHeaders() != null) {
-        eventName = payload.getHeaders().get(GITHUB_HEADER_EVENT_NAME);
-      }
-
+      String eventName = payload.getHeaders().get(GITHUB_HEADER_EVENT_NAME);
       GithubParser parser = getParser(eventName);
 
       if (parser == null) {
@@ -97,7 +93,7 @@ public abstract class GithubParserFactory implements WebHookParserFactory {
    *
    * The field used to do perform this selection is 'x-github-event'.
    * @param eventName Github event
-   * @return Parser class to handle the event
+   * @return Parser class to handle the event2
    */
   public GithubParser getParser(String eventName) {
     GithubParser result = parsers.get(eventName);

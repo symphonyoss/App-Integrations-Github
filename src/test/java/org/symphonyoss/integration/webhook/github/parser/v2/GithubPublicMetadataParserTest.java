@@ -29,15 +29,20 @@ public class GithubPublicMetadataParserTest extends GithubParserTest {
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
   private static final String USER_URL = "https://api.github.com/users/baxterthehacker";
+
   public static final String
       PARSER_PUBLIC_V2_PAYLOAD_XGITHUBEVENT_PUBLIC_WITHOUT_USERINFO_EXPECTED_DATA_JSON =
       "parser/public/v2/payload_xgithubevent_public_without_userinfo_expected_data.json";
+
   public static final String PAYLOAD_XGITHUBEVENT_PUBLIC_JSON =
       "parser/public/payload_xgithubevent_public.json";
+
   public static final String PARSER_PUBLIC_V2_PAYLOAD_XGITHUBEVENT_PUBLIC_EXPECTED_TEMPLATE =
       "parser/public/v2/payload_xgithubevent_public_expected_template";
+
   public static final String PARSER_PUBLIC_V2_PAYLOAD_XGITHUBEVENT_PUBLIC_EXPECTED_DATA_JSON =
       "parser/public/v2/payload_xgithubevent_public_expected_data.json";
+
   public static final String PAYLOAD_XGITHUBEVENT_PUBLIC_JSON1 =
       "parser/public/payload_xgithubevent_public.json";
 
@@ -49,7 +54,6 @@ public class GithubPublicMetadataParserTest extends GithubParserTest {
 
   @Mock
   private GithubParserUtils utils;
-
 
   private GithubMetadataParser parser;
 
@@ -96,5 +100,4 @@ public class GithubPublicMetadataParserTest extends GithubParserTest {
 
     assertEquals(expected, result.getData());
   }
-
 }

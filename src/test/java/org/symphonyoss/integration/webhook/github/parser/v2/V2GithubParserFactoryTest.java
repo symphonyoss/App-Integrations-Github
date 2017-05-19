@@ -25,8 +25,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -110,8 +108,6 @@ public class V2GithubParserFactoryTest {
 
   @Test
   public void testGetDefaultParser() {
-    ObjectNode node = JsonNodeFactory.instance.objectNode();
-
     assertEquals(defaultGithubParser, factory.getParser(StringUtils.EMPTY));
   }
 

@@ -84,8 +84,7 @@ public class ReleaseGithubParser extends BaseGithubParser {
   protected String getMessage(Map<String, String> parameters, JsonNode node)
       throws GithubParserException {
     try {
-      String entityML = buildEntityML(node);
-      return entityML;
+      return buildEntityML(node);
     } catch (URISyntaxException | EntityXMLGeneratorException | IOException e) {
       throw new GithubParserException(
           "Something went wrong while building the message for Github Push event.", e);

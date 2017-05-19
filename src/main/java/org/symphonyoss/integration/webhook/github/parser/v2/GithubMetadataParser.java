@@ -59,15 +59,15 @@ import javax.ws.rs.ProcessingException;
  */
 public abstract class GithubMetadataParser extends MetadataParser implements GithubParser {
 
-  private IntegrationProperties integrationProperties;
-
   private static final String PATH_IMG_ICON = "img/github_logo.svg";
 
   private static final String INTEGRATION_NAME = "github";
 
+  private static final int CACHE_EXPIRATION_IN_MINUTES = 60;
+
   private static final Logger LOG = LoggerFactory.getLogger(GithubMetadataParser.class);
 
-  private static final int CACHE_EXPIRATION_IN_MINUTES = 60;
+  private IntegrationProperties integrationProperties;
 
   private UserService userService;
 
@@ -83,6 +83,7 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
     this.userService = userService;
     this.utils = utils;
     this.integrationProperties = integrationProperties;
+    initializeCache();
   }
 
   @Override
@@ -103,14 +104,15 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   @Override
   public Message parse(Map<String, String> headers, Map<String, String> parameters, JsonNode node)
       throws GithubParserException {
-    addTagToNode(node, EVENT_TAG, headers.get(GITHUB_HEADER_EVENT_NAME));
+    // Some parsers may need know what event has been sent on the header
+    ((ObjectNode) node).put(EVENT_TAG, headers.get(GITHUB_HEADER_EVENT_NAME));
     return parse(parameters, node);
   }
 
-  @PostConstruct
-  @Override
-  public void init() {
-    super.init();
+  /**
+   * Initializes the local cache for usernames and URLs.
+   */
+  private void initializeCache() {
     userServiceInfoCache = CacheBuilder.newBuilder().expireAfterWrite(CACHE_EXPIRATION_IN_MINUTES,
         TimeUnit.MINUTES).build(new CacheLoader<String, String>() {
       /**
@@ -143,7 +145,7 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
    * @param userNode {@link JsonNode} that contains the user info.
    * @return the public user name or user login if no info was found.
    */
-  protected String getGithubUserPublicName(JsonNode userNode) {
+  private String getGithubUserPublicName(JsonNode userNode) {
     String userPublicName = null;
     String login = userNode.path(LOGIN_TAG).asText();
 
@@ -169,7 +171,7 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   protected void processUser(JsonNode userNode) {
     if (!userNode.isMissingNode() && !userNode.isNull()) {
       String publicName = getGithubUserPublicName(userNode);
-      addTagToNode(userNode, NAME_TAG, publicName);
+      ((ObjectNode) userNode).put(NAME_TAG, publicName);
     }
   }
 
@@ -182,7 +184,7 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
 
     if (!url.isEmpty()) {
       url = String.format("%s/%s", url, PATH_IMG_ICON);
-      addTagToNode(node, ICON_URL_TAG, url);
+      ((ObjectNode) node).put(ICON_URL_TAG, url);
     }
   }
 
@@ -194,17 +196,10 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
   protected void processURL(JsonNode node, String tag) {
     String url = node.path(tag).asText(StringUtils.EMPTY);
     try {
-      url = buildEncodedUrl(url);
+      ((ObjectNode) node).put(tag, buildEncodedUrl(url));
     } catch (MalformedURLException e) {
       Throwable cause = e.getCause();
       LOG.warn("Couldn't create URL due to " + cause.getMessage(), e);
     }
-    addTagToNode(node, tag, url);
-  }
-
-
-  private void addTagToNode(JsonNode node, String tag,
-      String value) {
-    ((ObjectNode) node).put(tag, value);
   }
 }

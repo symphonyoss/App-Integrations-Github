@@ -50,7 +50,6 @@ public class GithubPushMetadataParserTest extends GithubParserTest {
 
   private static final String PAYLOAD_FILE_PUSH =
       "parser/push/payload_xgithubevent_push.json";
-
   private static final String EXPECTED_FILE_PUSH =
       "parser/push/v2/expected_xgithub_event_push.json";
 

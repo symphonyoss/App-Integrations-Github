@@ -1,5 +1,8 @@
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.CREATOR_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Component;
@@ -45,12 +48,6 @@ public class GithubCreateMetadataParser extends GithubMetadataParser {
   @Override
   protected void preProcessInputData(JsonNode input) {
     proccessIconURL(input);
-    proccessUserGithub(input);
-  }
-
-  private void proccessUserGithub(JsonNode node) {
-    JsonNode nodeCreator = node.path(GithubEventTags.SENDER_TAG);
-
-    ((ObjectNode) nodeCreator).put(GithubEventTags.LOGIN_TAG, getGithubUserPublicName(nodeCreator));
+    processUser(input.path(SENDER_TAG));
   }
 }

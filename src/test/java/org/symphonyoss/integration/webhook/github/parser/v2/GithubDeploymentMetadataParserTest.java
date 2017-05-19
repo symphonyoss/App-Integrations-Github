@@ -30,16 +30,16 @@ public class GithubDeploymentMetadataParserTest extends GithubParserTest {
 
   private static final String MOCK_INTEGRATION_USER = "mockUser";
 
-  private static final String PAYLOAD_FILE_DEPLOYMENT =
-      "parser/deployment/payload_xgithubevent_deployment.json";
-
   private static final String USER_URL = "https://api.github.com/users/baxterthehacker";
-
-  private static final String EXPECTED_DATA_DEPLOYMENT =
-      "parser/deployment/v2/expected_xgithub_event_deployment_data.json";
 
   private static final String EXPECTED_TEMPLATE_DEPLOYMENT =
       "parser/deployment/v2/expected_xgithub_event_deployment_template";
+
+  private static final String PAYLOAD_FILE_DEPLOYMENT =
+      "parser/deployment/payload_xgithubevent_deployment.json";
+
+  private static final String EXPECTED_DATA_DEPLOYMENT =
+      "parser/deployment/v2/expected_xgithub_event_deployment_data.json";
 
   public static final String PAYLOAD_XGITHUBEVENT_DEPLOYMENT_WITHOUT_DESCRIPTION_JSON =
       "parser/deployment/payload_xgithubevent_deployment_without_description.json";
@@ -50,12 +50,14 @@ public class GithubDeploymentMetadataParserTest extends GithubParserTest {
 
   public static final String
       PARSER_DEPLOYMENT_V2_EXPECTED_XGITHUBEVENT_DEPLOYMENT_STATUS_WITHOUT_USERINFO_EXPECTED_DATA_JSON =
-      "parser/deployment/v2/expected_xgithubevent_deployment_status_without_userinfo_expected_data.json";
+      "parser/deployment/v2"
+          + "/expected_xgithubevent_deployment_status_without_userinfo_expected_data.json";
 
   public static final String PAYLOAD_XGITHUBEVENT_DEPLOYMENT_STATUS_WITHOUT_DESCRIPTION_JSON =
       "parser/deployment/payload_xgithubevent_deployment_status_without_description.json";
 
-  public static final String PARSER_DEPLOYMENT_V2_EXPECTED_XGITHUB_EVENT_DEPLOYMENT_STATUS_DATA_JSON =
+  public static final String
+      PARSER_DEPLOYMENT_V2_EXPECTED_XGITHUB_EVENT_DEPLOYMENT_STATUS_DATA_JSON =
       "parser/deployment/v2/payload_xgithub_event_deployment_status_data.json";
 
   public static final String PAYLOAD_XGITHUBEVENT_DEPLOYMENT_STATUS_JSON =
@@ -72,7 +74,6 @@ public class GithubDeploymentMetadataParserTest extends GithubParserTest {
 
   @Mock
   private GithubParserUtils utils;
-
 
   private GithubMetadataParser parser;
 

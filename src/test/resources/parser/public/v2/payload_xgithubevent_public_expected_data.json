@@ -6,13 +6,13 @@
     "repository": {
       "type": "com.symphony.integration.github.public.repository",
       "version": "1.0",
-      "html_url": "https://github.com/baxterthehacker/public-repo",
-      "full_name": "baxterthehacker/public-repo"
+      "url": "https://github.com/baxterthehacker/public-repo",
+      "fullName": "baxterthehacker/public-repo"
     },
     "sender": {
       "type": "com.symphony.integration.github.public.sender",
       "version": "1.0",
-      "login": "Baxter The Hacker"
+      "name": "Baxter The Hacker"
     }
   }
 }

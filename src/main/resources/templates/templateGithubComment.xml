@@ -17,7 +17,7 @@
                             commented
                         </#if>
                     </span>
-                    <span>on a <a href="${entity['githubComment'].entityUrl}">${entity['githubComment'].entity}</a></span>
+                    <span>on a <a class="tempo-text-color--link" href="${entity['githubComment'].entityUrl}">${entity['githubComment'].entity}</a></span>
                 </p>
             </header>
             <#if (entity['githubComment'].comment.body)??>

@@ -44,8 +44,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * This class is responsible to validate the event 'commit_comment' sent by Github Webhook when
- * the Agent version is equal to or greater than '1.46.0'.
+ * This class is responsible to validate the events 'commit_comment' and 'issue_comment' sent by
+ * Github Webhook when the Agent version is equal to or greater than '1.46.0'.
  * Created by apimentel on 10/05/17.
  */
 @Component
@@ -80,13 +80,16 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
 
   @Override
   protected void preProcessInputData(JsonNode input) {
-    super.preProcessInputData(input);
     proccessIconURL(input);
     processUser(input.with(COMMENT_TAG).path(USER_TAG));
     processUserComment(input);
-    processCommentEntity(input);
+    processCommentEntity((ObjectNode) input);
   }
 
+  /**
+   * Produces a safe string, with HTML line breaks instead of \n.
+   * @param rootNode Node to add the modified string.
+   */
   private void processUserComment(JsonNode rootNode) {
     ObjectNode commentNode = (ObjectNode) rootNode.path(COMMENT_TAG);
     SafeString comment = ParserUtils.escapeAndAddLineBreaks(commentNode.path(BODY_TAG).asText());
@@ -103,27 +106,25 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
    * </ol>
    * @param input Root json node for the webhook event
    */
-  private void processCommentEntity(JsonNode input) {
-    if (input.has(EVENT_TAG)) {
-      String event = input.get(EVENT_TAG).asText();
-      if (StringUtils.isNotEmpty(event)) {
+  private void processCommentEntity(ObjectNode input) {
+    String event = input.path(EVENT_TAG).asText();
+    if (StringUtils.isNotEmpty(event)) {
 
-        String entity;
-        String entityUrl;
-        switch (event) {
-          case GITHUB_EVENT_ISSUE_COMMENT:
-            entity = ISSUE_ENTITY;
-            entityUrl = input.path(ISSUE_TAG).path(HTML_URL_TAG).asText();
-            break;
-          case GITHUB_EVENT_COMMIT_COMMENT:
-          default:
-            entity = COMMIT_ENTITY;
-            entityUrl = input.path(COMMENT_TAG).path(HTML_URL_TAG).asText();
-            break;
-        }
-        ((ObjectNode) input).put(ENTITY_TAG, entity);
-        ((ObjectNode) input).put(ENTITY_URL_TAG, entityUrl);
+      String entity;
+      String entityUrl;
+      switch (event) {
+        case GITHUB_EVENT_ISSUE_COMMENT:
+          entity = ISSUE_ENTITY;
+          entityUrl = input.path(ISSUE_TAG).path(HTML_URL_TAG).asText();
+          break;
+        case GITHUB_EVENT_COMMIT_COMMENT:
+        default:
+          entity = COMMIT_ENTITY;
+          entityUrl = input.path(COMMENT_TAG).path(HTML_URL_TAG).asText();
+          break;
       }
+      input.put(ENTITY_TAG, entity);
+      input.put(ENTITY_URL_TAG, entityUrl);
     }
   }
 }

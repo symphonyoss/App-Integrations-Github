@@ -77,7 +77,7 @@ public class GithubWebHookIntegration extends WebHookIntegration {
   @Override
   public List<MediaType> getSupportedContentTypes() {
     List<MediaType> supportedContentTypes = new ArrayList<>();
-    supportedContentTypes.add(MediaType.WILDCARD_TYPE);
+    supportedContentTypes.add(MediaType.APPLICATION_JSON_TYPE);
     return supportedContentTypes;
   }
 }

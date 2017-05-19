@@ -40,7 +40,8 @@ public class GithubCreateMetadataParserTest extends GithubParserTest {
   private static final String EXPECTED_DATA_BRANCH_CREATED =
       "parser/created/v2/expected_xgithub_event_branch_created_data.json";
 
-  private static final String EXPECTED_TEMPLATE_CREATED = "parser/created/v2/expected_xgithub_event_create_template";
+  private static final String EXPECTED_TEMPLATE_CREATED =
+      "parser/created/v2/expected_xgithub_event_create_template";
 
   @Mock
   private UserService userService;
@@ -70,15 +71,14 @@ public class GithubCreateMetadataParserTest extends GithubParserTest {
 
     assertNotNull(result);
 
-      JsonNode expectedNode = readJsonFromFile(EXPECTED_DATA_TAG_CREATED);
-      String expected = JsonUtils.writeValueAsString(expectedNode);
+    JsonNode expectedNode = readJsonFromFile(EXPECTED_DATA_TAG_CREATED);
+    String expected = JsonUtils.writeValueAsString(expectedNode);
 
-      assertEquals(expected, result.getData());
+    assertEquals(expected, result.getData());
 
-      String expectedTemplate = readFile(EXPECTED_TEMPLATE_CREATED);
-      assertEquals(expectedTemplate, result.getMessage().replace("\n", ""));
+    String expectedTemplate = readFile(EXPECTED_TEMPLATE_CREATED);
+    assertEquals(expectedTemplate, result.getMessage().replace("\n", ""));
   }
-
 
   @Test
   public void testBranchCreated() throws IOException, GithubParserException {
@@ -92,7 +92,4 @@ public class GithubCreateMetadataParserTest extends GithubParserTest {
 
     assertEquals(expected, result.getData());
   }
-
-
-
 }

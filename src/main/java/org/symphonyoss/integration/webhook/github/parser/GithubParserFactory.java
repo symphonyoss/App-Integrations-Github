@@ -99,7 +99,7 @@ public abstract class GithubParserFactory implements WebHookParserFactory {
     GithubParser result = parsers.get(eventName);
 
     if (result == null) {
-      LOGGER.debug("Unhandled event {}", eventName);
+      LOGGER.info("Unhandled event {}", eventName);
     }
 
     return result;

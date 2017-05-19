@@ -69,9 +69,9 @@ public abstract class GithubMetadataParser extends MetadataParser implements Git
 
   private IntegrationProperties integrationProperties;
 
-  private UserService userService;
+  protected UserService userService;
 
-  private String integrationUser;
+  protected String integrationUser;
 
   private GithubParserUtils utils;
 

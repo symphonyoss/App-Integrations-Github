@@ -1,0 +1,40 @@
+<messageML>
+    <div class="entity" data-entity-id="githubComment">
+        <card class="barStyle" iconSrc="${entity['githubComment'].iconURL}" accent="gray">
+            <header>
+                <p>
+                    <#if (entity['githubComment'].user.name)??>
+                        <span class="tempo-text-color--normal"><b>${entity['githubComment'].user.name}</b> </span>
+                    <#else>
+                        <span class="tempo-text-color--normal"><b>${entity['githubComment'].user.login}</b> </span>
+                    </#if>
+                    <span class="tempo-text-color--green">
+                        <#if (entity['githubComment'].action == "edited")>
+                            edited a comment
+                        <#elseif (entity['githubComment'].action == "deleted")>
+                            deleted a comment
+                        <#else>
+                            commented
+                        </#if>
+                    </span>
+                    <span>on a <a class="tempo-text-color--link" href="${entity['githubComment'].entityUrl}">${entity['githubComment'].entity}</a></span>
+                </p>
+            </header>
+            <#if (entity['githubComment'].comment.body)??>
+                <body>
+                    <div class="labelBackground badge">
+                        <p>
+                            <span class="tempo-text-color--secondary">Comment:</span>
+                            <span class="tempo-text-color--normal">${entity['githubComment'].comment.body}</span>
+                        </p>
+                        <#if (entity['githubComment'].action != "deleted")>
+                            <p>
+                                <a class="tempo-text-color--link" href="${entity['githubComment'].comment.url}">View comment</a>
+                            </p>
+                        </#if>
+                    </div>
+                </body>
+            </#if>
+        </card>
+    </div>
+</messageML>

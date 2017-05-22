@@ -1,0 +1,20 @@
+{
+  "githubCreate": {
+    "type": "com.symphony.integration.github.event.v2.create",
+    "version": "1.0",
+    "ref_type": "branch",
+    "ref": "dev",
+    "iconURL": "symphony.com/img/github_logo.svg",
+    "repository": {
+      "type": "com.symphony.integration.github.create.repository",
+      "version": "1.0",
+      "html_url": "https://github.com/baxterthehacker/public-repo",
+      "full_name": "baxterthehacker/public-repo"
+    },
+    "sender": {
+      "type": "com.symphony.integration.github.create.sender",
+      "version": "1.0",
+      "login": "baxterthehacker"
+    }
+  }
+}

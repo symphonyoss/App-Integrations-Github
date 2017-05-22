@@ -27,6 +27,8 @@ public final class GithubEventTags {
   private GithubEventTags() {
   }
 
+  public static final String PATH_TAG = "tag";
+  public static final String PATH_TAGS = "/tags/";
   public static final String SENDER_TAG = "sender";
   public static final String REPOSITORY_TAG = "repository";
   public static final String NAME_TAG = "name";
@@ -96,4 +98,9 @@ public final class GithubEventTags {
   public static final String PUBLISHED_AT_TAG = "published_at";
   public static final String STATUS_TAG = "status";
   public static final String CONTEXT_TAG = "context";
+  public static final String ICON_URL_TAG = "iconURL";
+  public static final String TYPE_EVENT = "typeEvent";
+  public static final String EVENT_TAG = "event";
+  public static final String ENTITY_TAG = "entity";
+  public static final String ENTITY_URL_TAG = "entityUrl";
 }

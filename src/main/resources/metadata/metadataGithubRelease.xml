@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubRelease" type="com.symphony.integration.github.event.v2.release" version="1.0">
+
+    <field key="iconURL" value="iconURL"/>
+
+    <object id="release" type="com.symphony.integration.github.release" version="1.0">
+        <field key="tagName" value="release.tag_name" />
+        <field key="url" value="release.html_url" />
+
+        <object id="author" type="com.symphony.integration.github.user" version="1.0">
+            <field key="name" value="release.author.name" />
+        </object>
+    </object>
+
+    <object id="repository" type="com.symphony.integration.github.repository" version="1.0">
+        <field key="fullName" value="repository.full_name" />
+        <field key="url" value="repository.html_url" />
+    </object>
+</metadata>

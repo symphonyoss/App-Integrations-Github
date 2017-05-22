@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubPush" type="com.symphony.integration.github.event.v2.push" version="1.0">
+
+    <field key="iconURL" value="iconURL"/>
+
+    <field key="compare" value="compare" />
+    <field key="ref" value="ref" />
+    <field key="refType" value="ref_type" />
+
+    <object id="repository" type="com.symphony.integration.github.repository" version="1.0">
+        <field key="fullName" value="repository.full_name" />
+        <field key="url" value="repository.html_url" />
+    </object>
+
+    <object id="pusher" type="com.symphony.integration.github.user" version="1.0">
+        <field key="name" value="pusher.name" />
+    </object>
+</metadata>

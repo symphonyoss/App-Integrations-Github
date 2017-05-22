@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubDeployment" type="com.symphony.integration.github.event.v2.deployment" version="1.0">
+    <field key="iconURL" value="iconURL"/>
+    <field key="event" value="event"/>
+
+    <object id="deployment" type="com.symphony.integration.github.deployment.deployment" version="1.0">
+        <field key="sha" value="deployment.sha"/>
+        <field key="description" value="deployment.description"/>
+        <field key="environment" value="deployment.environment"/>
+
+        <object id="creator" type="com.symphony.integration.github.deployment.creator" version="1.0">
+            <field key="name" value="deployment.creator.name"/>
+        </object>
+    </object>
+
+    <object id="repository" type="com.symphony.integration.github.deployment.repository" version="1.0">
+        <field key="url" value="repository.html_url"/>
+        <field key="fullName" value="repository.full_name"/>
+    </object>
+
+    <object id="status" type="com.symphony.integration.github.deployment.status" version="1.0">
+        <field key="state" value="deployment_status.state"/>
+        <field key="description" value="deployment_status.description"/>
+    </object>
+</metadata>

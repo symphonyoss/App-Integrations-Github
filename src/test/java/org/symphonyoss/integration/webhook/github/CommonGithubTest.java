@@ -16,14 +16,14 @@
 
 package org.symphonyoss.integration.webhook.github;
 
-import org.symphonyoss.integration.json.JsonUtils;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.io.FileUtils;
 import org.junit.Ignore;
+import org.symphonyoss.integration.json.JsonUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 /**
@@ -35,7 +35,8 @@ public class CommonGithubTest {
   protected ClassLoader classLoader = getClass().getClassLoader();
 
   protected String readFile(String file) throws IOException {
-    return FileUtils.readFileToString(new File(classLoader.getResource(file).getPath()))
+    return FileUtils.readFileToString(new File(classLoader.getResource(file).getPath()),
+        Charset.defaultCharset())
         .replaceAll("\n", "");
   }
 

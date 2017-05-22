@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metadata name="githubPullRequest" type="com.symphony.integration.github.event.v2.pullRequest" version="1.0">
+
+    <field key="iconURL" value="iconURL"/>
+    <field key="action" value="action" />
+    <field key="number" value="number" />
+    <field key="state" value="pull_request.state" />
+    <field key="title" value="pull_request.title" />
+    <field key="body" value="pull_request.body" />
+    <field key="url" value="pull_request.html_url" />
+    <field key="merged" value="pull_request.merged" />
+    <field key="commits" value="pull_request.commits" />
+
+    <object id="label" type="com.symphony.integration.github.label" version="1.0">
+        <field key="name" value="label.name" />
+    </object>
+
+    <object id="repoHead" type="com.symphony.integration.github.repository" version="1.0">
+        <field key="fullName" value="pull_request.head.repo.full_name" />
+        <field key="branch" value="pull_request.head.ref" />
+        <field key="url" value="pull_request.head.repo.html_url" />
+    </object>
+
+    <object id="repoBase" type="com.symphony.integration.github.repository" version="1.0">
+        <field key="fullName" value="pull_request.base.repo.full_name" />
+        <field key="branch" value="pull_request.base.ref" />
+        <field key="url" value="pull_request.base.repo.html_url" />
+    </object>
+
+    <object id="sender" type="com.symphony.integration.github.user" version="1.0">
+        <field key="name" value="sender.name" />
+    </object>
+
+    <object id="assignee" type="com.symphony.integration.github.user" version="1.0">
+        <field key="name" value="assignee.name" />
+    </object>
+</metadata>

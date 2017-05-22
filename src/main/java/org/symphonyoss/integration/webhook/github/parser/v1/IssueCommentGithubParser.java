@@ -18,6 +18,11 @@ package org.symphonyoss.integration.webhook.github.parser.v1;
 
 import static org.symphonyoss.integration.parser.ParserUtils.newUri;
 import static org.symphonyoss.integration.parser.ParserUtils.presentationFormat;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_CREATED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_DELETED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants.GITHUB_ACTION_EDITED;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_ISSUE_COMMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
@@ -99,11 +104,6 @@ public class IssueCommentGithubParser extends BaseGithubParser {
           + "%s<br/>"
           + "You can check this issue on GitHub at %s";
 
-  /* Issue Comment event actions. */
-  public static final String ISSUE_COMMENT_ACTION_CREATED = "created";
-  public static final String ISSUE_COMMENT_ACTION_EDITED = "edited";
-  public static final String ISSUE_COMMENT_ACTION_DELETED = "deleted";
-
   @Override
   public List<String> getEvents() {
     return Arrays.asList(GITHUB_EVENT_ISSUE_COMMENT);
@@ -116,7 +116,7 @@ public class IssueCommentGithubParser extends BaseGithubParser {
       return buildEntityML(node);
     } catch (URISyntaxException | EntityXMLGeneratorException | IOException e) {
       throw new GithubParserException(
-          "Something went wrong while building the message for Github Push event.", e);
+          "Something went wrong while building the message for Github comment event.", e);
     }
   }
 
@@ -131,7 +131,7 @@ public class IssueCommentGithubParser extends BaseGithubParser {
     String updatedAt = commentNode.path(UPDATED_AT_TAG).textValue();
     // it's not the same for all actions.
     String htmlUrl;
-    if (action.equals(ISSUE_COMMENT_ACTION_DELETED)) {
+    if (action.equals(GITHUB_ACTION_DELETED)) {
       htmlUrl = node.path(ISSUE_TAG).path(HTML_URL_TAG).asText();
     } else {
       htmlUrl = commentNode.path(HTML_URL_TAG).asText();
@@ -166,17 +166,17 @@ public class IssueCommentGithubParser extends BaseGithubParser {
     String commentBody = commentNode.path(BODY_TAG).asText();
 
     switch (action) {
-      case ISSUE_COMMENT_ACTION_CREATED: {
+      case GITHUB_ACTION_CREATED: {
         String commentUrl = commentNode.path(HTML_URL_TAG).asText();
         return presentationFormat(PRESENTATIONML_MESSAGE_CREATED_FORMAT, user, issueTitle,
             commentBody, newUri(commentUrl));
       }
-      case ISSUE_COMMENT_ACTION_EDITED: {
+      case GITHUB_ACTION_EDITED: {
         String commentUrl = commentNode.path(HTML_URL_TAG).asText();
         return presentationFormat(PRESENTATIONML_MESSAGE_EDITED_FORMAT, user, issueTitle,
             commentBody, newUri(commentUrl));
       }
-      case ISSUE_COMMENT_ACTION_DELETED: {
+      case GITHUB_ACTION_DELETED: {
         String commentUrl = baseNode.path(ISSUE_TAG).path(HTML_URL_TAG).asText();
         return presentationFormat(PRESENTATIONML_MESSAGE_DELETED_FORMAT, user, issueTitle,
             commentBody, newUri(commentUrl));

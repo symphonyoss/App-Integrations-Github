@@ -75,7 +75,7 @@ public abstract class BaseDeploymentGithubParser extends BaseGithubParser {
       return buildEntityML(node);
     } catch (URISyntaxException | EntityXMLGeneratorException e) {
       throw new GithubParserException(
-          "Something went wrong while building the message for Github Push event.", e);
+          "Something went wrong while building the message for Github deployment event.", e);
     }
   }
 

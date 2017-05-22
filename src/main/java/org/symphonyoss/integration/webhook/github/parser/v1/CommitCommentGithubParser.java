@@ -77,7 +77,7 @@ public class CommitCommentGithubParser extends BaseGithubParser {
       return buildEntityML(node);
     } catch (URISyntaxException | EntityXMLGeneratorException | IOException e) {
       throw new GithubParserException(
-          "Something went wrong while building the message for Github Push event.", e);
+          "Something went wrong while building the message for Github commit_comment event.", e);
     }
   }
 

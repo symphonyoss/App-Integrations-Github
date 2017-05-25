@@ -18,7 +18,7 @@ In case the Integration Bridge can not access GitHub, webhooks will still work, 
 ![Selecting content type](src/docs/sample/sample_webhook_content_type.png)
 
 ## What formats and events it supports and what it produces
-Every integration will receive a [message](#github-json-message-sent) sent in a specific format (depending on the system it ingests) and will usually convert it into an object called **MessageML** before it reaches the Symphony platform.
+Every integration will receive a [message](#github-json-message-sent-check-it) sent in a specific format (depending on the system it ingests) and will usually convert it into an object called **MessageML** before it reaches the Symphony platform.
 
 The **MessageML** basically contains two structures:
 - A HTML [template](#message-ml-template) used to format the message correctly. _It uses [Apache FreeMarker](http://freemarker.org) conventions to parse the message correctly._

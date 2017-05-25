@@ -6,7 +6,7 @@ _These informations cover only GitHub specific webhook configuration and the ren
 The GitHub Webhook Integration will allow you to receive notifications in Symphony for many of the important actions taken by you and others in your repositories, such as a push of new commits, the opening of a pull request, or the creation of a release.
 
 ## How it works
-As the GitHub admin of a repository, you can configure a WebHook to post messages to a URL you generate in the GitHub WebHook Application to start receiving notifications for the supported events. As of the current version, one must set the WebHook Content type to application/json, as shown below:
+As the GitHub admin of a repository, you can configure a WebHook to post messages to a URL you generate in the GitHub Application to start receiving notifications for the supported events. 
 
 ## Using a custom trust store
 GitHub integration connects to the GitHub service to retrieve information about users (user name) and display it on webhook events. 
@@ -15,9 +15,10 @@ When using a custom trust store for the Integration Bridge, make sure it also in
   
 In case the Integration Bridge can not access GitHub, webhooks will still work, but only usernames will be displayed on the events.
 
+## What formats and events it supports and what it produces
+As of the current version, one must set the WebHook Content type to application/json, as shown below:
 ![Selecting content type](src/docs/sample/sample_webhook_content_type.png)
 
-## What formats and events it supports and what it produces
 Every integration will receive a [message](#github-json-message-sent-check-it) sent in a specific format (depending on the system it ingests) and will usually convert it into an object called **MessageML** before it reaches the Symphony platform.
 
 The **MessageML** basically contains two structures:
@@ -59,7 +60,7 @@ Below we'll detail the **Pull Request** event, from its _application/json_ paylo
 ### Pull Request
 * ##### Event key: pull_request
 * ##### Actions supported: *opened, assigned, closed, labeled and reopened*
-* ##### GitHub JSON message sent ([check it](src/docs/sample/payload_xgithubevent_pull_request.json))
+* ##### JSON received from GitHub: ([check it](src/docs/sample/payload_xgithubevent_pull_request.json))
 * ##### Message ML template
 ```html
 <messageML>

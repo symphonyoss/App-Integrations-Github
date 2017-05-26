@@ -19,7 +19,7 @@ In case the Integration Bridge can not access GitHub, webhooks will still work, 
 As of the current version, one must set the WebHook Content type to application/json, as shown below:
 ![Selecting content type](src/docs/sample/sample_webhook_content_type.png)
 
-Every integration will receive a [message](#github-json-message-sent-check-it) sent in a specific format (depending on the system it ingests) and will usually convert it into an object called **MessageML** before it reaches the Symphony platform.
+Every integration will receive a [message](#json-received-from-github-check-it) sent in a specific format (depending on the system it ingests) and will usually convert it into an object called **MessageML** before it reaches the Symphony platform.
 
 The **MessageML** basically contains two structures:
 - A HTML [template](#message-ml-template) used to format the message correctly. _It uses [Apache FreeMarker](http://freemarker.org) conventions to parse the message correctly._
@@ -31,6 +31,8 @@ You can find more details about entities and the Symphony Message ML format [her
 
 Currently we support the following ten events from GitHub:
 
+> [Create a repository, branch, or tag](https://developer.github.com/v3/activity/events/types/#createevent)
+>
 > [Pull Request](https://developer.github.com/v3/activity/events/types/#pullrequestevent)
 >
 > [Push Changes](https://developer.github.com/v3/activity/events/types/#pushevent)

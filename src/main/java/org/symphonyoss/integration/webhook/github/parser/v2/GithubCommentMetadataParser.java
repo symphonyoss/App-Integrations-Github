@@ -16,10 +16,14 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_DELETED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants.GITHUB_ACTION_EDITED;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_COMMIT_COMMENT;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_ISSUE_COMMENT;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BODY_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.COMMENT_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ENTITY_TAG;
@@ -83,7 +87,7 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
     proccessIconURL(input);
     processUser(input.with(COMMENT_TAG).path(USER_TAG));
     processUserComment(input);
-    processCommentEntity((ObjectNode) input);
+    processCommentEntity(input);
   }
 
   /**
@@ -93,7 +97,26 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
   private void processUserComment(JsonNode rootNode) {
     ObjectNode commentNode = (ObjectNode) rootNode.path(COMMENT_TAG);
     SafeString comment = ParserUtils.escapeAndAddLineBreaks(commentNode.path(BODY_TAG).asText());
-    commentNode.put(BODY_TAG, comment.toString());
+    commentNode.put(BODY_TAG, isCommentProcessable(rootNode) ? comment.toString() : null);
+  }
+
+  /**
+   * There are cases that the comment shouldn't be displayed. There are the cases: <br/>
+   * 1. Github's issue comment edited does not send the updated text, just the old one. Therefore,
+   * to avoid displaying outdated information, the comment is omitted
+   * 2. Github's issue comment deleted is omitted, as the comment are not present anymore
+   * @param inputNode
+   * @return
+   */
+  private boolean isCommentProcessable(JsonNode inputNode) {
+    String event = getGithubEvent(inputNode);
+    String action = inputNode.path(ACTION_TAG).asText();
+    if (GITHUB_EVENT_ISSUE_COMMENT.equals(event)) {
+      if (GITHUB_ACTION_EDITED.equals(action) || GITHUB_ACTION_DELETED.equals(action)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -106,8 +129,8 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
    * </ol>
    * @param input Root json node for the webhook event
    */
-  private void processCommentEntity(ObjectNode input) {
-    String event = input.path(EVENT_TAG).asText();
+  private void processCommentEntity(JsonNode input) {
+    String event = getGithubEvent(input);
     if (StringUtils.isNotEmpty(event)) {
 
       String entity;
@@ -123,8 +146,20 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
           entityUrl = input.path(COMMENT_TAG).path(HTML_URL_TAG).asText();
           break;
       }
-      input.put(ENTITY_TAG, entity);
-      input.put(ENTITY_URL_TAG, entityUrl);
+
+      // Set the entity (issue/comment) and the entity url values
+      ObjectNode objectNode = (ObjectNode) input;
+      objectNode.put(ENTITY_TAG, entity);
+      objectNode.put(ENTITY_URL_TAG, entityUrl);
     }
+  }
+
+  /**
+   * Retrieve the event being parsed
+   * @param input
+   * @return
+   */
+  private String getGithubEvent(JsonNode input) {
+    return input.path(EVENT_TAG).asText();
   }
 }

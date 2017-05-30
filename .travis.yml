@@ -37,13 +37,13 @@ addons:
       - maven
       - rpm
   coverity_scan:
-      project:
-        name: "symphonyoss/App-Integrations-Github"
-        description: "Build submitted via Travis CI"
-      notification_email: rsanchez@daitangroup.com
-      build_command_prepend: "mvn clean"
-      build_command:   "mvn -DsymphonySkipUnitTests=true install"
-      branch_pattern: $COVERITY_BRANCH_PATTERN
+    project:
+      name: "symphonyoss/App-Integrations-Github"
+      description: "Build submitted via Travis CI"
+    notification_email: rsanchez@daitangroup.com
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DsymphonySkipUnitTests=true install"
+    branch_pattern: $COVERITY_BRANCH_PATTERN
 
 script:
 - "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pversioneye -DtransitiveDependencies=true --settings settings.xml ; fi"

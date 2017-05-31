@@ -9,7 +9,7 @@
                     <span class="tempo-text-color--normal">changed its status to</span>
                     <span class="tempo-text-color--green">${entity['githubDeployment'].status.state}</span>
                 <#else>
-                    <span class="tempo-text-color--green">createad</span>
+                    <span class="tempo-text-color--green">created</span>
                 </#if>
 
                 <span class="tempo-text-color--normal">by</span>

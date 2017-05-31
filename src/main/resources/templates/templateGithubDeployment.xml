@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity" data-entity-id="githubDeployment">
-        <card class="barStyle" iconSrc="${entity['githubDeployment'].iconURL}" accent="tempo-bg-color--gray">
+        <card class="barStyle" iconSrc="${entity['githubDeployment'].iconURL}" accent="gray">
             <header>
                 <span class="tempo-text-color--normal">Deployment on environment</span>
                 <span class="tempo-text-color--normal"><b>${entity['githubDeployment'].deployment.environment}</b></span>

@@ -5,7 +5,7 @@
 
     <field key="state" value="state"/>
     <field key="sha" value="sha"/>
-    <field key="description" value="description"/>
+    <field key="description" value="description" blank="true"/>
 
     <object id="branches" type="com.symphony.integration.github.branches" version="1.0" list="true">
         <object id="branch" type="com.symphony.integration.github.branch" version="1.0">

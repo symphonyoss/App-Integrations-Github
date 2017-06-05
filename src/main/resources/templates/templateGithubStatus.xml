@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity" data-entity-id="githubStatus">
-        <card class="barStyle" iconSrc="${entity['githubStatus'].iconURL}" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubStatus'].iconURL}">
             <header>
                 <a href="${entity['githubStatus'].commit.url}">Commit </a>
                 <span class="tempo-text-color--normal">status changed to </span>

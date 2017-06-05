@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity" data-entity-id="githubPublic">
-        <card class="barStyle" iconSrc="${entity['githubPublic'].iconURL}" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubPublic'].iconURL}">
             <header>
                 <span class="tempo-text-color--normal">Repository</span>
                 <a class="tempo-text-color--link" href="${entity['githubPublic'].repository.url}">${entity['githubPublic'].repository.fullName}</a>

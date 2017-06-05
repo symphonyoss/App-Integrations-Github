@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity" data-entity-id="githubRelease">
-        <card class="barStyle" iconSrc="${entity['githubRelease'].iconURL}" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubRelease'].iconURL}">
             <header>
                 <a href="${entity['githubRelease'].release.url}">
                     Release ${entity['githubRelease'].release.tagName}

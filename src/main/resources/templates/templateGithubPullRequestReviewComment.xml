@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity" data-entity-id="githubPullRequestReviewComment">
-        <card class="barStyle" iconSrc="${entity['githubPullRequestReviewComment'].iconURL}" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubPullRequestReviewComment'].iconURL}">
             <header>
                 <a href="${entity['githubPullRequestReviewComment'].comment.url}">Pull Request </a>
                 <span class="tempo-text-color--normal">${entity['githubPullRequestReviewComment'].title} - </span>

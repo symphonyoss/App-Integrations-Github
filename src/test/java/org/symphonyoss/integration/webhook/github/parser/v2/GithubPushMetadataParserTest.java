@@ -16,105 +16,40 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doReturn;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.symphonyoss.integration.json.JsonUtils;
-import org.symphonyoss.integration.model.message.Message;
-import org.symphonyoss.integration.model.yaml.IntegrationProperties;
-import org.symphonyoss.integration.service.UserService;
+import org.symphonyoss.integration.utils.SimpleFileUtils;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
-import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.io.IOException;
-import java.util.Collections;
 
 /**
  * Unit test class for {@link GithubPushMetadataParser}
  * Created by campidelli on 03/05/17.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class GithubPushMetadataParserTest extends GithubParserTest {
-
-  private static final String MOCK_INTEGRATION_USER = "mockUser";
+public class GithubPushMetadataParserTest extends GithubParserTest<GithubPushMetadataParser> {
 
   private static final String PAYLOAD_FILE_PUSH =
       "parser/push/payload_xgithubevent_push.json";
   private static final String EXPECTED_FILE_PUSH =
       "parser/push/v2/expected_xgithub_event_push.json";
 
-  @Mock
-  private GithubParserUtils utils;
+  @Override
+  protected String getExpectedTemplate() throws IOException {
+    return SimpleFileUtils.readFile("templates/templateGithubPush.xml");
+  }
 
-  @Mock
-  private UserService userService;
-
-  @Mock
-  private IntegrationProperties integrationProperties;
-
-  private GithubMetadataParser parser;
-
-  private static String EXPECTED_TEMPLATE_FILE = "<messageML>\n"
-      + "    <div class=\"entity\" data-entity-id=\"githubPush\">\n"
-      + "        <card class=\"barStyle\" iconSrc=\"${entity['githubPush'].iconURL}\" "
-      + "accent=\"gray\">\n"
-      + "            <header>\n"
-      + "                <span class=\"tempo-text-color--normal\">${entity['githubPush'].refType}"
-      + " </span>\n"
-      + "                "
-      + "<a href=\"${entity['githubPush'].repository.url}/tree/${entity['githubPush'].ref}\">$"
-      + "{entity['githubPush'].ref} </a>\n"
-      + "                <span class=\"tempo-text-color--normal\">at </span>\n"
-      + "                <a href=\"${entity['githubPush'].repository.url}\">${entity['githubPush"
-      + "'].repository.fullName} </a>\n"
-      + "                <span class=\"tempo-text-color--normal\">- </span>\n"
-      + "                <a href=\"${entity['githubPush'].compare}\">changes </a>\n"
-      + "                <span class=\"tempo-text-color--green\"><b>pushed </b></span>\n"
-      + "                <span class=\"tempo-text-color--normal\">by </span>\n"
-      + "                <span class=\"tempo-text-color--normal\"><b>${entity['githubPush']"
-      + ".pusher.name} </b></span>\n"
-      + "            </header>\n"
-      + "        </card>\n"
-      + "    </div>\n"
-      + "</messageML>\n";
-
-  @Before
-  public void init() {
-    parser = new GithubPushMetadataParser(userService, utils, integrationProperties);
-    parser.init();
-    parser.setIntegrationUser(MOCK_INTEGRATION_USER);
-
-    try {
-      doReturn(null).when(utils).doGetJsonApi(anyString());
-    } catch (IOException e) {
-      fail("IOException should not be thrown because there is no real API calling, its mocked.");
-    }
-
-    mockIntegrationProperties(integrationProperties);
+  @Override
+  protected GithubPushMetadataParser getParser() {
+    return new GithubPushMetadataParser(userService, utils, integrationProperties);
   }
 
   @Test
   public void testPush() throws IOException, GithubParserException {
-    JsonNode node = readJsonFromFile(PAYLOAD_FILE_PUSH);
-    Message result = parser.parse(Collections.<String, String>emptyMap(), node);
-
-    assertNotNull(result);
-
-    JsonNode expectedNode = readJsonFromFile(EXPECTED_FILE_PUSH);
-    String expected = JsonUtils.writeValueAsString(expectedNode);
-
-    assertEquals(expected, result.getData());
-    assertEquals(EXPECTED_TEMPLATE_FILE, result.getMessage());
+    testParser(PAYLOAD_FILE_PUSH, EXPECTED_FILE_PUSH);
   }
 }
 

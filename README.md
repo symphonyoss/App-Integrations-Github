@@ -70,7 +70,7 @@ Below we'll detail the **Pull Request** event, from its _application/json_ paylo
 ```html
 <messageML>
   <div class="entity" data-entity-id="githubPullRequest">
-    <card class="barStyle" iconSrc="${entity['githubPullRequest'].iconURL}" accent="gray">
+    <card class="barStyle" iconSrc="${entity['githubPullRequest'].iconURL}">
       <header>
         <a href="${entity['githubPullRequest'].url}">Pull Request #${entity['githubPullRequest'].number} </a>
         <span class="tempo-text-color--normal">${entity['githubPullRequest'].title} - </span>

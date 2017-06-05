@@ -1,6 +1,6 @@
 <messageML>
     <div class="entity" data-entity-id="githubComment">
-        <card class="barStyle" iconSrc="${entity['githubComment'].iconURL}" accent="gray">
+        <card class="barStyle" iconSrc="${entity['githubComment'].iconURL}">
             <header>
                 <p>
                     <#if (entity['githubComment'].user.name)??>

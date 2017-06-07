@@ -4,7 +4,7 @@
             <header>
                 <a href="${entity['githubPullRequestReviewComment'].comment.url}">Pull Request </a>
                 <span class="tempo-text-color--normal">${entity['githubPullRequestReviewComment'].title} - </span>
-                <span class="tempo-text-color--green">comment ${entity['githubPullRequestReviewComment'].action} </span>
+                <span class="tempo-text-color--green"><b>comment ${entity['githubPullRequestReviewComment'].action} </b></span>
                 <span class="tempo-text-color--normal">by </span>
                 <span class="tempo-text-color--normal"><b>${entity['githubPullRequestReviewComment'].comment.author.name} </b></span>
             </header>

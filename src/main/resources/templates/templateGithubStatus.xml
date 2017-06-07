@@ -4,7 +4,7 @@
             <header>
                 <a href="${entity['githubStatus'].commit.url}">Commit </a>
                 <span class="tempo-text-color--normal">status changed to </span>
-                <span class="tempo-text-color--green">${entity['githubStatus'].state} </span>
+                <span class="tempo-text-color--green"><b>${entity['githubStatus'].state} </b></span>
                 <span class="tempo-text-color--normal">by </span>
                 <span class="tempo-text-color--normal"><b>${entity['githubStatus'].sender.name} </b></span>
                 <span class="tempo-text-color--normal">in </span>

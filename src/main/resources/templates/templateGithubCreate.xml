@@ -11,7 +11,7 @@
                         Tag ${entity['githubCreate'].ref}
                     </a>
                 </#if>
-                <span class="tempo-text-color--green">Created </span>
+                <span class="tempo-text-color--green"><b>created </b></span>
                 <span class="tempo-text-color--normal">by</span>
                 <span class="tempo-text-color--normal">
                     <b>${entity['githubCreate'].sender.login}</b>

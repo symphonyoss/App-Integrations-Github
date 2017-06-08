@@ -22,13 +22,13 @@ public class GithubPublicMetadataParserTest extends GithubParserTest<GithubPubli
 
   private static final String
       PARSER_PUBLIC_V2_PAYLOAD_XGITHUBEVENT_PUBLIC_WITHOUT_USERINFO_EXPECTED_DATA_JSON =
-      "parser/public/v2/payload_xgithubevent_public_without_userinfo_expected_data.json";
+      "parser/public/v2/expected_xgithubevent_public_without_userinfo_data.json";
 
   private static final String PAYLOAD_XGITHUBEVENT_PUBLIC_JSON =
       "parser/public/payload_xgithubevent_public.json";
 
   private static final String PARSER_PUBLIC_V2_PAYLOAD_XGITHUBEVENT_PUBLIC_EXPECTED_DATA_JSON =
-      "parser/public/v2/payload_xgithubevent_public_expected_data.json";
+      "parser/public/v2/expected_xgithubevent_public_data.json";
 
   private static final String PAYLOAD_XGITHUBEVENT_PUBLIC_JSON1 =
       "parser/public/payload_xgithubevent_public.json";

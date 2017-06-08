@@ -9,15 +9,23 @@
                         <span class="tempo-text-color--normal"><b>${entity['githubComment'].user.login}</b> </span>
                     </#if>
                     <span class="tempo-text-color--green">
-                        <#if (entity['githubComment'].action == "edited")>
-                            edited a comment
-                        <#elseif (entity['githubComment'].action == "deleted")>
-                            deleted a comment
-                        <#else>
-                            commented
-                        </#if>
+                        <b>
+                            <#if (entity['githubComment'].action == "edited")>
+                                edited a comment
+                            <#elseif (entity['githubComment'].action == "deleted")>
+                                deleted a comment
+                            <#else>
+                                commented
+                            </#if>
+                        </b>
                     </span>
-                    <span>on a <a class="tempo-text-color--link" href="${entity['githubComment'].entityUrl}">${entity['githubComment'].entity}</a></span>
+                    <span>on </span>
+                    <#if (entity['githubComment'].entity == "issue")>
+                        <span>an </span>
+                    <#else>
+                        <span>a </span>
+                    </#if>
+                    <a class="tempo-text-color--link" href="${entity['githubComment'].entityUrl}">${entity['githubComment'].entity}</a>
                 </p>
             </header>
             <#if (entity['githubComment'].comment.body)??>

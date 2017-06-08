@@ -18,6 +18,18 @@ package org.symphonyoss.integration.webhook.github.parser.v1;
 
 import static org.symphonyoss.integration.parser.ParserUtils.newUri;
 import static org.symphonyoss.integration.parser.ParserUtils.presentationFormat;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_ASSIGNED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_LABELED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_REVIEW_REQUESTED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_REVIEW_REQUEST_REMOVED;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_SYNCHRONIZE;
+import static org.symphonyoss.integration.webhook.github.GithubActionConstants
+    .GITHUB_ACTION_UNLABELED;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_PULL_REQUEST;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
@@ -51,6 +63,7 @@ import static org.symphonyoss.integration.webhook.github.GithubEventTags.TITLE_T
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.UPDATED_AT_TAG;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.entity.Entity;
 import org.symphonyoss.integration.entity.EntityBuilder;
@@ -73,14 +86,6 @@ import java.util.Map;
  */
 @Component
 public class PullRequestGithubParser extends BaseGithubParser {
-
-  /* GitHub's specific Pull Request actions. */
-  public static final String PR_ACTION_ASSIGNED = "assigned";
-  public static final String PR_ACTION_LABELED = "labeled";
-  public static final String PR_ACTION_UNLABELED = "unlabeled";
-  public static final String PR_ACTION_SYNCHRONIZE = "synchronize";
-  public static final String PR_ACTION_REVIEW_REQUESTED = "review_requested";
-  public static final String PR_ACTION_REVIEW_REQUEST_REMOVED = "review_request_removed";
 
   /* GitHub's specific Pull Request action labels. */
   public static final String PR_UPDATED = "updated";
@@ -111,9 +116,9 @@ public class PullRequestGithubParser extends BaseGithubParser {
           + "%s";
 
   public PullRequestGithubParser() {
-    actionsLabel.put(PR_ACTION_SYNCHRONIZE, PR_UPDATED);
-    actionsLabel.put(PR_ACTION_REVIEW_REQUESTED, PR_REVIEW_REQUESTED);
-    actionsLabel.put(PR_ACTION_REVIEW_REQUEST_REMOVED, PR_REVIEW_REQUEST_REMOVED);
+    actionsLabel.put(GITHUB_ACTION_SYNCHRONIZE, PR_UPDATED);
+    actionsLabel.put(GITHUB_ACTION_REVIEW_REQUESTED, PR_REVIEW_REQUESTED);
+    actionsLabel.put(GITHUB_ACTION_REVIEW_REQUEST_REMOVED, PR_REVIEW_REQUEST_REMOVED);
   }
 
   @Override
@@ -165,12 +170,12 @@ public class PullRequestGithubParser extends BaseGithubParser {
     Entity sender = buildEntityUser(node.path(SENDER_TAG), SENDER_TAG);
 
     Entity assignee = null;
-    if (action.equals(PR_ACTION_ASSIGNED)) {
+    if (action.equals(GITHUB_ACTION_ASSIGNED)) {
       assignee = buildEntityUser(node.path(ASSIGNEE_TAG), ASSIGNEE_TAG);
     }
 
     String label = "";
-    if (action.equals(PR_ACTION_LABELED) || action.equals(PR_ACTION_UNLABELED)) {
+    if (action.equals(GITHUB_ACTION_LABELED) || action.equals(GITHUB_ACTION_UNLABELED)) {
       label = node.path(LABEL_TAG).path(NAME_TAG).asText();
     }
 
@@ -260,26 +265,18 @@ public class PullRequestGithubParser extends BaseGithubParser {
   }
 
   private String getComplementaryInfo(JsonNode node) {
-    String noInfo = "";
     String action = node.path(ACTION_TAG).asText();
-    switch (action) {
-      case PR_ACTION_ASSIGNED: {
-        String assignee = getGithubUserPublicName(node.path(ASSIGNEE_TAG));
-        return " to " + assignee;
-      }
-      case PR_ACTION_LABELED: {
-        String label = node.path(LABEL_TAG).path(NAME_TAG).asText();
-        return " with \"" + label + "\"";
-      }
-      case PR_ACTION_UNLABELED: {
-        String label = node.path(LABEL_TAG).path(NAME_TAG).asText();
-        return " with \"" + label + "\"";
-      }
-      default:
-        // PR_ACTION_OPENED, PR_ACTION_EDITED, PR_ACTION_CLOSED,
-        // PR_ACTION_REOPENED, PR_ACTION_SYNCHRONIZE, PR_ACTION_UNASSIGNED
-        return noInfo;
+    String info = StringUtils.EMPTY;
+
+    // The only actions that have complementary info are: GITHUB_ACTION_ASSIGNED,
+    // GITHUB_ACTION_LABELED and GITHUB_ACTION_UNLABELED
+    if (GITHUB_ACTION_ASSIGNED.equals(action)) {
+      info = " to " + getGithubUserPublicName(node.path(ASSIGNEE_TAG));
+    } else if (GITHUB_ACTION_LABELED.equals(action) || GITHUB_ACTION_UNLABELED.equals(action)) {
+      info = " with \"" + node.path(LABEL_TAG).path(NAME_TAG).asText() + "\"";
     }
+
+    return info;
   }
 
   /**

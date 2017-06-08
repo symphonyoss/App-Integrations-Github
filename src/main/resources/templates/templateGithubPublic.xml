@@ -5,7 +5,7 @@
                 <span class="tempo-text-color--normal">Repository</span>
                 <a class="tempo-text-color--link" href="${entity['githubPublic'].repository.url}">${entity['githubPublic'].repository.fullName}</a>
                 <span class="tempo-text-color--normal">was made</span>
-                <span class="tempo-text-color--green">public</span>
+                <span class="tempo-text-color--green"><b>public</b></span>
                 <span class="tempo-text-color--normal">by</span>
                 <span class="tempo-text-color--normal"><b>${entity['githubPublic'].sender.name}</b></span>
             </header>

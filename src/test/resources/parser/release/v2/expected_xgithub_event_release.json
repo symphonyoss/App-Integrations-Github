@@ -1,1 +1,24 @@
-{"githubRelease":{"type":"com.symphony.integration.github.event.v2.release","version":"1.0","iconURL":"symphony.com/img/github_logo.svg","release":{"type":"com.symphony.integration.github.release","version":"1.0","tagName":"0.0.1","url":"https://github.com/baxterthehacker/public-repo/releases/tag/0.0.1","author":{"type":"com.symphony.integration.github.user","version":"1.0","name":"baxterthehacker"}},"repository":{"type":"com.symphony.integration.github.repository","version":"1.0","fullName":"baxterthehacker/public-repo","url":"https://github.com/baxterthehacker/public-repo"}}}
+{
+  "githubRelease": {
+    "type": "com.symphony.integration.github.event.v2.release",
+    "version": "1.0",
+    "iconURL": "symphony.com/img/github_logo.svg",
+    "release": {
+      "type": "com.symphony.integration.github.release",
+      "version": "1.0",
+      "tagName": "0.0.1",
+      "url": "https://github.com/baxterthehacker/public-repo/releases/tag/0.0.1",
+      "author": {
+        "type": "com.symphony.integration.github.user",
+        "version": "1.0",
+        "name": "baxterthehacker"
+      }
+    },
+    "repository": {
+      "type": "com.symphony.integration.github.repository",
+      "version": "1.0",
+      "fullName": "baxterthehacker/public-repo",
+      "url": "https://github.com/baxterthehacker/public-repo"
+    }
+  }
+}

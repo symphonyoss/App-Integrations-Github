@@ -35,4 +35,16 @@ public final class GithubActionConstants {
   public static final String GITHUB_ACTION_EDITED = "edited";
 
   public static final String GITHUB_ACTION_DELETED = "deleted";
+
+  public static final String GITHUB_ACTION_ASSIGNED = "assigned";
+
+  public static final String GITHUB_ACTION_LABELED = "labeled";
+
+  public static final String GITHUB_ACTION_UNLABELED = "unlabeled";
+
+  public static final String GITHUB_ACTION_SYNCHRONIZE = "synchronize";
+
+  public static final String GITHUB_ACTION_REVIEW_REQUESTED = "review_requested";
+
+  public static final String GITHUB_ACTION_REVIEW_REQUEST_REMOVED = "review_request_removed";
 }

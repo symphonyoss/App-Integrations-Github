@@ -45,7 +45,7 @@ public class GithubDeploymentMetadataParserTest
 
   public static final String
       PARSER_DEPLOYMENT_V2_EXPECTED_XGITHUB_EVENT_DEPLOYMENT_STATUS_DATA_JSON =
-      "parser/deployment/v2/payload_xgithub_event_deployment_status_data.json";
+      "parser/deployment/payload_xgithubevent_deployment_status_data.json";
 
   public static final String PAYLOAD_XGITHUBEVENT_DEPLOYMENT_STATUS_JSON =
       "parser/deployment/payload_xgithubevent_deployment_status.json";

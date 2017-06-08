@@ -4,7 +4,7 @@
     "version": "1.0",
     "ref_type": "branch",
     "ref": "dev",
-    "iconURL": "symphony.com/img/github_logo.svg",
+    "iconURL": "symphony.com/img/github_logo_white_Background.png",
     "repository": {
       "type": "com.symphony.integration.github.create.repository",
       "version": "1.0",

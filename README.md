@@ -128,7 +128,7 @@ Below we'll detail the **Pull Request** event, from its _application/json_ paylo
   "githubPullRequest": {
     "type": "com.symphony.integration.github.event.v2.pullRequest",
     "version": "1.0",
-    "iconURL": "symphony.com/img/github_logo.svg",
+    "iconURL": "symphony.com/img/github_logo_white_Background.png",
     "action": "opened",
     "number": "1",
     "state": "open",

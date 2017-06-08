@@ -59,7 +59,7 @@ import javax.ws.rs.ProcessingException;
  */
 public abstract class GithubMetadataParser extends MetadataParser implements GithubParser {
 
-  private static final String PATH_IMG_ICON = "img/github_logo.svg";
+  private static final String PATH_IMG_ICON = "img/github_logo_white_Background.png";
 
   private static final String INTEGRATION_NAME = "github";
 

@@ -1,1 +1,34 @@
-{"githubPullRequest":{"type":"com.symphony.integration.github.event.v2.pullRequest","version":"1.0","iconURL":"symphony.com/img/github_logo.svg","action":"review requested","number":"1","state":"open","title":"Test PR","body":"- Test comment","url":"https://github.com/baxterthehacker/public-repo/pull/1","merged":"false","commits":"2","repoHead":{"type":"com.symphony.integration.github.repository","version":"1.0","fullName":"baxterthehacker/public-repo","branch":"changes","url":"https://github.com/baxterthehacker/public-repo"},"repoBase":{"type":"com.symphony.integration.github.repository","version":"1.0","fullName":"baxterthehacker/public-repo","branch":"master","url":"https://github.com/baxterthehacker/public-repo"},"sender":{"type":"com.symphony.integration.github.user","version":"1.0","name":"baxterthehacker"}}}
+{
+  "githubPullRequest": {
+    "type": "com.symphony.integration.github.event.v2.pullRequest",
+    "version": "1.0",
+    "iconURL": "symphony.com/img/github_logo.svg",
+    "action": "review requested",
+    "number": "1",
+    "state": "open",
+    "title": "Test PR",
+    "body": "- Test comment",
+    "url": "https://github.com/baxterthehacker/public-repo/pull/1",
+    "merged": "false",
+    "commits": "2",
+    "repoHead": {
+      "type": "com.symphony.integration.github.repository",
+      "version": "1.0",
+      "fullName": "baxterthehacker/public-repo",
+      "branch": "changes",
+      "url": "https://github.com/baxterthehacker/public-repo"
+    },
+    "repoBase": {
+      "type": "com.symphony.integration.github.repository",
+      "version": "1.0",
+      "fullName": "baxterthehacker/public-repo",
+      "branch": "master",
+      "url": "https://github.com/baxterthehacker/public-repo"
+    },
+    "sender": {
+      "type": "com.symphony.integration.github.user",
+      "version": "1.0",
+      "name": "baxterthehacker"
+    }
+  }
+}

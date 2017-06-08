@@ -33,6 +33,12 @@ import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_UR
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PULL_REQUEST_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
+import static org.symphonyoss.integration.webhook.github.parser.v1.PullRequestGithubParser
+    .PR_REVIEW_REQUESTED;
+import static org.symphonyoss.integration.webhook.github.parser.v1.PullRequestGithubParser
+    .PR_REVIEW_REQUEST_REMOVED;
+import static org.symphonyoss.integration.webhook.github.parser.v1.PullRequestGithubParser
+    .PR_UPDATED;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -44,7 +50,9 @@ import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is responsible to validate the event 'pull_request' sent by Github Webhook when
@@ -58,9 +66,15 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
 
   private static final String TEMPLATE_FILE = "templateGithubPullRequest.xml";
 
+  private Map<String, String> actionsAndLabels = new HashMap<>();
+
   @Autowired
   public GithubPullRequestMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
     super(userService, utils, integrationProperties);
+
+    actionsAndLabels.put(GITHUB_ACTION_SYNCHRONIZE, PR_UPDATED);
+    actionsAndLabels.put(GITHUB_ACTION_REVIEW_REQUESTED, PR_REVIEW_REQUESTED);
+    actionsAndLabels.put(GITHUB_ACTION_REVIEW_REQUEST_REMOVED, PR_REVIEW_REQUEST_REMOVED);
   }
 
   @Override
@@ -95,13 +109,10 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
    */
   private void processActionVerbs(JsonNode node) {
     String action = node.path(ACTION_TAG).textValue();
-    if (GITHUB_ACTION_SYNCHRONIZE.equals(action)) {
-      action = "synchronized";
-    } else if (GITHUB_ACTION_REVIEW_REQUESTED.equals(action)) {
-      action = "review requested";
-    } else if (GITHUB_ACTION_REVIEW_REQUEST_REMOVED.equals(action)) {
-      action = "review request removed";
+
+    if (actionsAndLabels.containsKey(action)) {
+      action = actionsAndLabels.get(action);
+      ((ObjectNode) node).put(ACTION_TAG, action);
     }
-    ((ObjectNode) node).put(ACTION_TAG, action);
   }
 }

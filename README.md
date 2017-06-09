@@ -162,3 +162,10 @@ Below we'll detail the **Pull Request** event, from its _application/json_ paylo
 * ##### Message rendered on Symphony
 
 ![Pull Request Opened rendered](src/docs/sample/sample_pull_request_opened_rendered.png)
+### Messages color mapping
+To give a better visual information, Github's messages have specific flair color (vertical bar on the left) according to the event type, as follows:
+
+|         Event           |    Color    |
+|:------------------------|:-----------:|
+|Create                   |     Blue    |
+|All other events         |     Gray    |

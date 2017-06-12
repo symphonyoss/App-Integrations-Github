@@ -9,21 +9,21 @@
                 <span class="tempo-text-color--normal"><b>${entity['githubPullRequestReviewComment'].comment.author.name} </b></span>
             </header>
             <body>
-                <p>
+                <div>
                     <span class="tempo-text-color--secondary">Comment: </span>
                     <span class="tempo-text-color--normal">${entity['githubPullRequestReviewComment'].comment.body}</span>
-                </p>
-                <p>
+                </div>
+                <div>
                     <span class="tempo-text-color--secondary">Diff Hunk: </span>
                     <br/>
                     <span class="tempo-text-color--normal">${entity['githubPullRequestReviewComment'].comment.diffHunk}</span>
-                </p>
-                <p>
+                </div>
+                <div>
                     <span class="tempo-text-color--secondary">Details: </span>
                     <a href="${entity['githubPullRequestReviewComment'].comment.url}">
                         ${entity['githubPullRequestReviewComment'].comment.url}
                     </a>
-                </p>
+                </div>
             </body>
         </card>
     </div>

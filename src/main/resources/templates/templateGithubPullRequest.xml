@@ -18,15 +18,15 @@
                 </#if>
             </header>
             <body>
-                <p>
+                <div>
                     <span class="tempo-text-color--secondary">Summary: </span>
                     <span class="tempo-text-color--normal">${entity['githubPullRequest'].body}</span>
-                </p>
-                <p>
+                </div>
+                <div>
                     <span class="tempo-text-color--secondary">Commits in this PR: </span>
                     <span class="tempo-text-color--normal">${entity['githubPullRequest'].commits}</span>
-                </p>
-                <p>
+                </div>
+                <div>
                     <span class="tempo-text-color--secondary">PR State: </span>
                     <span class="tempo-text-color--normal">${entity['githubPullRequest'].state} </span>
                     <span class="tempo-text-color--secondary">Merged: </span>
@@ -35,8 +35,8 @@
                     <#else>
                         <span class="tempo-text-color--normal">No </span>
                     </#if>
-                </p>
-                <p>
+                </div>
+                <div>
                     <span class="tempo-text-color--secondary">Repositories involved: </span>
                     <span class="tempo-text-color--normal">Changes from </span>
                     <a href="${entity['githubPullRequest'].repoHead.url}/tree/${entity['githubPullRequest'].repoHead.branch}">
@@ -46,7 +46,7 @@
                     <a href="${entity['githubPullRequest'].repoBase.url}/tree/${entity['githubPullRequest'].repoBase.branch}">
                         ${entity['githubPullRequest'].repoBase.fullName}:${entity['githubPullRequest'].repoBase.branch}
                     </a>
-                </p>
+                </div>
             </body>
         </card>
     </div>

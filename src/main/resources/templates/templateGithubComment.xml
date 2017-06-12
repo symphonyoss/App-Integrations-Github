@@ -2,7 +2,7 @@
     <div class="entity" data-entity-id="githubComment">
         <card class="barStyle" iconSrc="${entity['githubComment'].iconURL}">
             <header>
-                <p>
+                <div>
                     <#if (entity['githubComment'].user.name)??>
                         <span class="tempo-text-color--normal"><b>${entity['githubComment'].user.name}</b> </span>
                     <#else>
@@ -26,19 +26,19 @@
                         <span>a </span>
                     </#if>
                     <a class="tempo-text-color--link" href="${entity['githubComment'].entityUrl}">${entity['githubComment'].entity}</a>
-                </p>
+                </div>
             </header>
             <#if (entity['githubComment'].comment.body)??>
                 <body>
                     <div class="labelBackground badge">
-                        <p>
+                        <div>
                             <span class="tempo-text-color--secondary">Comment:</span>
                             <span class="tempo-text-color--normal">${entity['githubComment'].comment.body}</span>
-                        </p>
+                        </div>
                         <#if (entity['githubComment'].action != "deleted")>
-                            <p>
+                            <div>
                                 <a class="tempo-text-color--link" href="${entity['githubComment'].comment.url}">View comment</a>
-                            </p>
+                            </div>
                         </#if>
                     </div>
                 </body>

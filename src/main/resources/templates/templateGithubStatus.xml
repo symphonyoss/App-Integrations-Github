@@ -11,22 +11,22 @@
                 <a href="${entity['githubStatus'].repository.url}">${entity['githubStatus'].repository.fullName} </a>
             </header>
             <body>
-                <p>
+                <div>
                     <span class="tempo-text-color--secondary">SHA: </span>
                     <span class="tempo-text-color--normal">${entity['githubStatus'].sha}</span>
-                </p>
-                <p>
+                </div>
+                <div>
                     <span class="tempo-text-color--secondary">Branches: </span>
                     <span class="tempo-text-color--normal">
                         <#list entity['githubStatus'].branches as branch>
                             ${branch.name}<#sep>,
                         </#list>
                     </span>
-                </p>
-                <p>
+                </div>
+                <div>
                     <span class="tempo-text-color--secondary">Description: </span>
                     <span class="tempo-text-color--normal">${entity['githubStatus'].description}</span>
-                </p>
+                </div>
             </body>
         </card>
     </div>

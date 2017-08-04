@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/symphonyoss/App-Integrations-Github.svg?branch=dev)](https://travis-ci.org/symphonyoss/App-Integrations-Github)
 [![Dependencies](https://www.versioneye.com/user/projects/58d0495fcef50000242b6ebf/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58d0495fcef50000242b6ebf)
 [![Validation Status](https://scan.coverity.com/projects/12822/badge.svg?flat=1)](https://scan.coverity.com/projects/symphonyoss-app-integrations-github)
+[![codecov](https://codecov.io/gh/symphonyoss/App-Integrations-Github/branch/dev/graph/badge.svg)](https://codecov.io/gh/symphonyoss/App-Integrations-Github)
 
 _These informations cover only GitHub specific webhook configuration and the rendering pipeline. For more information about  Webhook Integration architecture, development environment, application bootstraping and building, please visit https://github.com/symphonyoss/App-Integrations-Zapier._
 

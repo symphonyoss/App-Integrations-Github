@@ -1,4 +1,6 @@
 export default ({
+  appId: 'githubWebHookIntegration',
+  appContext: 'apps/github',
   appTitle: 'Github',
   appName: 'Github',
   appSubTitle: 'Github',

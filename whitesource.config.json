@@ -1,0 +1,6 @@
+{
+  "checkPolicies":true,
+  "productName":"App-Integrations-Github",
+  "projectName":"github-npm-package",
+  "devDep": false
+}

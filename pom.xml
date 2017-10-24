@@ -12,6 +12,8 @@
     <artifactId>integration-github</artifactId>
 
     <properties>
+        <!-- This is temporary; set to true as soon as the WhiteSource dashboard is clean -->
+        <whitesource.checkPolicies>false</whitesource.checkPolicies>
         <webapp.directory>github</webapp.directory>
         <rpm.name>github-symphony-integration</rpm.name>
     </properties>

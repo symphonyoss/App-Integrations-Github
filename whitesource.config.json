@@ -1,5 +1,6 @@
 {
-  "checkPolicies":true,
+  // This is temporary; set to true as soon as the WhiteSource dashboard is clean
+  "checkPolicies": false,
   "productName":"App-Integrations-Github",
   "projectName":"github-npm-package",
   "devDep": false

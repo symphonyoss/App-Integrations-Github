@@ -97,26 +97,7 @@ public class GithubCommentMetadataParser extends GithubMetadataParser {
   private void processUserComment(JsonNode rootNode) {
     ObjectNode commentNode = (ObjectNode) rootNode.path(COMMENT_TAG);
     SafeString comment = ParserUtils.escapeAndAddLineBreaks(commentNode.path(BODY_TAG).asText());
-    commentNode.put(BODY_TAG, isCommentProcessable(rootNode) ? comment.toString() : null);
-  }
-
-  /**
-   * There are cases that the comment shouldn't be displayed. There are the cases: <br/>
-   * 1. Github's issue comment edited does not send the updated text, just the old one. Therefore,
-   * to avoid displaying outdated information, the comment is omitted
-   * 2. Github's issue comment deleted is omitted, as the comment are not present anymore
-   * @param inputNode
-   * @return
-   */
-  private boolean isCommentProcessable(JsonNode inputNode) {
-    String event = getGithubEvent(inputNode);
-    String action = inputNode.path(ACTION_TAG).asText();
-    if (GITHUB_EVENT_ISSUE_COMMENT.equals(event)) {
-      if (GITHUB_ACTION_EDITED.equals(action) || GITHUB_ACTION_DELETED.equals(action)) {
-        return false;
-      }
-    }
-    return true;
+    commentNode.put(BODY_TAG, comment.toString());
   }
 
   /**

@@ -2,11 +2,11 @@
     <entity type="com.symphony.integration.github.event.issue_comment" version="1.0">
         <presentationML>
             Baxter The Hacker just edited a comment on the issue "Spelling error in the README file" to:<br/>
-            You are totally WRONG! I&apos;ll NOT get this fixed right away.<br/>
+            You are totally WRONG! I&apos;ll NOT get this fixed right away. Edited.<br/>
             You can check this on GitHub at <a href="https://github.com/baxterthehacker/public-repo/issues/2#issuecomment-99262140"/>
         </presentationML>
         <attribute name="action" type="org.symphonyoss.string" value="edited"/>
-        <attribute name="body" type="org.symphonyoss.string" value="You are totally WRONG! I&amp;apos;ll NOT get this fixed right away."/>
+        <attribute name="body" type="org.symphonyoss.string" value="You are totally WRONG! I&amp;apos;ll NOT get this fixed right away. Edited."/>
         <attribute name="html_url" type="com.symphony.uri" value="https://github.com/baxterthehacker/public-repo/issues/2#issuecomment-99262140"/>
         <attribute name="created_at" type="org.symphonyoss.time.rfc3339" value="2015-05-05T23:40:28Z"/>
         <attribute name="updated_at" type="org.symphonyoss.time.rfc3339" value="2015-05-05T23:40:28Z"/>

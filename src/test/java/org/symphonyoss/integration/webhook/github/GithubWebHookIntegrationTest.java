@@ -27,8 +27,6 @@ import static org.mockito.Mockito.when;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_CREATE;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_DEPLOYMENT;
-import static org.symphonyoss.integration.webhook.github.GithubEventConstants
-    .GITHUB_EVENT_DEPLOYMENT_STATUS;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUBLIC;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_PULL_REQUEST_REVIEW_COMMENT;
@@ -37,6 +35,7 @@ import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GI
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_HEADER_EVENT_NAME;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +46,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.entity.model.User;
 import org.symphonyoss.integration.model.config.IntegrationSettings;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
@@ -56,13 +56,13 @@ import org.symphonyoss.integration.webhook.github.parser.GithubParserResolver;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 import org.symphonyoss.integration.webhook.github.parser.GithubWebHookParserAdapter;
 import org.symphonyoss.integration.webhook.github.parser.NullGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.CreateGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.DeploymentGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.DeploymentStatusGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.PublicGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.PullRequestReviewCommentGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.PushGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.StatusGithubParser;
+import org.symphonyoss.integration.webhook.github.parser.v2.GithubCreateMetadataParser;
+import org.symphonyoss.integration.webhook.github.parser.v2.GithubDeploymentMetadataParser;
+import org.symphonyoss.integration.webhook.github.parser.v2.GithubPublicMetadataParser;
+import org.symphonyoss.integration.webhook.github.parser
+    .v2.GithubPullRequestReviewCommentMetadataParser;
+import org.symphonyoss.integration.webhook.github.parser.v2.GithubPushMetadataParser;
+import org.symphonyoss.integration.webhook.github.parser.v2.GithubStatusMetadataParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,6 +70,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.ws.rs.core.MediaType;
 
 /**
  * Unit tests for {@link GithubWebHookIntegration}.
@@ -97,30 +99,36 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
   @Mock
   private UserService userService;
 
+  @Mock
+  private IntegrationProperties integrationProperties;
+
   @InjectMocks
   private NullGithubParser defaultGithubParser = new NullGithubParser();
 
   @InjectMocks
-  private PullRequestReviewCommentGithubParser prReviewCommentGithubParser =
-      new PullRequestReviewCommentGithubParser();
+  private GithubPullRequestReviewCommentMetadataParser prReviewCommentGithubParser =
+      new GithubPullRequestReviewCommentMetadataParser(userService, githubParserUtils,
+          integrationProperties);
 
   @InjectMocks
-  private CreateGithubParser createGithubParser = new CreateGithubParser();
+  private GithubCreateMetadataParser createGithubParser =
+      new GithubCreateMetadataParser(userService, githubParserUtils, integrationProperties);
 
   @InjectMocks
-  private PublicGithubParser publicGithubParser = new PublicGithubParser();
+  private GithubPublicMetadataParser publicGithubParser =
+      new GithubPublicMetadataParser(userService, githubParserUtils, integrationProperties);
 
   @InjectMocks
-  private DeploymentGithubParser deploymentGithubParser = new DeploymentGithubParser();
+  private GithubDeploymentMetadataParser deploymentGithubParser =
+      new GithubDeploymentMetadataParser(userService, githubParserUtils, integrationProperties);
 
   @InjectMocks
-  private DeploymentStatusGithubParser deploymentStatusGithubParser = new DeploymentStatusGithubParser();
+  private GithubStatusMetadataParser statusGithubParser =
+      new GithubStatusMetadataParser(userService, githubParserUtils, integrationProperties);
 
   @InjectMocks
-  private StatusGithubParser statusGithubParser = new StatusGithubParser();
-
-  @InjectMocks
-  private PushGithubParser pushGithubParser = new PushGithubParser();
+  private GithubPushMetadataParser pushGithubParser =
+      new GithubPushMetadataParser(userService, githubParserUtils, integrationProperties);
 
   @Before
   public void setup() throws IOException {
@@ -130,6 +138,14 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     factories.add(factory);
 
     doReturn(factory).when(parserResolver).getFactory();
+    doReturn(StringUtils.EMPTY).when(integrationProperties).getApplicationUrl(anyString());
+
+    prReviewCommentGithubParser.init();
+    createGithubParser.init();
+    publicGithubParser.init();
+    deploymentGithubParser.init();
+    statusGithubParser.init();
+    pushGithubParser.init();
   }
 
   private void mockUsers(String... emails) {
@@ -153,7 +169,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
   public void testNoEventPayload() throws WebHookParseException {
     String body = "{ \"random\": \"json\" }";
 
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), Collections.<String, String>emptyMap(), body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(),
+        Collections.<String, String>emptyMap(), body);
 
     GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(defaultGithubParser);
     doReturn(parser).when(factory).getParser(payload);
@@ -165,7 +182,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
   public void testFailReadingJSON() throws IOException, WebHookParseException {
     String emptyBody = "";
 
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), Collections.<String, String>emptyMap(), emptyBody);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(),
+        Collections.<String, String>emptyMap(), emptyBody);
 
     GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(defaultGithubParser);
     doReturn(parser).when(factory).getParser(payload);
@@ -179,14 +197,15 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     Map<String, String> headers = new HashMap<>();
     headers.put(GITHUB_HEADER_EVENT_NAME, GITHUB_EVENT_PUSH);
 
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+    WebHookPayload payload =
+        new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(pushGithubParser);
     doReturn(parser).when(factory).getParser(payload);
 
     Message result = githubWHI.parse(payload);
 
-    String expected = getExpectedMessageML(
+    String expected = readFile(
         "parser/push/v1/payload_xgithubevent_push_expected_message_without_user_info.xml");
     assertEquals(expected, result.getMessage());
   }
@@ -198,7 +217,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
 
     String body = readFile(
         "parser/pullRequestReviewComment/payload_xgithubevent_pullRequestReviewComment.json");
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+    WebHookPayload payload =
+        new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(prReviewCommentGithubParser);
     doReturn(parser).when(factory).getParser(payload);
@@ -207,7 +227,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
 
     String expected = readFile(
         "parser/pullRequestReviewComment/v1"
-            + "/payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message.xml");
+            + "/payload_xgithubevent_pullRequestReviewComment_userDetailsNull_expected_message"
+            + ".xml");
     assertEquals(expected, result.getMessage());
   }
 
@@ -218,7 +239,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
 
     String body = readFile(
         "parser/deployment/payload_xgithubevent_deployment_without_description.json");
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+    WebHookPayload payload =
+        new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(deploymentGithubParser);
     doReturn(parser).when(factory).getParser(payload);
@@ -227,27 +249,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
 
     String expected =
         readFile(
-            "parser/deployment/v1/payload_xgithubevent_deployment_without_userinfo_expected_message.xml");
-    assertEquals(expected, result.getMessage());
-  }
-
-  @Test
-  public void testDeploymentStatusEventPayload() throws IOException, WebHookParseException {
-    Map<String, String> headers = new HashMap<>();
-    headers.put(GITHUB_HEADER_EVENT_NAME, GITHUB_EVENT_DEPLOYMENT_STATUS);
-
-    String body = readFile(
-        "parser/deployment/payload_xgithubevent_deployment_status_without_description.json");
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
-
-    GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(deploymentStatusGithubParser);
-    doReturn(parser).when(factory).getParser(payload);
-
-    Message result = githubWHI.parse(payload);
-
-    String expected =
-        readFile(
-            "parser/deployment/v1/payload_xgithubevent_deployment_status_without_userinfo_expected_message.xml");
+            "parser/deployment/v1"
+                + "/payload_xgithubevent_deployment_without_userinfo_expected_message.xml");
     assertEquals(expected, result.getMessage());
   }
 
@@ -257,7 +260,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     headers.put(GITHUB_HEADER_EVENT_NAME, GITHUB_EVENT_PUBLIC);
 
     String body = readFile("parser/public/payload_xgithubevent_public.json");
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+    WebHookPayload payload =
+        new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(publicGithubParser);
     doReturn(parser).when(factory).getParser(payload);
@@ -275,7 +279,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     headers.put(GITHUB_HEADER_EVENT_NAME, GITHUB_EVENT_CREATE);
 
     String body = readFile("parser/created/v1/payload_xgithubevent_tag_created.json");
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+    WebHookPayload payload =
+        new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(createGithubParser);
     doReturn(parser).when(factory).getParser(payload);
@@ -294,7 +299,8 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
 
     String body = readFile(
         "parser/status/payload_xgithubevent_status_without_description.json");
-    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+    WebHookPayload payload =
+        new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     GithubWebHookParserAdapter parser = new GithubWebHookParserAdapter(statusGithubParser);
     doReturn(parser).when(factory).getParser(payload);
@@ -304,5 +310,12 @@ public class GithubWebHookIntegrationTest extends CommonGithubTest {
     String expected = readFile(
         "parser/status/v1/payload_xgithubevent_status_without_userinfo_expected_message.xml");
     assertEquals(expected, result.getMessage());
+  }
+
+  @Test
+  public void testSupportedContentTypes() {
+    List<MediaType> contentTypes = githubWHI.getSupportedContentTypes();
+    assertEquals(1, contentTypes.size());
+    assertEquals(MediaType.APPLICATION_JSON_TYPE, contentTypes.get(0));
   }
 }

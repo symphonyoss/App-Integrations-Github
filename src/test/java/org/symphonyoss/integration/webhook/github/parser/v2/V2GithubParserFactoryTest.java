@@ -18,14 +18,14 @@ package org.symphonyoss.integration.webhook.github.parser.v2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants.GITHUB_EVENT_PUSH;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,13 +35,16 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.model.config.IntegrationSettings;
 import org.symphonyoss.integration.model.message.MessageMLVersion;
+import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
 import org.symphonyoss.integration.webhook.github.parser.NullGithubParser;
-import org.symphonyoss.integration.webhook.github.parser.v1.V1GithubParserFactory;
+import org.symphonyoss.integration.webhook.parser.WebHookParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Unit test for {@link V2GithubParserFactory}
@@ -61,9 +64,6 @@ public class V2GithubParserFactoryTest {
   @Spy
   private NullGithubParser defaultGithubParser;
 
-  @Mock
-  private V1GithubParserFactory fallbackFactory;
-
   @InjectMocks
   private V2GithubParserFactory factory;
 
@@ -75,8 +75,6 @@ public class V2GithubParserFactoryTest {
     beans.add(defaultGithubParser);
 
     factory.init();
-
-    doReturn(defaultGithubParser).when(fallbackFactory).getParser(anyString());
   }
 
   @Test
@@ -101,14 +99,14 @@ public class V2GithubParserFactoryTest {
   }
 
   @Test
-  public void testGetV1Parser() {
-    doReturn(pushMetadataParser).when(fallbackFactory).getParser(GITHUB_EVENT_PUSH);
-    assertEquals(pushMetadataParser, factory.getParser(GITHUB_EVENT_PUSH));
-  }
-
-  @Test
   public void testGetDefaultParser() {
-    assertEquals(defaultGithubParser, factory.getParser(StringUtils.EMPTY));
+    Map<String, String> emptyMap = Collections.emptyMap();
+    String body = "{}";
+    WebHookPayload payload = new WebHookPayload(emptyMap, emptyMap, body);
+
+    WebHookParser parser = factory.getParser(payload);
+    assertNotNull(parser);
+    assertNull(parser.parse(payload));
   }
 
   @Test

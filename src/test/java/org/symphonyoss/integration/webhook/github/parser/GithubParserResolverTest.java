@@ -17,6 +17,7 @@
 package org.symphonyoss.integration.webhook.github.parser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,6 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.event.MessageMLVersionUpdatedEventData;
 import org.symphonyoss.integration.model.message.MessageMLVersion;
-import org.symphonyoss.integration.webhook.github.parser.v1.V1GithubParserFactory;
 import org.symphonyoss.integration.webhook.github.parser.v2.V2GithubParserFactory;
 
 import java.util.ArrayList;
@@ -43,9 +43,6 @@ public class GithubParserResolverTest {
   private List<GithubParserFactory> factories = new ArrayList<>();
 
   @Spy
-  private V1GithubParserFactory v1Factory;
-
-  @Spy
   private V2GithubParserFactory v2Factory;
 
   @InjectMocks
@@ -53,14 +50,13 @@ public class GithubParserResolverTest {
 
   @Before
   public void setup() {
-    factories.add(v1Factory);
     factories.add(v2Factory);
   }
 
   @Test
   public void testInit() {
     resolver.init();
-    assertEquals(v1Factory, resolver.getFactory());
+    assertNotNull(resolver.getFactory());
   }
 
   @Test
@@ -69,7 +65,7 @@ public class GithubParserResolverTest {
         new MessageMLVersionUpdatedEventData(MessageMLVersion.V1);
     resolver.handleMessageMLVersionUpdatedEvent(event);
 
-    assertEquals(v1Factory, resolver.getFactory());
+    assertEquals(v2Factory, resolver.getFactory());
   }
 
   @Test

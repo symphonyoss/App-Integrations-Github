@@ -36,8 +36,7 @@ public class CommonGithubTest {
 
   protected String readFile(String file) throws IOException {
     return FileUtils.readFileToString(new File(classLoader.getResource(file).getPath()),
-        Charset.defaultCharset())
-        .replaceAll("\n", "");
+        Charset.defaultCharset());
   }
 
   protected String getExpectedMessageML(String expectedMessageFileName) {

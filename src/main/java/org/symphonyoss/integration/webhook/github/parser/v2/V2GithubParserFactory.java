@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.model.message.MessageMLVersion;
 import org.symphonyoss.integration.webhook.github.parser.GithubParser;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserFactory;
-import org.symphonyoss.integration.webhook.github.parser.v1.V1GithubParserFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +37,6 @@ public class V2GithubParserFactory extends GithubParserFactory {
   @Autowired
   private List<GithubMetadataParser> beans;
 
-  @Autowired
-  private V1GithubParserFactory fallbackFactory;
-
   @Override
   public boolean accept(MessageMLVersion version) {
     return MessageMLVersion.V2.equals(version);
@@ -49,17 +45,5 @@ public class V2GithubParserFactory extends GithubParserFactory {
   @Override
   protected List<GithubParser> getBeans() {
     return new ArrayList<GithubParser>(beans);
-  }
-
-  @Override
-  public GithubParser getParser(String eventName) {
-    GithubParser result = super.getParser(eventName);
-
-    if (result == null) {
-      // Fallback use V1 Factory
-      return fallbackFactory.getParser(eventName);
-    }
-
-    return result;
   }
 }

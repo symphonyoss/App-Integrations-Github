@@ -21,7 +21,7 @@ import java.util.List;
 public class GithubCreateMetadataParserTest extends GithubParserTest<GithubCreateMetadataParser> {
 
   private static final String PAYLOAD_TAG_CREATED =
-      "parser/created/v1/payload_xgithubevent_tag_created.json";
+      "parser/created/payload_xgithubevent_tag_created.json";
 
   private static final String PAYLOAD_BRANCH_CREATED =
       "parser/created/payload_xgithubevent_branch_created.json";

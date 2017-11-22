@@ -16,6 +16,11 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.junit.Assert.*;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants
+    .GITHUB_EVENT_PULL_REQUEST;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -24,6 +29,7 @@ import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Unit test class for {@link GithubPullRequestMetadataParser}
@@ -75,6 +81,14 @@ public class GithubPullRequestMetadataParserTest extends GithubParserTest<Github
   @Override
   protected GithubPullRequestMetadataParser getParser() {
     return new GithubPullRequestMetadataParser(userService, utils, integrationProperties);
+  }
+
+  @Test
+  public void testSupportedEvents() {
+    List<String> events = getParser().getEvents();
+    assertNotNull(events);
+    assertEquals(1, events.size());
+    assertEquals(GITHUB_EVENT_PULL_REQUEST, events.get(0));
   }
 
   @Test

@@ -1,0 +1,30 @@
+<messageML>
+    <div class="entity" data-entity-id="githubPullRequestReviewComment">
+        <card class="barStyle" iconSrc="${entity['githubPullRequestReviewComment'].iconURL}">
+            <header>
+                <a href="${entity['githubPullRequestReviewComment'].comment.url}">Pull Request </a>
+                <span class="tempo-text-color--normal">${entity['githubPullRequestReviewComment'].title} - </span>
+                <span class="tempo-text-color--green"><b>comment ${entity['githubPullRequestReviewComment'].action} </b></span>
+                <span class="tempo-text-color--normal">by </span>
+                <span class="tempo-text-color--normal"><b>${entity['githubPullRequestReviewComment'].comment.author.name} </b></span>
+            </header>
+            <body>
+                <div>
+                    <span class="tempo-text-color--secondary">Comment: </span>
+                    <span class="tempo-text-color--normal">${entity['githubPullRequestReviewComment'].comment.body}</span>
+                </div>
+                <div>
+                    <span class="tempo-text-color--secondary">Diff Hunk: </span>
+                    <br/>
+                    <span class="tempo-text-color--normal">${entity['githubPullRequestReviewComment'].comment.diffHunk}</span>
+                </div>
+                <div>
+                    <span class="tempo-text-color--secondary">Details: </span>
+                    <a href="${entity['githubPullRequestReviewComment'].comment.url}">
+                        ${entity['githubPullRequestReviewComment'].comment.url}
+                    </a>
+                </div>
+            </body>
+        </card>
+    </div>
+</messageML>

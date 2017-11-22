@@ -29,22 +29,20 @@ import static org.symphonyoss.integration.webhook.github.GithubEventTags.ASSIGNE
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BASE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.HEAD_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubEventTags.ICON_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PULL_REQUEST_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
-import static org.symphonyoss.integration.webhook.github.parser.v1.PullRequestGithubParser
+import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants
     .PR_REVIEW_REQUESTED;
-import static org.symphonyoss.integration.webhook.github.parser.v1.PullRequestGithubParser
+import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants
     .PR_REVIEW_REQUEST_REMOVED;
-import static org.symphonyoss.integration.webhook.github.parser.v1.PullRequestGithubParser
+import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants
     .PR_UPDATED;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.symphonyoss.integration.Integration;
 import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;

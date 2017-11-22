@@ -1,5 +1,8 @@
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
@@ -19,6 +22,7 @@ import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,6 +79,15 @@ public class GithubCommentMetadataParserTest extends GithubParserTest<GithubComm
   @Override
   protected GithubCommentMetadataParser getParser() {
     return new GithubCommentMetadataParser(userService, utils, integrationProperties);
+  }
+
+  @Test
+  public void testSupportedEvents() {
+    List<String> events = getParser().getEvents();
+    assertNotNull(events);
+    assertEquals(2, events.size());
+    assertTrue(events.contains(GITHUB_EVENT_COMMIT_COMMENT));
+    assertTrue(events.contains(GITHUB_EVENT_ISSUE_COMMENT));
   }
 
   private void testCommitComment(String eventName, String payloadFile, String expectedFile)

@@ -16,18 +16,20 @@
 
 package org.symphonyoss.integration.webhook.github.parser.v2;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.symphonyoss.integration.webhook.github.GithubEventConstants
+    .GITHUB_EVENT_PULL_REQUEST_REVIEW_COMMENT;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.symphonyoss.integration.model.yaml.IntegrationProperties;
-import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.utils.SimpleFileUtils;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserException;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserTest;
-import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Unit test class for {@link GithubPullRequestReviewCommentMetadataParser}
@@ -51,6 +53,14 @@ public class GithubPullRequestReviewCommentMetadataParserTest
   protected GithubPullRequestReviewCommentMetadataParser getParser() {
     return new GithubPullRequestReviewCommentMetadataParser(userService, utils,
         integrationProperties);
+  }
+
+  @Test
+  public void testSupportedEvents() {
+    List<String> events = getParser().getEvents();
+    assertNotNull(events);
+    assertEquals(1, events.size());
+    assertEquals(GITHUB_EVENT_PULL_REQUEST_REVIEW_COMMENT, events.get(0));
   }
 
   @Test

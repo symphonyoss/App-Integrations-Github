@@ -2,6 +2,6 @@ applications:
   github:
     component: githubWebHookIntegration
     name: GitHub
-    description: "Github is an online source code repository for Git projects. It allows you to collaborate on code using powerful features such as code review and issue tracking. The app will notify you in Symphony about: codepushes, pull requests, comments on pull requests, issues, comments on issues, merges, and the latest deployment status."
+    description: "Github is an online source code repository for Git projects. It allows you to collaborate on code using many features. The app will notify you in Symphony about: codepushes, pull requests, comments on pull requests, issues, comments on issues, merges, and the latest deployment status."
     publisher: Symphony
     context: github

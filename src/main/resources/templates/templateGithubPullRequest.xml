@@ -20,7 +20,11 @@
             <body>
                 <div>
                     <span class="tempo-text-color--secondary">Summary: </span>
-                    <span class="tempo-text-color--normal">${entity['githubPullRequest'].body}</span>
+                    <#if (entity['githubPullRequest'].body)??>
+                        <span class="tempo-text-color--normal">${entity['githubPullRequest'].body}</span>
+                    <#else>
+                        <span class="tempo-text-color--normal">-</span>
+                    </#if>
                 </div>
                 <div>
                     <span class="tempo-text-color--secondary">Commits in this PR: </span>

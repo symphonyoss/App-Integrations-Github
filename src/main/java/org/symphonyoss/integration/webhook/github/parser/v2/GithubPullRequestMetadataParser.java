@@ -22,28 +22,30 @@ import static org.symphonyoss.integration.webhook.github.GithubActionConstants
     .GITHUB_ACTION_REVIEW_REQUEST_REMOVED;
 import static org.symphonyoss.integration.webhook.github.GithubActionConstants
     .GITHUB_ACTION_SYNCHRONIZE;
+import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants
+    .PR_REVIEW_REQUESTED;
+import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants
+    .PR_REVIEW_REQUEST_REMOVED;
+import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants.PR_UPDATED;
 import static org.symphonyoss.integration.webhook.github.GithubEventConstants
     .GITHUB_EVENT_PULL_REQUEST;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ACTION_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.ASSIGNEE_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.BASE_TAG;
+import static org.symphonyoss.integration.webhook.github.GithubEventTags.BODY_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.HEAD_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.HTML_URL_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.PULL_REQUEST_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.REPO_TAG;
 import static org.symphonyoss.integration.webhook.github.GithubEventTags.SENDER_TAG;
-import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants
-    .PR_REVIEW_REQUESTED;
-import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants
-    .PR_REVIEW_REQUEST_REMOVED;
-import static org.symphonyoss.integration.webhook.github.GithubActionLabelsConstants
-    .PR_UPDATED;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.model.yaml.IntegrationProperties;
+import org.symphonyoss.integration.parser.ParserUtils;
+import org.symphonyoss.integration.parser.SafeString;
 import org.symphonyoss.integration.service.UserService;
 import org.symphonyoss.integration.webhook.github.parser.GithubParserUtils;
 
@@ -67,7 +69,8 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
   private Map<String, String> actionsAndLabels = new HashMap<>();
 
   @Autowired
-  public GithubPullRequestMetadataParser(UserService userService, GithubParserUtils utils, IntegrationProperties integrationProperties) {
+  public GithubPullRequestMetadataParser(UserService userService, GithubParserUtils utils,
+      IntegrationProperties integrationProperties) {
     super(userService, utils, integrationProperties);
 
     actionsAndLabels.put(GITHUB_ACTION_SYNCHRONIZE, PR_UPDATED);
@@ -96,9 +99,19 @@ public class GithubPullRequestMetadataParser extends GithubMetadataParser {
     processActionVerbs(input);
     processUser(input.path(SENDER_TAG));
     processUser(input.path(ASSIGNEE_TAG));
+    processBody(input.path(PULL_REQUEST_TAG));
     processURL(input.path(PULL_REQUEST_TAG), HTML_URL_TAG);
     processURL(input.path(PULL_REQUEST_TAG).path(HEAD_TAG).path(REPO_TAG), HTML_URL_TAG);
     processURL(input.path(PULL_REQUEST_TAG).path(BASE_TAG).path(REPO_TAG), HTML_URL_TAG);
+  }
+
+  /**
+   * Produces a safe string, with HTML line breaks instead of \n.
+   * @param pullRequestNode node with the root at 'pull_request'
+   */
+  private void processBody(JsonNode pullRequestNode) {
+    SafeString body = ParserUtils.escapeAndAddLineBreaks(pullRequestNode.path(BODY_TAG).asText());
+    ((ObjectNode) pullRequestNode).put(BODY_TAG, body.toString());
   }
 
   /**
